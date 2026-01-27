@@ -15,17 +15,17 @@ export async function GET() {
       getTaoPriceTicker(),
     ]);
 
-    // Fetch remaining data - pass SN37 price to expenses for token conversion
+    // Fetch remaining data - pass prices for conversions
+    const taoPrice = taoPriceTicker.price;
     const [taoWallets, ethWallets, staking, expenses, transactions] = await Promise.all([
       getWalletBalances(),
       getEthWalletBalances(),
       getStakingData(),
       getExpenses(sn37Price.current),
-      getTransactions(),
+      getTransactions(taoPrice),
     ]);
 
     // Combine wallet balances - recalculate USD using CoinGecko TAO price
-    const taoPrice = taoPriceTicker.price;
     const sanitizeTaoWallet = (w: typeof taoWallets[0]) => ({
       ...w,
       balance: Number(w.balance) || 0,

@@ -188,40 +188,47 @@ export async function getStakingData(): Promise<StakingData> {
   }
 }
 
-export async function getTransactions(): Promise<Transaction[]> {
+export async function getTransactions(taoPrice: number = 0): Promise<Transaction[]> {
   const transactions: Transaction[] = [];
-  const taoPrice = (await getTaoPrice()).current; // Uses cached price
 
-  // Only fetch transactions from the first wallet to reduce API calls
-  const wallet = WALLETS.bittensor[0];
-  try {
-    const data = await fetchTaostats(
-      `/transfer/v1?address=${wallet.address}&limit=20`
-    );
+  // Fetch transactions from all TAO wallets
+  for (const wallet of WALLETS.bittensor) {
+    try {
+      const data = await fetchTaostats(
+        `/transfer/v1?address=${wallet.address}&limit=20`
+      );
 
-    for (const tx of data?.data ?? []) {
-      const amount = (tx.amount ?? 0) / 1e9; // Convert from rao to TAO
-      // Handle from/to as either string or object with ss58 property
-      const fromAddr = typeof tx.from === 'string' ? tx.from : (tx.from?.ss58 ?? '');
-      const toAddr = typeof tx.to === 'string' ? tx.to : (tx.to?.ss58 ?? '');
-      const isSender = fromAddr === wallet.address;
+      for (const tx of data?.data ?? []) {
+        const amount = (tx.amount ?? 0) / 1e9; // Convert from rao to TAO
+        // Handle from/to as either string or object with ss58 property
+        const fromAddr = typeof tx.from === 'string' ? tx.from : (tx.from?.ss58 ?? '');
+        const toAddr = typeof tx.to === 'string' ? tx.to : (tx.to?.ss58 ?? '');
+        const isSender = fromAddr === wallet.address;
 
-      transactions.push({
-        hash: tx.extrinsic_hash ?? "",
-        timestamp: new Date(tx.timestamp).getTime(),
-        from: fromAddr,
-        to: toAddr,
-        amount,
-        amountUSD: amount * taoPrice,
-        type: isSender ? "send" : "receive",
-        isLarge: amount >= LARGE_TX_THRESHOLD,
-        wallet: wallet.name,
-      });
+        transactions.push({
+          hash: tx.extrinsic_hash ?? "",
+          timestamp: new Date(tx.timestamp).getTime(),
+          from: fromAddr,
+          to: toAddr,
+          amount,
+          amountUSD: amount * taoPrice,
+          type: isSender ? "send" : "receive",
+          isLarge: amount >= LARGE_TX_THRESHOLD,
+          wallet: wallet.name,
+        });
+      }
+    } catch (error) {
+      console.error(`Error fetching transactions for ${wallet.name}:`, error);
     }
-  } catch (error) {
-    console.error(`Error fetching transactions for ${wallet.name}:`, error);
   }
 
-  // Sort by timestamp descending
-  return transactions.sort((a, b) => b.timestamp - a.timestamp);
+  // Sort by timestamp descending and remove duplicates (same hash)
+  const seen = new Set<string>();
+  return transactions
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .filter(tx => {
+      if (!tx.hash || seen.has(tx.hash)) return false;
+      seen.add(tx.hash);
+      return true;
+    });
 }
