@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aurelius Dashboard
 
-## Getting Started
+CFO-level financial dashboard for Bittensor Subnet 37 (Aurelius).
 
-First, run the development server:
+## Features
+
+- **Treasury Overview**: Total holdings across TAO and ETH wallets with USD valuations
+- **Token Price**: Real-time TAO price with historical charts
+- **Wallet Flows**: Track inflows/outflows across all monitored wallets
+- **Large Transaction Alerts**: Highlights transactions of 100+ TAO
+- **Staking Performance**: Delegated stake, staker count, and historical trends
+- **Burn Rate & Runway**: Expense tracking and runway calculations from Google Sheets
+- **Auto-refresh**: Data updates every minute
+
+## Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+Copy `.env.example` to `.env.local` and fill in your API keys:
+
+```bash
+cp .env.example .env.local
+```
+
+Required:
+- `TAOSTATS_API_KEY`: Get one at [dash.taostats.io](https://dash.taostats.io)
+
+Optional:
+- `ETHERSCAN_API_KEY`: Get one at [etherscan.io/apis](https://etherscan.io/apis) (for ETH wallet tracking)
+
+### 3. Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Vercel (Recommended)
 
-## Learn More
+1. Push to GitHub
+2. Import to [Vercel](https://vercel.com/new)
+3. Add environment variables in Vercel dashboard
+4. Deploy
 
-To learn more about Next.js, take a look at the following resources:
+### Manual build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Configuration
 
-## Deploy on Vercel
+Edit `src/lib/config.ts` to modify:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Wallet addresses to monitor
+- Large transaction threshold (default: 100 TAO)
+- Google Sheets IDs for expense tracking
+- Refresh intervals
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Data Sources
+
+| Data | Source |
+|------|--------|
+| TAO price, balances, staking, transactions | [Taostats API](https://docs.taostats.io) |
+| ETH wallet balances | [Etherscan API](https://etherscan.io/apis) |
+| Expenses | Google Sheets (public CSV export) |
+
+## Adding Discord Alerts (Future)
+
+When ready, add `DISCORD_WEBHOOK_URL` to your environment variables. The webhook can be created in Discord: Channel Settings → Integrations → Webhooks.
