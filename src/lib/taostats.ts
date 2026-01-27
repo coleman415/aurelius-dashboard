@@ -193,13 +193,16 @@ export async function getTransactions(): Promise<Transaction[]> {
 
     for (const tx of data?.data ?? []) {
       const amount = (tx.amount ?? 0) / 1e9; // Convert from rao to TAO
-      const isSender = tx.from === wallet.address;
+      // Handle from/to as either string or object with ss58 property
+      const fromAddr = typeof tx.from === 'string' ? tx.from : (tx.from?.ss58 ?? '');
+      const toAddr = typeof tx.to === 'string' ? tx.to : (tx.to?.ss58 ?? '');
+      const isSender = fromAddr === wallet.address;
 
       transactions.push({
         hash: tx.extrinsic_hash ?? "",
         timestamp: new Date(tx.timestamp).getTime(),
-        from: tx.from ?? "",
-        to: tx.to ?? "",
+        from: fromAddr,
+        to: toAddr,
         amount,
         amountUSD: amount * taoPrice,
         type: isSender ? "send" : "receive",

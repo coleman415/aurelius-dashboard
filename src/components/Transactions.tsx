@@ -25,9 +25,11 @@ function formatCurrency(value: number): string {
   }).format(value);
 }
 
-function shortenAddress(address: string): string {
-  if (address.length <= 12) return address;
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+function shortenAddress(address: string | { ss58?: string } | undefined): string {
+  // Handle address as string or object with ss58 property
+  const addr = typeof address === 'string' ? address : (address?.ss58 ?? '');
+  if (!addr || addr.length <= 12) return addr || 'Unknown';
+  return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 }
 
 export function Transactions({ data }: Props) {
