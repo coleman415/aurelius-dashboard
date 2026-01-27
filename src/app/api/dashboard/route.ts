@@ -20,13 +20,18 @@ export async function GET() {
       getTransactions(),
     ]);
 
-    // Combine wallet balances
-    const allWallets = [...taoWallets, ...ethWallets];
+    // Combine wallet balances - ensure all values are numbers
+    const sanitizeWallet = (w: typeof taoWallets[0]) => ({
+      ...w,
+      balance: Number(w.balance) || 0,
+      balanceUSD: Number(w.balanceUSD) || 0,
+    });
+    const allWallets = [...taoWallets.map(sanitizeWallet), ...ethWallets.map(sanitizeWallet)];
 
     // Calculate treasury totals (all in USD)
-    const totalTAO = taoWallets.reduce((sum, w) => sum + w.balance, 0);
-    const totalETH = ethWallets.filter(w => w.token === "ETH").reduce((sum, w) => sum + w.balance, 0);
-    const totalUSD = allWallets.reduce((sum, w) => sum + w.balanceUSD, 0);
+    const totalTAO = taoWallets.reduce((sum, w) => sum + (Number(w.balance) || 0), 0);
+    const totalETH = ethWallets.filter(w => w.token === "ETH").reduce((sum, w) => sum + (Number(w.balance) || 0), 0);
+    const totalUSD = allWallets.reduce((sum, w) => sum + (Number(w.balanceUSD) || 0), 0);
 
     const treasury: TreasuryOverview = {
       totalTAO,
@@ -40,7 +45,8 @@ export async function GET() {
 
     // Calculate runway based on treasury USD and monthly burn
     // Also add projected runway to burn history
-    const currentRunway = expenses.monthlyBurnUSD > 0 ? totalUSD / expenses.monthlyBurnUSD : Infinity;
+    const rawRunway = expenses.monthlyBurnUSD > 0 ? totalUSD / expenses.monthlyBurnUSD : Infinity;
+    const currentRunway = Number.isFinite(rawRunway) ? rawRunway : 999; // Cap at 999 months if infinite
 
     // Add current runway to burn history for projection
     const burnHistoryWithRunway = expenses.burnHistory.map((point, index, arr) => {

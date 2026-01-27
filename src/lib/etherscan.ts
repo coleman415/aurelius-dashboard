@@ -66,7 +66,7 @@ async function getUSDCBalance(address: string): Promise<number> {
 
     const balanceRaw = data?.result ?? "0";
     // USDC has 6 decimals
-    return parseFloat(balanceRaw) / 1e6;
+    return parseFloat(balanceRaw) / 1e6 || 0;
   } catch (error) {
     console.error(`Error fetching USDC balance for ${address}:`, error);
     return 0;
@@ -88,8 +88,8 @@ export async function getEthWalletBalances(): Promise<WalletBalance[]> {
       });
 
       const balanceWei = ethData?.result ?? "0";
-      const balanceEth = parseFloat(balanceWei) / 1e18;
-      const ethUSD = balanceEth * ethPrice;
+      const balanceEth = parseFloat(balanceWei) / 1e18 || 0;
+      const ethUSD = (balanceEth * ethPrice) || 0;
 
       // Fetch USDC balance
       const usdcBalance = await getUSDCBalance(wallet.address);

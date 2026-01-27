@@ -152,16 +152,16 @@ export async function getStakingData(): Promise<StakingData> {
     const stakeData = await fetchTaostats(`/dtao/stake_balance/latest/v1?hotkey=${validatorAddress}`);
 
     const totalStaked = (stakeData?.data ?? []).reduce(
-      (sum: number, d: { balance_as_tao: number }) => sum + (d.balance_as_tao ?? 0),
+      (sum: number, d: { balance_as_tao: number }) => sum + (Number(d.balance_as_tao) || 0),
       0
     );
 
-    const stakerCount = stakeData?.pagination?.total_items ?? 0;
+    const stakerCount = Number(stakeData?.pagination?.total_items) || 0;
     const taoPrice = (await getTaoPrice()).current; // Uses cached price
 
     return {
-      totalDelegated: totalStaked,
-      totalDelegatedUSD: totalStaked * taoPrice,
+      totalDelegated: Number(totalStaked) || 0,
+      totalDelegatedUSD: (Number(totalStaked) || 0) * taoPrice,
       stakerCount,
       validatorRank: 0,
       apy: 0,
