@@ -37,8 +37,9 @@ export async function GET() {
       totalTAO,
       totalETH,
       totalUSD,
-      change24h: sn37Price.change24h, // Use SN37 price change
-      change7d: sn37Price.change7d,
+      // Only show price change if we have actual balance data
+      change24h: totalUSD > 0 ? sn37Price.change24h : 0,
+      change7d: totalUSD > 0 ? sn37Price.change7d : 0,
       change30d: 0, // Would need more historical data
       wallets: allWallets,
     };

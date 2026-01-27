@@ -96,7 +96,7 @@ export async function getEthWalletBalances(): Promise<WalletBalance[]> {
 
       // Add ETH balance entry
       balances.push({
-        name: `${wallet.name} (ETH)`,
+        name: wallet.name,
         address: wallet.address,
         network: "ethereum",
         balance: balanceEth,
@@ -107,7 +107,7 @@ export async function getEthWalletBalances(): Promise<WalletBalance[]> {
       // Add USDC balance entry (only if > 0)
       if (usdcBalance > 0) {
         balances.push({
-          name: `${wallet.name} (USDC)`,
+          name: wallet.name.replace(" (ETH)", "") + " (USDC)",
           address: wallet.address,
           network: "ethereum",
           balance: usdcBalance,

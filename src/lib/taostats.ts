@@ -151,10 +151,17 @@ export async function getStakingData(): Promise<StakingData> {
     // Only fetch current stake data, skip history to reduce API calls
     const stakeData = await fetchTaostats(`/dtao/stake_balance/latest/v1?hotkey=${validatorAddress}`);
 
-    const totalStaked = (stakeData?.data ?? []).reduce(
-      (sum: number, d: { balance_as_tao: number }) => sum + (Number(d.balance_as_tao) || 0),
+    // Sum up stake balances - balance_as_tao appears to be in rao (1e9 rao = 1 TAO)
+    const totalStakedRaw = (stakeData?.data ?? []).reduce(
+      (sum: number, d: { balance_as_tao?: number; balance?: number }) => {
+        // Try balance_as_tao first, then balance
+        const val = Number(d.balance_as_tao ?? d.balance) || 0;
+        return sum + val;
+      },
       0
     );
+    // The API field is named balance_as_tao but might be in rao - if > 1 billion, divide by 1e9
+    const totalStaked = totalStakedRaw > 1_000_000_000 ? totalStakedRaw / 1e9 : totalStakedRaw;
 
     const stakerCount = Number(stakeData?.pagination?.total_items) || 0;
     const taoPrice = (await getTaoPrice()).current; // Uses cached price
