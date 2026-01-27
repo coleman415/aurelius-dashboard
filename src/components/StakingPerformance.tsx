@@ -33,7 +33,14 @@ function formatCurrency(value: number): string {
 }
 
 export function StakingPerformance({ data }: Props) {
-  const chartData = data.stakeHistory.map((point) => ({
+  // Safely handle potentially undefined data
+  const totalDelegated = data?.totalDelegated ?? 0;
+  const totalDelegatedUSD = data?.totalDelegatedUSD ?? 0;
+  const stakerCount = data?.stakerCount ?? 0;
+  const apy = data?.apy ?? 0;
+  const stakeHistory = data?.stakeHistory ?? [];
+
+  const chartData = stakeHistory.map((point) => ({
     date: point.timestamp,
     amount: point.amount,
   }));
@@ -43,23 +50,23 @@ export function StakingPerformance({ data }: Props) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Stat
           label="Total Delegated"
-          value={`${formatNumber(data.totalDelegated)} TAO`}
+          value={totalDelegated > 0 ? `${formatNumber(totalDelegated)} TAO` : "--"}
         />
         <Stat
           label="Delegated Value"
-          value={formatCurrency(data.totalDelegatedUSD)}
+          value={totalDelegatedUSD > 0 ? formatCurrency(totalDelegatedUSD) : "--"}
         />
         <Stat
           label="Staker Count"
-          value={data.stakerCount.toLocaleString()}
+          value={stakerCount > 0 ? stakerCount.toLocaleString() : "--"}
         />
         <Stat
           label="APY"
-          value={data.apy > 0 ? `${data.apy.toFixed(1)}%` : "N/A"}
+          value={apy > 0 ? `${apy.toFixed(1)}%` : "N/A"}
         />
       </div>
 
-      {chartData.length > 0 && (
+      {chartData.length > 0 ? (
         <div className="h-48">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData}>
@@ -94,6 +101,10 @@ export function StakingPerformance({ data }: Props) {
               />
             </AreaChart>
           </ResponsiveContainer>
+        </div>
+      ) : (
+        <div className="h-48 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+          Staking history not available
         </div>
       )}
     </Card>

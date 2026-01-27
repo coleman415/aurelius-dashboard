@@ -35,7 +35,15 @@ function formatCompact(value: number): string {
 }
 
 export function PriceChart({ data }: Props) {
-  const chartData = data.history.map((point) => ({
+  // Safely handle potentially undefined data
+  const current = data?.current ?? 0;
+  const change24h = data?.change24h ?? 0;
+  const change7d = data?.change7d ?? 0;
+  const volume24h = data?.volume24h ?? 0;
+  const marketCap = data?.marketCap ?? 0;
+  const history = data?.history ?? [];
+
+  const chartData = history.map((point) => ({
     date: point.timestamp,
     price: point.price,
   }));
@@ -45,24 +53,24 @@ export function PriceChart({ data }: Props) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Stat
           label="Current Price"
-          value={formatCurrency(data.current)}
-          change={data.change24h}
+          value={current > 0 ? formatCurrency(current) : "--"}
+          change={change24h}
         />
         <Stat
           label="24h Volume"
-          value={formatCompact(data.volume24h)}
+          value={volume24h > 0 ? formatCompact(volume24h) : "--"}
         />
         <Stat
           label="Market Cap"
-          value={formatCompact(data.marketCap)}
+          value={marketCap > 0 ? formatCompact(marketCap) : "--"}
         />
         <Stat
           label="7d Change"
-          value={`${data.change7d >= 0 ? "+" : ""}${data.change7d.toFixed(2)}%`}
+          value={current > 0 ? `${change7d >= 0 ? "+" : ""}${change7d.toFixed(2)}%` : "--"}
         />
       </div>
 
-      {chartData.length > 0 && (
+      {chartData.length > 0 ? (
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
@@ -97,6 +105,10 @@ export function PriceChart({ data }: Props) {
               />
             </LineChart>
           </ResponsiveContainer>
+        </div>
+      ) : (
+        <div className="h-64 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+          Price chart data not available
         </div>
       )}
     </Card>

@@ -31,7 +31,9 @@ function shortenAddress(address: string): string {
 }
 
 export function Transactions({ data }: Props) {
-  const largeTransactions = data.filter((tx) => tx.isLarge);
+  // Safely handle potentially undefined data
+  const transactions = data ?? [];
+  const largeTransactions = transactions.filter((tx) => tx.isLarge);
 
   return (
     <Card title="Recent Transactions" className="col-span-full">
@@ -85,7 +87,7 @@ export function Transactions({ data }: Props) {
             </tr>
           </thead>
           <tbody>
-            {data.slice(0, 20).map((tx) => (
+            {transactions.slice(0, 20).map((tx) => (
               <tr
                 key={tx.hash}
                 className={`border-b border-zinc-100 dark:border-zinc-800 ${
@@ -122,7 +124,7 @@ export function Transactions({ data }: Props) {
         </table>
       </div>
 
-      {data.length === 0 && (
+      {transactions.length === 0 && (
         <p className="text-center text-zinc-500 dark:text-zinc-400 py-8">
           No transactions found
         </p>

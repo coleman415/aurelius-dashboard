@@ -6,18 +6,58 @@ import { PriceChart } from "./PriceChart";
 import { StakingPerformance } from "./StakingPerformance";
 import { BurnRate } from "./BurnRate";
 import { Transactions } from "./Transactions";
-import { LoadingSkeleton, ErrorMessage } from "./LoadingSkeleton";
+import { LoadingSkeleton } from "./LoadingSkeleton";
 import type { DashboardData } from "@/lib/types";
 import { REFRESH_INTERVALS } from "@/lib/config";
 
+// Fallback data when API fails - shows placeholder values
+const FALLBACK_DATA: DashboardData = {
+  treasury: {
+    totalTAO: 0,
+    totalETH: 0,
+    totalUSD: 0,
+    change24h: 0,
+    change7d: 0,
+    change30d: 0,
+    wallets: [],
+  },
+  price: {
+    current: 0,
+    change24h: 0,
+    change7d: 0,
+    volume24h: 0,
+    marketCap: 0,
+    history: [],
+  },
+  staking: {
+    totalDelegated: 0,
+    totalDelegatedUSD: 0,
+    stakerCount: 0,
+    validatorRank: 0,
+    apy: 0,
+    stakeHistory: [],
+  },
+  burnRate: {
+    monthlyBurn: 0,
+    monthlyBurnUSD: 0,
+    runwayMonths: 0,
+    expensesByCategory: [],
+    expensesByPayor: [],
+    recentExpenses: [],
+  },
+  transactions: [],
+  lastUpdated: Date.now(),
+};
+
 export function Dashboard() {
-  const [data, setData] = useState<DashboardData | null>(null);
+  const [data, setData] = useState<DashboardData>(FALLBACK_DATA);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
 
   const fetchData = useCallback(async () => {
     try {
+      setLoading(true);
       const response = await fetch("/api/dashboard");
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`);
@@ -30,7 +70,10 @@ export function Dashboard() {
       setError(null);
       setLastRefresh(new Date());
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unknown error");
+      const errorMsg = err instanceof Error ? err.message : "Unknown error";
+      setError(errorMsg);
+      console.error("Dashboard fetch error:", errorMsg);
+      // Keep showing existing data (or fallback) even on error
     } finally {
       setLoading(false);
     }
@@ -39,25 +82,36 @@ export function Dashboard() {
   useEffect(() => {
     fetchData();
 
-    // Auto-refresh every minute
+    // Auto-refresh every 5 minutes
     const interval = setInterval(fetchData, REFRESH_INTERVALS.price);
     return () => clearInterval(interval);
   }, [fetchData]);
 
-  if (loading && !data) {
-    return <LoadingSkeleton />;
-  }
-
-  if (error && !data) {
-    return <ErrorMessage message={error} />;
-  }
-
-  if (!data) {
-    return <ErrorMessage message="No data available" />;
-  }
+  // Always show the dashboard, even with fallback/empty data
+  const showingFallback = data === FALLBACK_DATA || (data.treasury.totalTAO === 0 && data.treasury.totalETH === 0);
 
   return (
     <div className="space-y-6">
+      {/* Status banner */}
+      {(error || showingFallback) && (
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="text-yellow-600 dark:text-yellow-400">⚠️</span>
+            <span className="text-sm text-yellow-700 dark:text-yellow-300">
+              {error ? `Data fetch error: ${error}` : "Loading data..."}
+              {showingFallback && " Showing placeholder values."}
+            </span>
+            <button
+              onClick={fetchData}
+              disabled={loading}
+              className="ml-auto text-sm text-yellow-700 dark:text-yellow-300 underline disabled:opacity-50"
+            >
+              {loading ? "Retrying..." : "Retry"}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Last updated indicator */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -93,13 +147,6 @@ export function Dashboard() {
 
       {/* Transactions - Full Width */}
       <Transactions data={data.transactions} />
-
-      {/* Error indicator if there was an error during refresh */}
-      {error && data && (
-        <div className="fixed bottom-4 right-4 bg-red-100 dark:bg-red-900/50 border border-red-300 dark:border-red-700 rounded-lg px-4 py-2 text-sm text-red-700 dark:text-red-300">
-          Refresh failed: {error}
-        </div>
-      )}
     </div>
   );
 }

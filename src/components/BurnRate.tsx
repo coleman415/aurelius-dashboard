@@ -26,25 +26,33 @@ function formatCurrency(value: number): string {
 }
 
 export function BurnRate({ data }: Props) {
-  const chartData = data.expensesByCategory.map((cat) => ({
+  // Safely handle potentially undefined data
+  const monthlyBurnUSD = data?.monthlyBurnUSD ?? 0;
+  const runwayMonths = data?.runwayMonths ?? 0;
+  const expensesByCategory = data?.expensesByCategory ?? [];
+  const recentExpenses = data?.recentExpenses ?? [];
+
+  const chartData = expensesByCategory.map((cat) => ({
     name: cat.category,
     value: cat.amount,
   }));
 
-  const runwayText = data.runwayMonths === Infinity
+  const runwayText = runwayMonths === Infinity
     ? "Infinite"
-    : data.runwayMonths > 120
+    : runwayMonths > 120
     ? "10+ years"
-    : data.runwayMonths > 12
-    ? `${(data.runwayMonths / 12).toFixed(1)} years`
-    : `${data.runwayMonths.toFixed(1)} months`;
+    : runwayMonths > 12
+    ? `${(runwayMonths / 12).toFixed(1)} years`
+    : runwayMonths > 0
+    ? `${runwayMonths.toFixed(1)} months`
+    : "--";
 
   return (
     <Card title="Burn Rate & Runway">
       <div className="grid grid-cols-3 gap-4 mb-6">
         <Stat
           label="Monthly Burn"
-          value={formatCurrency(data.monthlyBurnUSD)}
+          value={monthlyBurnUSD > 0 ? formatCurrency(monthlyBurnUSD) : "--"}
         />
         <Stat
           label="Runway"
@@ -52,12 +60,12 @@ export function BurnRate({ data }: Props) {
         />
         <Stat
           label="Categories"
-          value={data.expensesByCategory.length}
+          value={expensesByCategory.length > 0 ? expensesByCategory.length.toString() : "--"}
         />
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        {chartData.length > 0 && (
+        {chartData.length > 0 ? (
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -85,6 +93,10 @@ export function BurnRate({ data }: Props) {
               </PieChart>
             </ResponsiveContainer>
           </div>
+        ) : (
+          <div className="h-48 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+            No expense data available
+          </div>
         )}
 
         <div>
@@ -92,33 +104,37 @@ export function BurnRate({ data }: Props) {
             By Category
           </h3>
           <div className="space-y-2">
-            {data.expensesByCategory.slice(0, 5).map((cat, index) => (
-              <div key={cat.category} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                  />
-                  <span className="text-sm text-zinc-700 dark:text-zinc-300">
-                    {cat.category}
+            {expensesByCategory.length > 0 ? (
+              expensesByCategory.slice(0, 5).map((cat, index) => (
+                <div key={cat.category} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    />
+                    <span className="text-sm text-zinc-700 dark:text-zinc-300">
+                      {cat.category}
+                    </span>
+                  </div>
+                  <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                    {formatCurrency(cat.amount)} ({cat.percentage.toFixed(0)}%)
                   </span>
                 </div>
-                <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                  {formatCurrency(cat.amount)} ({cat.percentage.toFixed(0)}%)
-                </span>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">No categories available</p>
+            )}
           </div>
         </div>
       </div>
 
-      {data.recentExpenses.length > 0 && (
+      {recentExpenses.length > 0 && (
         <div className="mt-6 pt-6 border-t border-zinc-200 dark:border-zinc-800">
           <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-3">
             Recent Expenses
           </h3>
           <div className="space-y-2">
-            {data.recentExpenses.slice(0, 5).map((expense, index) => (
+            {recentExpenses.slice(0, 5).map((expense, index) => (
               <div
                 key={`${expense.date}-${index}`}
                 className="flex items-center justify-between text-sm"

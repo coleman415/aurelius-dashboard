@@ -29,25 +29,33 @@ function shortenAddress(address: string): string {
 }
 
 export function TreasuryOverview({ data }: Props) {
+  // Safely handle potentially undefined data
+  const totalUSD = data?.totalUSD ?? 0;
+  const totalTAO = data?.totalTAO ?? 0;
+  const totalETH = data?.totalETH ?? 0;
+  const change24h = data?.change24h ?? 0;
+  const change7d = data?.change7d ?? 0;
+  const wallets = data?.wallets ?? [];
+
   return (
     <Card title="Treasury Overview" className="col-span-full">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
         <Stat
           label="Total Value (USD)"
-          value={formatCurrency(data.totalUSD)}
-          change={data.change24h}
+          value={formatCurrency(totalUSD)}
+          change={change24h}
         />
         <Stat
           label="Total TAO"
-          value={formatNumber(data.totalTAO)}
+          value={formatNumber(totalTAO)}
         />
         <Stat
           label="Total ETH"
-          value={formatNumber(data.totalETH, 4)}
+          value={formatNumber(totalETH, 4)}
         />
         <Stat
           label="7d Change"
-          value={`${data.change7d >= 0 ? "+" : ""}${data.change7d.toFixed(2)}%`}
+          value={`${change7d >= 0 ? "+" : ""}${change7d.toFixed(2)}%`}
         />
       </div>
 
@@ -62,20 +70,28 @@ export function TreasuryOverview({ data }: Props) {
             </tr>
           </thead>
           <tbody>
-            {data.wallets.map((wallet) => (
-              <tr key={wallet.address} className="border-b border-zinc-100 dark:border-zinc-800">
-                <td className="py-3 text-zinc-900 dark:text-zinc-100">{wallet.name}</td>
-                <td className="py-3 font-mono text-zinc-600 dark:text-zinc-400">
-                  {shortenAddress(wallet.address)}
-                </td>
-                <td className="py-3 text-right text-zinc-900 dark:text-zinc-100">
-                  {formatNumber(wallet.balance)} {wallet.network === "bittensor" ? "TAO" : "ETH"}
-                </td>
-                <td className="py-3 text-right text-zinc-900 dark:text-zinc-100">
-                  {formatCurrency(wallet.balanceUSD)}
+            {wallets.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="py-4 text-center text-zinc-500 dark:text-zinc-400">
+                  No wallet data available
                 </td>
               </tr>
-            ))}
+            ) : (
+              wallets.map((wallet) => (
+                <tr key={wallet.address} className="border-b border-zinc-100 dark:border-zinc-800">
+                  <td className="py-3 text-zinc-900 dark:text-zinc-100">{wallet.name}</td>
+                  <td className="py-3 font-mono text-zinc-600 dark:text-zinc-400">
+                    {shortenAddress(wallet.address)}
+                  </td>
+                  <td className="py-3 text-right text-zinc-900 dark:text-zinc-100">
+                    {formatNumber(wallet.balance)} {wallet.network === "bittensor" ? "TAO" : "ETH"}
+                  </td>
+                  <td className="py-3 text-right text-zinc-900 dark:text-zinc-100">
+                    {formatCurrency(wallet.balanceUSD)}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
