@@ -77,16 +77,17 @@ export function TreasuryOverview({ data }: Props) {
                 </td>
               </tr>
             ) : (
-              wallets.map((wallet) => (
-                <tr key={wallet.address} className="border-b border-zinc-100 dark:border-zinc-800">
+              wallets.map((wallet, index) => (
+                <tr key={`${wallet.address}-${wallet.token || index}`} className="border-b border-zinc-100 dark:border-zinc-800">
                   <td className="py-3 text-zinc-900 dark:text-zinc-100">{wallet.name}</td>
                   <td className="py-3 font-mono text-zinc-600 dark:text-zinc-400">
                     {shortenAddress(wallet.address)}
                   </td>
                   <td className="py-3 text-right text-zinc-900 dark:text-zinc-100">
-                    {formatNumber(wallet.balance)} {wallet.network === "bittensor" ? "TAO" : "ETH"}
+                    {formatNumber(wallet.balance, wallet.token === "USDC" ? 2 : wallet.network === "ethereum" ? 4 : 2)}{" "}
+                    {wallet.token || (wallet.network === "bittensor" ? "TAO" : "ETH")}
                   </td>
-                  <td className="py-3 text-right text-zinc-900 dark:text-zinc-100">
+                  <td className="py-3 text-right font-medium text-zinc-900 dark:text-zinc-100">
                     {formatCurrency(wallet.balanceUSD)}
                   </td>
                 </tr>

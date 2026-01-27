@@ -122,6 +122,7 @@ export async function getWalletBalances(): Promise<WalletBalance[]> {
         network: "bittensor",
         balance: balanceTao,
         balanceUSD: balanceTao * taoPrice,
+        token: "TAO",
       });
     } catch (error) {
       console.error(`Error fetching balance for ${wallet.name}:`, error);
@@ -131,6 +132,7 @@ export async function getWalletBalances(): Promise<WalletBalance[]> {
         network: "bittensor",
         balance: 0,
         balanceUSD: 0,
+        token: "TAO",
       });
     }
   }

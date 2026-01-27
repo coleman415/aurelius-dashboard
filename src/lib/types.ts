@@ -6,6 +6,13 @@ export interface WalletBalance {
   network: "bittensor" | "ethereum";
   balance: number;
   balanceUSD: number;
+  token?: string; // "TAO", "ETH", "USDC"
+}
+
+// TAO price ticker (minimal data for header)
+export interface TaoPriceTicker {
+  price: number;
+  change24h: number;
 }
 
 export interface TreasuryOverview {
@@ -74,6 +81,14 @@ export interface BurnRateData {
   expensesByCategory: CategoryExpense[];
   expensesByPayor: PayorExpense[];
   recentExpenses: Expense[];
+  burnHistory: BurnHistoryPoint[];
+}
+
+export interface BurnHistoryPoint {
+  month: string; // "2024-01" format
+  burn: number; // Monthly burn in USD
+  cumulativeBurn: number;
+  runway?: number; // Runway at that point (if treasury data available)
 }
 
 export interface CategoryExpense {
@@ -90,7 +105,8 @@ export interface PayorExpense {
 
 export interface DashboardData {
   treasury: TreasuryOverview;
-  price: PriceData;
+  price: PriceData; // Now SN37 token price
+  taoPriceTicker: TaoPriceTicker; // Small TAO price for header
   staking: StakingData;
   burnRate: BurnRateData;
   transactions: Transaction[];

@@ -1,5 +1,5 @@
 import { SHEETS } from "./config";
-import type { BurnRateData, Expense, CategoryExpense, PayorExpense } from "./types";
+import type { BurnRateData, Expense, CategoryExpense, PayorExpense, BurnHistoryPoint } from "./types";
 
 async function fetchSheetAsCSV(sheetId: string): Promise<string> {
   const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
@@ -144,6 +144,28 @@ export async function getExpenses(): Promise<BurnRateData> {
       }))
       .sort((a, b) => b.amount - a.amount);
 
+    // Calculate burn history by month
+    const burnByMonth: Record<string, number> = {};
+    expenses.forEach((e) => {
+      const date = new Date(e.date);
+      if (!isNaN(date.getTime())) {
+        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+        burnByMonth[monthKey] = (burnByMonth[monthKey] || 0) + e.cost;
+      }
+    });
+
+    // Sort months and calculate cumulative burn
+    const sortedMonths = Object.keys(burnByMonth).sort();
+    let cumulativeBurn = 0;
+    const burnHistory: BurnHistoryPoint[] = sortedMonths.map((month) => {
+      cumulativeBurn += burnByMonth[month];
+      return {
+        month,
+        burn: burnByMonth[month],
+        cumulativeBurn,
+      };
+    });
+
     return {
       monthlyBurn,
       monthlyBurnUSD: monthlyBurn, // Already in USD
@@ -151,6 +173,7 @@ export async function getExpenses(): Promise<BurnRateData> {
       expensesByCategory,
       expensesByPayor,
       recentExpenses: expenses.slice(-10).reverse(),
+      burnHistory,
     };
   } catch (error) {
     console.error("Error fetching expenses:", error);
@@ -161,6 +184,7 @@ export async function getExpenses(): Promise<BurnRateData> {
       expensesByCategory: [],
       expensesByPayor: [],
       recentExpenses: [],
+      burnHistory: [],
     };
   }
 }

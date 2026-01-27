@@ -49,7 +49,7 @@ export function PriceChart({ data }: Props) {
   }));
 
   return (
-    <Card title="TAO Price">
+    <Card title="SN37 Token Price">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Stat
           label="Current Price"

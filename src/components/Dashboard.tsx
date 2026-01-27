@@ -29,6 +29,10 @@ const FALLBACK_DATA: DashboardData = {
     marketCap: 0,
     history: [],
   },
+  taoPriceTicker: {
+    price: 0,
+    change24h: 0,
+  },
   staking: {
     totalDelegated: 0,
     totalDelegatedUSD: 0,
@@ -44,6 +48,7 @@ const FALLBACK_DATA: DashboardData = {
     expensesByCategory: [],
     expensesByPayor: [],
     recentExpenses: [],
+    burnHistory: [],
   },
   transactions: [],
   lastUpdated: Date.now(),
@@ -99,6 +104,7 @@ export function Dashboard() {
   const safeData: DashboardData = {
     treasury: data?.treasury ?? FALLBACK_DATA.treasury,
     price: data?.price ?? FALLBACK_DATA.price,
+    taoPriceTicker: data?.taoPriceTicker ?? FALLBACK_DATA.taoPriceTicker,
     staking: data?.staking ?? FALLBACK_DATA.staking,
     burnRate: data?.burnRate ?? FALLBACK_DATA.burnRate,
     transactions: data?.transactions ?? FALLBACK_DATA.transactions,
@@ -130,9 +136,28 @@ export function Dashboard() {
         </div>
       )}
 
-      {/* Last updated indicator */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      {/* Header with TAO ticker and last updated */}
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div className="flex items-center gap-4">
+          {/* TAO Price Ticker */}
+          {safeData.taoPriceTicker.price > 0 && (
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-lg">
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">TAO</span>
+              <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                ${safeData.taoPriceTicker.price.toFixed(2)}
+              </span>
+              <span
+                className={`text-xs ${
+                  safeData.taoPriceTicker.change24h >= 0
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-red-600 dark:text-red-400"
+                }`}
+              >
+                {safeData.taoPriceTicker.change24h >= 0 ? "+" : ""}
+                {safeData.taoPriceTicker.change24h.toFixed(1)}%
+              </span>
+            </div>
+          )}
           {loading && (
             <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
           )}
