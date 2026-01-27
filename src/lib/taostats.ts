@@ -3,55 +3,97 @@ import type { PriceData, PricePoint, StakingData, StakePoint, Transaction, Walle
 
 const API_BASE = "https://api.taostats.io/api";
 
+// Simple in-memory cache to reduce API calls
+const cache: Map<string, { data: unknown; timestamp: number }> = new Map();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes cache
+
+// Rate limiting: track last request time
+let lastRequestTime = 0;
+const MIN_REQUEST_INTERVAL = 1000; // 1 second between requests
+
+async function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function fetchTaostats(endpoint: string) {
   const apiKey = process.env.TAOSTATS_API_KEY;
   if (!apiKey) {
     throw new Error("TAOSTATS_API_KEY environment variable is not set");
   }
 
+  // Check cache first
+  const cacheKey = endpoint;
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data;
+  }
+
+  // Rate limiting: wait if needed
+  const timeSinceLastRequest = Date.now() - lastRequestTime;
+  if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
+    await delay(MIN_REQUEST_INTERVAL - timeSinceLastRequest);
+  }
+  lastRequestTime = Date.now();
+
   const response = await fetch(`${API_BASE}${endpoint}`, {
     headers: {
       accept: "application/json",
       authorization: apiKey,
     },
-    next: { revalidate: 60 },
+    next: { revalidate: 300 }, // Cache for 5 minutes
   });
 
   if (!response.ok) {
+    // If rate limited, return cached data if available (even if stale)
+    if (response.status === 429 && cached) {
+      console.warn(`Rate limited on ${endpoint}, using stale cache`);
+      return cached.data;
+    }
     throw new Error(`Taostats API error: ${response.status}`);
   }
 
-  return response.json();
+  const data = await response.json();
+
+  // Store in cache
+  cache.set(cacheKey, { data, timestamp: Date.now() });
+
+  return data;
 }
 
+// Cached price data to avoid redundant calls
+let cachedPriceData: PriceData | null = null;
+let priceDataTimestamp = 0;
+const PRICE_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 export async function getTaoPrice(): Promise<PriceData> {
+  // Return cached price if still valid
+  if (cachedPriceData && Date.now() - priceDataTimestamp < PRICE_CACHE_TTL) {
+    return cachedPriceData;
+  }
+
   try {
-    const [priceData, historyData] = await Promise.all([
-      fetchTaostats("/price/latest/v1"),
-      fetchTaostats("/price/history/v1?limit=30"),
-    ]);
-
+    // Fetch sequentially instead of parallel to reduce rate limit pressure
+    const priceData = await fetchTaostats("/price/latest/v1");
+    // Skip history to reduce API calls - use just current price
     const current = priceData?.data?.[0]?.price ?? 0;
-    const history: PricePoint[] = (historyData?.data ?? []).map((d: { timestamp: string; price: number }) => ({
-      timestamp: new Date(d.timestamp).getTime(),
-      price: d.price,
-    }));
 
-    // Calculate changes from history
-    const now = current;
-    const day1 = history.find((_, i) => i === 1)?.price ?? now;
-    const day7 = history.find((_, i) => i === 7)?.price ?? now;
-
-    return {
+    cachedPriceData = {
       current,
-      change24h: now && day1 ? ((now - day1) / day1) * 100 : 0,
-      change7d: now && day7 ? ((now - day7) / day7) * 100 : 0,
+      change24h: priceData?.data?.[0]?.percent_change_24h ?? 0,
+      change7d: priceData?.data?.[0]?.percent_change_7d ?? 0,
       volume24h: priceData?.data?.[0]?.volume_24h ?? 0,
       marketCap: priceData?.data?.[0]?.market_cap ?? 0,
-      history: history.reverse(),
+      history: [], // Skip history for now to reduce API calls
     };
+    priceDataTimestamp = Date.now();
+
+    return cachedPriceData;
   } catch (error) {
     console.error("Error fetching TAO price:", error);
+    // Return cached data if available, even if stale
+    if (cachedPriceData) {
+      return cachedPriceData;
+    }
     return {
       current: 0,
       change24h: 0,
@@ -67,6 +109,7 @@ export async function getWalletBalances(): Promise<WalletBalance[]> {
   const balances: WalletBalance[] = [];
   const taoPrice = (await getTaoPrice()).current;
 
+  // Fetch wallet balances sequentially to avoid rate limits
   for (const wallet of WALLETS.bittensor) {
     try {
       const data = await fetchTaostats(`/account/latest/v1?address=${wallet.address}`);
@@ -103,10 +146,8 @@ export async function getStakingData(): Promise<StakingData> {
       throw new Error("Validator address not found");
     }
 
-    const [stakeData, historyData] = await Promise.all([
-      fetchTaostats(`/dtao/stake_balance/latest/v1?hotkey=${validatorAddress}`),
-      fetchTaostats(`/dtao/stake_balance/history/v1?hotkey=${validatorAddress}&limit=30`),
-    ]);
+    // Only fetch current stake data, skip history to reduce API calls
+    const stakeData = await fetchTaostats(`/dtao/stake_balance/latest/v1?hotkey=${validatorAddress}`);
 
     const totalStaked = (stakeData?.data ?? []).reduce(
       (sum: number, d: { balance_as_tao: number }) => sum + (d.balance_as_tao ?? 0),
@@ -114,22 +155,15 @@ export async function getStakingData(): Promise<StakingData> {
     );
 
     const stakerCount = stakeData?.pagination?.total_items ?? 0;
-    const taoPrice = (await getTaoPrice()).current;
-
-    const stakeHistory: StakePoint[] = (historyData?.data ?? []).map(
-      (d: { timestamp: string; balance_as_tao: number }) => ({
-        timestamp: new Date(d.timestamp).getTime(),
-        amount: d.balance_as_tao ?? 0,
-      })
-    );
+    const taoPrice = (await getTaoPrice()).current; // Uses cached price
 
     return {
       totalDelegated: totalStaked,
       totalDelegatedUSD: totalStaked * taoPrice,
       stakerCount,
-      validatorRank: 0, // Would need additional API call
-      apy: 0, // Would need calculation based on emissions
-      stakeHistory: stakeHistory.reverse(),
+      validatorRank: 0,
+      apy: 0,
+      stakeHistory: [], // Skip history to reduce API calls
     };
   } catch (error) {
     console.error("Error fetching staking data:", error);
@@ -146,33 +180,33 @@ export async function getStakingData(): Promise<StakingData> {
 
 export async function getTransactions(): Promise<Transaction[]> {
   const transactions: Transaction[] = [];
-  const taoPrice = (await getTaoPrice()).current;
+  const taoPrice = (await getTaoPrice()).current; // Uses cached price
 
-  for (const wallet of WALLETS.bittensor) {
-    try {
-      const data = await fetchTaostats(
-        `/transfer/v1?address=${wallet.address}&limit=50`
-      );
+  // Only fetch transactions from the first wallet to reduce API calls
+  const wallet = WALLETS.bittensor[0];
+  try {
+    const data = await fetchTaostats(
+      `/transfer/v1?address=${wallet.address}&limit=20`
+    );
 
-      for (const tx of data?.data ?? []) {
-        const amount = (tx.amount ?? 0) / 1e9; // Convert from rao to TAO
-        const isSender = tx.from === wallet.address;
+    for (const tx of data?.data ?? []) {
+      const amount = (tx.amount ?? 0) / 1e9; // Convert from rao to TAO
+      const isSender = tx.from === wallet.address;
 
-        transactions.push({
-          hash: tx.extrinsic_hash ?? "",
-          timestamp: new Date(tx.timestamp).getTime(),
-          from: tx.from ?? "",
-          to: tx.to ?? "",
-          amount,
-          amountUSD: amount * taoPrice,
-          type: isSender ? "send" : "receive",
-          isLarge: amount >= LARGE_TX_THRESHOLD,
-          wallet: wallet.name,
-        });
-      }
-    } catch (error) {
-      console.error(`Error fetching transactions for ${wallet.name}:`, error);
+      transactions.push({
+        hash: tx.extrinsic_hash ?? "",
+        timestamp: new Date(tx.timestamp).getTime(),
+        from: tx.from ?? "",
+        to: tx.to ?? "",
+        amount,
+        amountUSD: amount * taoPrice,
+        type: isSender ? "send" : "receive",
+        isLarge: amount >= LARGE_TX_THRESHOLD,
+        wallet: wallet.name,
+      });
     }
+  } catch (error) {
+    console.error(`Error fetching transactions for ${wallet.name}:`, error);
   }
 
   // Sort by timestamp descending

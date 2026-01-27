@@ -46,10 +46,10 @@ export const API_ENDPOINTS = {
   etherscan: "https://api.etherscan.io/api",
 } as const;
 
-// Refresh intervals (in milliseconds)
+// Refresh intervals (in milliseconds) - conservative to avoid rate limits
 export const REFRESH_INTERVALS = {
-  price: 60_000, // 1 minute
-  wallets: 300_000, // 5 minutes
-  staking: 300_000, // 5 minutes
+  price: 300_000, // 5 minutes (was 1 minute)
+  wallets: 600_000, // 10 minutes
+  staking: 600_000, // 10 minutes
   expenses: 3600_000, // 1 hour
 } as const;

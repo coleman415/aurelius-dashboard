@@ -3,6 +3,10 @@ import type { WalletBalance } from "./types";
 
 const ETHERSCAN_API = "https://api.etherscan.io/api";
 
+// Simple cache for Etherscan data
+const ethCache: Map<string, { data: unknown; timestamp: number }> = new Map();
+const ETH_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
 async function fetchEtherscan(params: Record<string, string>) {
   const apiKey = process.env.ETHERSCAN_API_KEY;
   if (!apiKey) {
@@ -10,16 +14,30 @@ async function fetchEtherscan(params: Record<string, string>) {
     return null;
   }
 
+  // Check cache first
+  const cacheKey = JSON.stringify(params);
+  const cached = ethCache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < ETH_CACHE_TTL) {
+    return cached.data;
+  }
+
   const searchParams = new URLSearchParams({ ...params, apikey: apiKey });
   const response = await fetch(`${ETHERSCAN_API}?${searchParams}`, {
-    next: { revalidate: 300 },
+    next: { revalidate: 600 }, // Cache for 10 minutes
   });
 
   if (!response.ok) {
+    // Return cached data if available
+    if (cached) {
+      console.warn(`Etherscan API error, using cached data`);
+      return cached.data;
+    }
     throw new Error(`Etherscan API error: ${response.status}`);
   }
 
-  return response.json();
+  const data = await response.json();
+  ethCache.set(cacheKey, { data, timestamp: Date.now() });
+  return data;
 }
 
 async function getEthPrice(): Promise<number> {

@@ -4,19 +4,18 @@ import { getEthWalletBalances } from "@/lib/etherscan";
 import { getExpenses } from "@/lib/sheets";
 import type { DashboardData, TreasuryOverview } from "@/lib/types";
 
-export const revalidate = 60; // Revalidate every minute
+export const revalidate = 300; // Revalidate every 5 minutes to reduce API calls
 
 export async function GET() {
   try {
-    // Fetch all data in parallel
-    const [price, taoWallets, ethWallets, staking, expenses, transactions] = await Promise.all([
-      getTaoPrice(),
-      getWalletBalances(),
-      getEthWalletBalances(),
-      getStakingData(),
-      getExpenses(),
-      getTransactions(),
-    ]);
+    // Fetch data SEQUENTIALLY to avoid rate limits
+    // Price is fetched first and cached for other functions
+    const price = await getTaoPrice();
+    const taoWallets = await getWalletBalances();
+    const ethWallets = await getEthWalletBalances();
+    const staking = await getStakingData();
+    const expenses = await getExpenses();
+    const transactions = await getTransactions();
 
     // Combine wallet balances
     const allWallets = [...taoWallets, ...ethWallets];
