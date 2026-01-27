@@ -37,8 +37,8 @@ async function fetchTaostats(endpoint: string) {
 
   const response = await fetch(`${API_BASE}${endpoint}`, {
     headers: {
-      accept: "application/json",
-      authorization: apiKey,
+      "accept": "application/json",
+      "Authorization": apiKey,
     },
     next: { revalidate: 300 }, // Cache for 5 minutes
   });
@@ -113,8 +113,9 @@ export async function getWalletBalances(): Promise<WalletBalance[]> {
   for (const wallet of WALLETS.bittensor) {
     try {
       const data = await fetchTaostats(`/account/latest/v1?address=${wallet.address}`);
-      const balance = data?.data?.[0]?.balance ?? 0;
-      const balanceTao = balance / 1e9; // Convert from rao to TAO
+      // API returns balance_total as a string in rao (1e9 rao = 1 TAO)
+      const balanceRaw = data?.data?.[0]?.balance_total ?? data?.data?.[0]?.balance_free ?? "0";
+      const balanceTao = Number(balanceRaw) / 1e9; // Convert from rao to TAO
 
       balances.push({
         name: wallet.name,

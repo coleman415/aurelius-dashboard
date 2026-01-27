@@ -20,13 +20,19 @@ export async function GET() {
       getTransactions(),
     ]);
 
-    // Combine wallet balances - ensure all values are numbers
-    const sanitizeWallet = (w: typeof taoWallets[0]) => ({
+    // Combine wallet balances - recalculate USD using CoinGecko TAO price
+    const taoPrice = taoPriceTicker.price;
+    const sanitizeTaoWallet = (w: typeof taoWallets[0]) => ({
       ...w,
       balance: Number(w.balance) || 0,
-      balanceUSD: Number(w.balanceUSD) || 0,
+      balanceUSD: (Number(w.balance) || 0) * taoPrice, // Use CoinGecko price
     });
-    const allWallets = [...taoWallets.map(sanitizeWallet), ...ethWallets.map(sanitizeWallet)];
+    const sanitizeEthWallet = (w: typeof ethWallets[0]) => ({
+      ...w,
+      balance: Number(w.balance) || 0,
+      balanceUSD: Number(w.balanceUSD) || 0, // Keep ETH/USDC USD as-is
+    });
+    const allWallets = [...taoWallets.map(sanitizeTaoWallet), ...ethWallets.map(sanitizeEthWallet)];
 
     // Calculate treasury totals (all in USD)
     const totalTAO = taoWallets.reduce((sum, w) => sum + (Number(w.balance) || 0), 0);
@@ -64,11 +70,17 @@ export async function GET() {
       runwayMonths: currentRunway,
     };
 
+    // Recalculate staking USD with CoinGecko price
+    const stakingWithUSD = {
+      ...staking,
+      totalDelegatedUSD: (staking.totalDelegated || 0) * taoPrice,
+    };
+
     const dashboardData: DashboardData = {
       treasury,
       price: sn37Price, // Now SN37 token price
       taoPriceTicker, // TAO price for header ticker
-      staking,
+      staking: stakingWithUSD,
       burnRate,
       transactions: transactions.slice(0, 50), // Limit to 50 most recent
       lastUpdated: Date.now(),

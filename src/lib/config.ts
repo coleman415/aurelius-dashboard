@@ -11,8 +11,8 @@ export const WALLETS = {
   bittensor: [
     {
       name: "Aurelius Foundation",
-      address: "5DXqqdrvu5FK3dASRVTCdGPZKx4Q9nkAZZSmibKG6PEEeW4j",
-      description: "Foundation wallet / Employee grants",
+      address: "5GRBbS3aDep7cvR1NRm9Awp5HAF1o4HC7t59Y8HoheLZ6ZaP",
+      description: "Foundation wallet / Employee grants (coldkey swapped Sept 2025)",
     },
     {
       name: "Aurelius Labs",

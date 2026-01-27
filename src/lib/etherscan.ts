@@ -1,7 +1,8 @@
 import { WALLETS } from "./config";
 import type { WalletBalance } from "./types";
 
-const ETHERSCAN_API = "https://api.etherscan.io/api";
+const ETHERSCAN_API = "https://api.etherscan.io/v2/api";
+const CHAIN_ID = "1"; // Ethereum mainnet
 const USDC_CONTRACT = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
 
 // Simple cache for Etherscan data
@@ -22,7 +23,7 @@ async function fetchEtherscan(params: Record<string, string>) {
     return cached.data;
   }
 
-  const searchParams = new URLSearchParams({ ...params, apikey: apiKey });
+  const searchParams = new URLSearchParams({ chainid: CHAIN_ID, ...params, apikey: apiKey });
   const response = await fetch(`${ETHERSCAN_API}?${searchParams}`, {
     next: { revalidate: 600 }, // Cache for 10 minutes
   });
