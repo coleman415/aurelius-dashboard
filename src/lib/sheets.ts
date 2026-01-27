@@ -1,4 +1,4 @@
-import { SHEETS } from "./config";
+import { SHEETS, RECURRING_EXPENSES } from "./config";
 import type { BurnRateData, Expense, CategoryExpense, PayorExpense, BurnHistoryPoint } from "./types";
 
 async function fetchSheetAsCSV(sheetId: string): Promise<string> {
@@ -86,7 +86,7 @@ function categorizeExpense(item: string): string {
   return "Other";
 }
 
-export async function getExpenses(): Promise<BurnRateData> {
+export async function getExpenses(sn37PriceUSD: number = 0): Promise<BurnRateData> {
   try {
     const csv = await fetchSheetAsCSV(SHEETS.expenses);
     const rows = parseCSV(csv);
@@ -102,17 +102,13 @@ export async function getExpenses(): Promise<BurnRateData> {
         annualized: parseCurrency(row.annualized || row["annual"] || ""),
       }));
 
-    // Calculate monthly burn (average of last 3 months of data)
-    const now = new Date();
-    const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
-
-    const recentExpenses = expenses.filter((e) => {
-      const expenseDate = new Date(e.date);
-      return expenseDate >= threeMonthsAgo;
-    });
-
-    const totalRecent = recentExpenses.reduce((sum, e) => sum + e.cost, 0);
-    const monthlyBurn = totalRecent / 3;
+    // Calculate projected monthly burn from recurring expenses config
+    const usdRecurring = RECURRING_EXPENSES.usd.reduce((sum, e) => sum + e.amount, 0);
+    const tokenRecurringUSD = RECURRING_EXPENSES.tokens.reduce((sum, e) => {
+      // Convert token amount to USD using SN37 price
+      return sum + (e.amount * sn37PriceUSD);
+    }, 0);
+    const monthlyBurn = usdRecurring + tokenRecurringUSD;
 
     // Calculate expenses by category
     const categoryTotals: Record<string, number> = {};

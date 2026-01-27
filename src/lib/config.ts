@@ -53,3 +53,17 @@ export const REFRESH_INTERVALS = {
   staking: 600_000, // 10 minutes
   expenses: 3600_000, // 1 hour
 } as const;
+
+// Monthly recurring expenses for burn rate projection
+export const RECURRING_EXPENSES = {
+  // USD-denominated monthly expenses
+  usd: [
+    { name: "CTO", amount: 10_000, category: "Personnel" },
+    { name: "Tensor Media Group", amount: 4_000, category: "Marketing" },
+    { name: "Video Creator", amount: 1_000, category: "Marketing" },
+  ],
+  // Token-denominated monthly expenses (converted to USD at runtime)
+  tokens: [
+    { name: "Valis (Horizons)", amount: 3_000, token: "AURELIUS", category: "Personnel" },
+  ],
+} as const;

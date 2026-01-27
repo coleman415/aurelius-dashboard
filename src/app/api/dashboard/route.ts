@@ -9,14 +9,18 @@ export const revalidate = 300; // Revalidate every 5 minutes to reduce API calls
 
 export async function GET() {
   try {
-    // Fetch data - SN37 price from CoinGecko, TAO ticker for header
-    const [sn37Price, taoPriceTicker, taoWallets, ethWallets, staking, expenses, transactions] = await Promise.all([
+    // Fetch prices first (needed for expense calculation)
+    const [sn37Price, taoPriceTicker] = await Promise.all([
       getSN37Price(),
       getTaoPriceTicker(),
+    ]);
+
+    // Fetch remaining data - pass SN37 price to expenses for token conversion
+    const [taoWallets, ethWallets, staking, expenses, transactions] = await Promise.all([
       getWalletBalances(),
       getEthWalletBalances(),
       getStakingData(),
-      getExpenses(),
+      getExpenses(sn37Price.current),
       getTransactions(),
     ]);
 
