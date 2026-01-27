@@ -15,24 +15,14 @@ export default function Home() {
                 Bittensor Subnet {SUBNET_ID} - Financial Overview
               </p>
             </div>
-            <div className="flex items-center gap-4">
-              <a
-                href="https://taostats.io/subnets/37"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-              >
-                Taostats
-              </a>
-              <a
-                href="https://x.com/AureliusSubnet"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-              >
-                Twitter
-              </a>
-            </div>
+            <a
+              href="https://taostats.io/subnets/37"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            >
+              Taostats
+            </a>
           </div>
         </div>
       </header>
