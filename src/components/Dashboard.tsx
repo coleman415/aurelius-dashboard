@@ -66,6 +66,10 @@ export function Dashboard() {
       if (json.error) {
         throw new Error(json.error);
       }
+      // Validate that the response has the expected structure
+      if (!json.treasury || !json.price || !json.staking || !json.burnRate) {
+        throw new Error("Invalid response structure");
+      }
       setData(json);
       setError(null);
       setLastRefresh(new Date());
@@ -74,6 +78,10 @@ export function Dashboard() {
       setError(errorMsg);
       console.error("Dashboard fetch error:", errorMsg);
       // Keep showing existing data (or fallback) even on error
+      // If we have no valid data, ensure we use fallback
+      if (!data || !data.treasury) {
+        setData(FALLBACK_DATA);
+      }
     } finally {
       setLoading(false);
     }
@@ -87,8 +95,18 @@ export function Dashboard() {
     return () => clearInterval(interval);
   }, [fetchData]);
 
+  // Ensure we always have valid data structure by merging with fallback
+  const safeData: DashboardData = {
+    treasury: data?.treasury ?? FALLBACK_DATA.treasury,
+    price: data?.price ?? FALLBACK_DATA.price,
+    staking: data?.staking ?? FALLBACK_DATA.staking,
+    burnRate: data?.burnRate ?? FALLBACK_DATA.burnRate,
+    transactions: data?.transactions ?? FALLBACK_DATA.transactions,
+    lastUpdated: data?.lastUpdated ?? FALLBACK_DATA.lastUpdated,
+  };
+
   // Always show the dashboard, even with fallback/empty data
-  const showingFallback = data === FALLBACK_DATA || (data.treasury.totalTAO === 0 && data.treasury.totalETH === 0);
+  const showingFallback = !data?.treasury || (safeData.treasury.totalTAO === 0 && safeData.treasury.totalETH === 0);
 
   return (
     <div className="space-y-6">
@@ -134,19 +152,19 @@ export function Dashboard() {
       </div>
 
       {/* Treasury Overview - Full Width */}
-      <TreasuryOverview data={data.treasury} />
+      <TreasuryOverview data={safeData.treasury} />
 
       {/* Price and Staking - Two Columns */}
       <div className="grid md:grid-cols-2 gap-6">
-        <PriceChart data={data.price} />
-        <StakingPerformance data={data.staking} />
+        <PriceChart data={safeData.price} />
+        <StakingPerformance data={safeData.staking} />
       </div>
 
       {/* Burn Rate - Full Width */}
-      <BurnRate data={data.burnRate} />
+      <BurnRate data={safeData.burnRate} />
 
       {/* Transactions - Full Width */}
-      <Transactions data={data.transactions} />
+      <Transactions data={safeData.transactions} />
     </div>
   );
 }
