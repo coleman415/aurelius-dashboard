@@ -199,14 +199,14 @@ export async function getTransactions(taoPrice: number = 0): Promise<Transaction
       );
 
       for (const tx of data?.data ?? []) {
-        const amount = (tx.amount ?? 0) / 1e9; // Convert from rao to TAO
+        const amount = Number(tx.amount ?? 0) / 1e9; // Convert from rao to TAO
         // Handle from/to as either string or object with ss58 property
         const fromAddr = typeof tx.from === 'string' ? tx.from : (tx.from?.ss58 ?? '');
         const toAddr = typeof tx.to === 'string' ? tx.to : (tx.to?.ss58 ?? '');
         const isSender = fromAddr === wallet.address;
 
         transactions.push({
-          hash: tx.extrinsic_hash ?? "",
+          hash: tx.transaction_hash ?? tx.extrinsic_id ?? "",
           timestamp: new Date(tx.timestamp).getTime(),
           from: fromAddr,
           to: toAddr,
