@@ -143,37 +143,53 @@ export async function getWalletBalances(): Promise<WalletBalance[]> {
 
 export async function getStakingData(): Promise<StakingData> {
   try {
-    // Get staking data for the validator
+    // Get staking data for the validator on SN37
     const validatorAddress = WALLETS.bittensor.find(w => w.name.includes("Validator"))?.address;
     if (!validatorAddress) {
       throw new Error("Validator address not found");
     }
 
-    // Only fetch current stake data, skip history to reduce API calls
-    const stakeData = await fetchTaostats(`/dtao/stake_balance/latest/v1?hotkey=${validatorAddress}`);
+    // Fetch validator data from dtao endpoint (includes emissions data for APY)
+    const [validatorData, validatorHistory] = await Promise.all([
+      fetchTaostats(`/dtao/validator/latest/v1?hotkey=${validatorAddress}&netuid=37`),
+      fetchTaostats(`/dtao/validator/history/v1?hotkey=${validatorAddress}&netuid=37`),
+    ]);
 
-    // Sum up stake balances - balance_as_tao appears to be in rao (1e9 rao = 1 TAO)
-    const totalStakedRaw = (stakeData?.data ?? []).reduce(
-      (sum: number, d: { balance_as_tao?: number; balance?: number }) => {
-        // Try balance_as_tao first, then balance
-        const val = Number(d.balance_as_tao ?? d.balance) || 0;
-        return sum + val;
-      },
-      0
-    );
-    // The API field is named balance_as_tao but might be in rao - if > 1 billion, divide by 1e9
-    const totalStaked = totalStakedRaw > 1_000_000_000 ? totalStakedRaw / 1e9 : totalStakedRaw;
+    const validator = validatorData?.data?.[0];
 
-    const stakerCount = Number(stakeData?.pagination?.total_items) || 0;
+    // global_weighted_stake is in rao
+    const totalStakedRaw = Number(validator?.global_weighted_stake ?? 0);
+    const totalStaked = totalStakedRaw / 1e9; // Convert to TAO
+
+    const stakerCount = Number(validator?.global_nominators ?? 0);
+    const validatorRank = Number(validator?.rank ?? 0);
+
+    // Calculate APY from nominator_return_per_day
+    // APY = (daily_return / total_stake) * 365 * 100
+    const dailyReturnRao = Number(validator?.nominator_return_per_day ?? 0);
+    const dailyReturn = dailyReturnRao / 1e9; // Convert to TAO
+    let apy = 0;
+    if (totalStaked > 0 && dailyReturn > 0) {
+      apy = (dailyReturn / totalStaked) * 365 * 100;
+    }
+
+    // Build stake history from validator history (daily snapshots)
+    const stakeHistory: StakePoint[] = (validatorHistory?.data ?? [])
+      .map((h: { timestamp: string; global_weighted_stake: string | number }) => ({
+        timestamp: new Date(h.timestamp).getTime(),
+        amount: Number(h.global_weighted_stake) / 1e9, // Convert to TAO
+      }))
+      .sort((a: StakePoint, b: StakePoint) => a.timestamp - b.timestamp); // Oldest first for chart
+
     const taoPrice = (await getTaoPrice()).current; // Uses cached price
 
     return {
-      totalDelegated: Number(totalStaked) || 0,
-      totalDelegatedUSD: (Number(totalStaked) || 0) * taoPrice,
+      totalDelegated: totalStaked,
+      totalDelegatedUSD: totalStaked * taoPrice,
       stakerCount,
-      validatorRank: 0,
-      apy: 0,
-      stakeHistory: [], // Skip history to reduce API calls
+      validatorRank,
+      apy,
+      stakeHistory,
     };
   } catch (error) {
     console.error("Error fetching staking data:", error);

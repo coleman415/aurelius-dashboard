@@ -47,7 +47,7 @@ export function StakingPerformance({ data }: Props) {
 
   return (
     <Card title="Staking Performance">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 gap-4 mb-6">
         <Stat
           label="Total Delegated"
           value={totalDelegated > 0 ? `${formatNumber(totalDelegated)} TAO` : "--"}
@@ -57,7 +57,7 @@ export function StakingPerformance({ data }: Props) {
           value={totalDelegatedUSD > 0 ? formatCurrency(totalDelegatedUSD) : "--"}
         />
         <Stat
-          label="Staker Count"
+          label="Stakers"
           value={stakerCount > 0 ? stakerCount.toLocaleString() : "--"}
         />
         <Stat
