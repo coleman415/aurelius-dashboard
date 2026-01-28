@@ -4,7 +4,7 @@ export const SUBNET_ID = 37;
 export const SUBNET_NAME = "Aurelius";
 
 // Large transaction threshold in TAO
-export const LARGE_TX_THRESHOLD = 100;
+export const LARGE_TX_THRESHOLD = 25;
 
 // Wallet addresses to monitor
 export const WALLETS = {
