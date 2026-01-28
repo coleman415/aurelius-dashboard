@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getWalletBalances, getStakingData, getTransactions } from "@/lib/taostats";
+import { getWalletBalances, getStakingData, getTransactions, getLargeTransactions } from "@/lib/taostats";
 import { getEthWalletBalances } from "@/lib/etherscan";
 import { getExpenses } from "@/lib/sheets";
 import { getSN37Price, getTaoPriceTicker } from "@/lib/coingecko";
@@ -17,12 +17,13 @@ export async function GET() {
 
     // Fetch remaining data - pass prices for conversions
     const taoPrice = taoPriceTicker.price;
-    const [taoWallets, ethWallets, staking, expenses, transactions] = await Promise.all([
+    const [taoWallets, ethWallets, staking, expenses, transactions, largeTransactions] = await Promise.all([
       getWalletBalances(),
       getEthWalletBalances(),
       getStakingData(),
       getExpenses(sn37Price.current),
       getTransactions(taoPrice),
+      getLargeTransactions(taoPrice),
     ]);
 
     // Combine wallet balances - recalculate USD using CoinGecko TAO price
@@ -87,6 +88,7 @@ export async function GET() {
       staking: stakingWithUSD,
       burnRate,
       transactions: transactions.slice(0, 50), // Limit to 50 most recent
+      largeTransactions, // All large transactions (100+ TAO)
       lastUpdated: Date.now(),
     };
 

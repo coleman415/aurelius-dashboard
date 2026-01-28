@@ -110,5 +110,6 @@ export interface DashboardData {
   staking: StakingData;
   burnRate: BurnRateData;
   transactions: Transaction[];
+  largeTransactions: Transaction[]; // All transactions 100+ TAO
   lastUpdated: number;
 }

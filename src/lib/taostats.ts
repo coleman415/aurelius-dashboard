@@ -232,3 +232,49 @@ export async function getTransactions(taoPrice: number = 0): Promise<Transaction
       return true;
     });
 }
+
+// Fetch large transactions (100+ TAO) with full history
+export async function getLargeTransactions(taoPrice: number = 0): Promise<Transaction[]> {
+  const transactions: Transaction[] = [];
+  const minAmount = LARGE_TX_THRESHOLD * 1e9; // Convert to rao
+
+  // Fetch large transactions from all TAO wallets with higher limit
+  for (const wallet of WALLETS.bittensor) {
+    try {
+      const data = await fetchTaostats(
+        `/transfer/v1?address=${wallet.address}&amount_min=${minAmount}&limit=100`
+      );
+
+      for (const tx of data?.data ?? []) {
+        const amount = Number(tx.amount ?? 0) / 1e9; // Convert from rao to TAO
+        const fromAddr = typeof tx.from === 'string' ? tx.from : (tx.from?.ss58 ?? '');
+        const toAddr = typeof tx.to === 'string' ? tx.to : (tx.to?.ss58 ?? '');
+        const isSender = fromAddr === wallet.address;
+
+        transactions.push({
+          hash: tx.transaction_hash ?? tx.extrinsic_id ?? "",
+          timestamp: new Date(tx.timestamp).getTime(),
+          from: fromAddr,
+          to: toAddr,
+          amount,
+          amountUSD: amount * taoPrice,
+          type: isSender ? "send" : "receive",
+          isLarge: true,
+          wallet: wallet.name,
+        });
+      }
+    } catch (error) {
+      console.error(`Error fetching large transactions for ${wallet.name}:`, error);
+    }
+  }
+
+  // Sort by timestamp descending and remove duplicates
+  const seen = new Set<string>();
+  return transactions
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .filter(tx => {
+      if (!tx.hash || seen.has(tx.hash)) return false;
+      seen.add(tx.hash);
+      return true;
+    });
+}
