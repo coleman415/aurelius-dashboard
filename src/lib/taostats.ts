@@ -1,5 +1,5 @@
-import { WALLETS, LARGE_TX_THRESHOLD } from "./config";
-import type { PriceData, PricePoint, StakingData, StakePoint, Transaction, WalletBalance } from "./types";
+import { WALLETS, LARGE_TX_THRESHOLD, SUBNET_ID } from "./config";
+import type { PriceData, PricePoint, StakingData, StakePoint, Transaction, WalletBalance, AlphaTrade } from "./types";
 
 const API_BASE = "https://api.taostats.io/api";
 
@@ -249,48 +249,63 @@ export async function getTransactions(taoPrice: number = 0): Promise<Transaction
     });
 }
 
-// Fetch large transactions (100+ TAO) with full history
-export async function getLargeTransactions(taoPrice: number = 0): Promise<Transaction[]> {
-  const transactions: Transaction[] = [];
-  const minAmount = LARGE_TX_THRESHOLD * 1e9; // Convert to rao
+// Fetch alpha token trades for SN37 (stake/unstake transactions)
+export async function getAlphaTrades(): Promise<AlphaTrade[]> {
+  const trades: AlphaTrade[] = [];
+  const subnetName = `SN${SUBNET_ID}`;
+  const minTaoAmount = LARGE_TX_THRESHOLD * 1e9; // Filter for large trades
 
-  // Fetch large transactions from all TAO wallets with higher limit
-  for (const wallet of WALLETS.bittensor) {
-    try {
-      const data = await fetchTaostats(
-        `/transfer/v1?address=${wallet.address}&amount_min=${minAmount}&limit=100`
-      );
+  try {
+    // Fetch trades FROM SN37 (unstaking - selling alpha for TAO)
+    const unstakeData = await fetchTaostats(
+      `/dtao/trade/v1?from_name=${subnetName}&limit=100`
+    );
 
-      for (const tx of data?.data ?? []) {
-        const amount = Number(tx.amount ?? 0) / 1e9; // Convert from rao to TAO
-        const fromAddr = typeof tx.from === 'string' ? tx.from : (tx.from?.ss58 ?? '');
-        const toAddr = typeof tx.to === 'string' ? tx.to : (tx.to?.ss58 ?? '');
-        const isSender = fromAddr === wallet.address;
+    for (const trade of unstakeData?.data ?? []) {
+      const taoAmount = Number(trade.tao_value ?? 0) / 1e9;
+      if (taoAmount * 1e9 < minTaoAmount) continue; // Skip small trades
 
-        transactions.push({
-          hash: tx.transaction_hash ?? tx.extrinsic_id ?? "",
-          timestamp: new Date(tx.timestamp).getTime(),
-          from: fromAddr,
-          to: toAddr,
-          amount,
-          amountUSD: amount * taoPrice,
-          type: isSender ? "send" : "receive",
-          isLarge: true,
-          wallet: wallet.name,
-        });
-      }
-    } catch (error) {
-      console.error(`Error fetching large transactions for ${wallet.name}:`, error);
+      trades.push({
+        extrinsicId: trade.extrinsic_id ?? "",
+        timestamp: new Date(trade.timestamp).getTime(),
+        coldkey: trade.coldkey?.ss58 ?? "",
+        type: "unstake",
+        alphaAmount: Number(trade.from_amount ?? 0) / 1e9,
+        taoAmount,
+        usdValue: Number(trade.usd_value ?? 0),
+      });
     }
+
+    // Fetch trades TO SN37 (staking - buying alpha with TAO)
+    const stakeData = await fetchTaostats(
+      `/dtao/trade/v1?to_name=${subnetName}&limit=100`
+    );
+
+    for (const trade of stakeData?.data ?? []) {
+      const taoAmount = Number(trade.tao_value ?? 0) / 1e9;
+      if (taoAmount * 1e9 < minTaoAmount) continue; // Skip small trades
+
+      trades.push({
+        extrinsicId: trade.extrinsic_id ?? "",
+        timestamp: new Date(trade.timestamp).getTime(),
+        coldkey: trade.coldkey?.ss58 ?? "",
+        type: "stake",
+        alphaAmount: Number(trade.to_amount ?? 0) / 1e9,
+        taoAmount,
+        usdValue: Number(trade.usd_value ?? 0),
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching alpha trades:", error);
   }
 
   // Sort by timestamp descending and remove duplicates
   const seen = new Set<string>();
-  return transactions
+  return trades
     .sort((a, b) => b.timestamp - a.timestamp)
-    .filter(tx => {
-      if (!tx.hash || seen.has(tx.hash)) return false;
-      seen.add(tx.hash);
+    .filter(trade => {
+      if (!trade.extrinsicId || seen.has(trade.extrinsicId)) return false;
+      seen.add(trade.extrinsicId);
       return true;
     });
 }

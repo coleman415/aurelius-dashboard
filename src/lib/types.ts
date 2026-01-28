@@ -51,6 +51,17 @@ export interface Transaction {
   wallet: string;
 }
 
+// Alpha token trade on a subnet (stake/unstake)
+export interface AlphaTrade {
+  extrinsicId: string;
+  timestamp: number;
+  coldkey: string;
+  type: "stake" | "unstake"; // stake = TAO->Alpha, unstake = Alpha->TAO
+  alphaAmount: number; // Amount in alpha tokens
+  taoAmount: number; // Amount in TAO
+  usdValue: number;
+}
+
 export interface StakingData {
   totalDelegated: number;
   totalDelegatedUSD: number;
@@ -110,6 +121,6 @@ export interface DashboardData {
   staking: StakingData;
   burnRate: BurnRateData;
   transactions: Transaction[];
-  largeTransactions: Transaction[]; // All transactions 100+ TAO
+  alphaTrades: AlphaTrade[]; // SN37 alpha token trades (stake/unstake)
   lastUpdated: number;
 }

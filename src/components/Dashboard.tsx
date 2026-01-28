@@ -6,7 +6,7 @@ import { PriceChart } from "./PriceChart";
 import { StakingPerformance } from "./StakingPerformance";
 import { BurnRate } from "./BurnRate";
 import { Transactions } from "./Transactions";
-import { LargeTransactions } from "./LargeTransactions";
+import { AlphaTrades } from "./AlphaTrades";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import type { DashboardData } from "@/lib/types";
 import { REFRESH_INTERVALS } from "@/lib/config";
@@ -52,7 +52,7 @@ const FALLBACK_DATA: DashboardData = {
     burnHistory: [],
   },
   transactions: [],
-  largeTransactions: [],
+  alphaTrades: [],
   lastUpdated: Date.now(),
 };
 
@@ -110,7 +110,7 @@ export function Dashboard() {
     staking: data?.staking ?? FALLBACK_DATA.staking,
     burnRate: data?.burnRate ?? FALLBACK_DATA.burnRate,
     transactions: data?.transactions ?? FALLBACK_DATA.transactions,
-    largeTransactions: data?.largeTransactions ?? FALLBACK_DATA.largeTransactions,
+    alphaTrades: data?.alphaTrades ?? FALLBACK_DATA.alphaTrades,
     lastUpdated: data?.lastUpdated ?? FALLBACK_DATA.lastUpdated,
   };
 
@@ -194,8 +194,8 @@ export function Dashboard() {
       {/* Transactions - Full Width */}
       <Transactions data={safeData.transactions} />
 
-      {/* Large Transactions - Full Width */}
-      <LargeTransactions data={safeData.largeTransactions} />
+      {/* Alpha Trades - Full Width */}
+      <AlphaTrades data={safeData.alphaTrades} />
     </div>
   );
 }
