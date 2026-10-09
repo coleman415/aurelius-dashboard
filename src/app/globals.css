@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-source-serif), "Source Serif 4", Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -42,7 +43,9 @@ body {
     transition: transform 0.18s ease, border-color 0.18s ease;
   }
 
-  .x-pulse-card:hover {
+  .x-pulse-card:hover,
+  .x-pulse-card:focus-within {
+    border-color: rgba(228, 177, 90, 0.35);
     transform: translateY(-2px);
   }
 }

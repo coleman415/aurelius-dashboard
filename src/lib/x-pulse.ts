@@ -83,7 +83,6 @@ export interface EngagementMetrics {
 export interface PostView {
   id: string;
   url: string;
-  text: string;
   excerpt: string;
   username: string;
   name: string | null;
@@ -91,6 +90,11 @@ export interface PostView {
   day: string | null;
   engagementScore: number;
   buckets: BucketId[];
+}
+
+/** Full text stays in the shaper for matching and excerpts, then is dropped. */
+interface ParsedPost extends PostView {
+  text: string;
 }
 
 export interface AccountView {
@@ -262,7 +266,7 @@ export function shapeXPulse(
       shortLabel: BUCKET_SHORT_LABELS[id],
       count: inBucket.length,
       thin: inBucket.length > 0 && inBucket.length < THIN_SAMPLE_BELOW,
-      topPosts: inBucket.slice(0, topPostLimit),
+      topPosts: inBucket.slice(0, topPostLimit).map(toPostView),
     };
   });
 
@@ -302,7 +306,7 @@ export function shapeXPulse(
       product: GOODFIRE_PRODUCT,
       organization,
       affiliatedAccounts,
-      posts: goodfirePosts.slice(0, competitorPostLimit),
+      posts: goodfirePosts.slice(0, competitorPostLimit).map(toPostView),
       postCount: goodfirePosts.length,
       competitorBucketCount,
       goodfireInBucketCount,
@@ -317,9 +321,23 @@ export function shapeXPulse(
   };
 }
 
-function parsePosts(value: unknown): PostView[] {
+function toPostView(post: ParsedPost): PostView {
+  return {
+    id: post.id,
+    url: post.url,
+    excerpt: post.excerpt,
+    username: post.username,
+    name: post.name,
+    createdAt: post.createdAt,
+    day: post.day,
+    engagementScore: post.engagementScore,
+    buckets: post.buckets,
+  };
+}
+
+function parsePosts(value: unknown): ParsedPost[] {
   if (!Array.isArray(value)) return [];
-  const byId = new Map<string, PostView>();
+  const byId = new Map<string, ParsedPost>();
   for (const item of value) {
     const post = parsePost(item);
     if (!post) continue;
@@ -338,7 +356,7 @@ function parsePosts(value: unknown): PostView[] {
   return Array.from(byId.values());
 }
 
-function parsePost(value: unknown): PostView | null {
+function parsePost(value: unknown): ParsedPost | null {
   const record = asRecord(value);
   if (!record) return null;
   const canonical = canonicalStatusUrl(asString(record.url) ?? "");
@@ -402,7 +420,7 @@ function parseAccount(value: unknown): AccountView | null {
 }
 
 function buildDailyVolume(
-  posts: PostView[],
+  posts: ParsedPost[],
   windowStart: string,
   windowEnd: string,
 ): DailyVolumeRow[] {
@@ -495,7 +513,7 @@ function groupAccounts(accounts: AccountView[]): AccountGroupView[] {
   }));
 }
 
-function comparePosts(a: PostView, b: PostView): number {
+function comparePosts(a: ParsedPost, b: ParsedPost): number {
   if (b.engagementScore !== a.engagementScore) {
     return b.engagementScore - a.engagementScore;
   }
