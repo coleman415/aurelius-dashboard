@@ -411,8 +411,8 @@ function XPulsePanel({
           </Heading>
           <CompetitorWatch view={view} base={base} />
         </div>
-        <div className="flex flex-col lg:col-span-2 lg:h-0 lg:min-h-full">
-          <Heading level={nextLevel(base)} className={SECTION_HEADING}>
+        <div className="flex min-h-0 flex-col lg:col-span-2 lg:h-0 lg:min-h-full">
+          <Heading level={nextLevel(base)} className={`${SECTION_HEADING} shrink-0`}>
             Key accounts
           </Heading>
           <KeyAccounts view={view} base={base} />
@@ -599,12 +599,15 @@ function CompetitorWatch({
 
 function KeyAccounts({ view, base }: { view: XPulseView; base: Level }) {
   return (
-    <div id="x-pulse-accounts" className="mt-4 flex flex-col lg:min-h-0 lg:flex-1">
-      <p className="mb-3 shrink-0 text-sm text-zinc-400">
+    <div
+      id="x-pulse-accounts"
+      className="mt-4 flex flex-col overflow-hidden rounded-3xl border border-white/30 bg-[#14161c] lg:min-h-0 lg:flex-1"
+    >
+      <p className="shrink-0 px-4 pt-4 text-sm text-zinc-400">
         {formatNumber(view.accountCount)} accounts.
       </p>
       <div
-        className={`overflow-y-auto rounded-3xl border border-white/10 bg-white/[0.03] p-4 pr-2 lg:min-h-0 lg:flex-1 ${FOCUS_RING}`}
+        className={`overflow-y-auto px-4 pb-4 pr-2 lg:min-h-0 lg:flex-1 ${FOCUS_RING}`}
         role="region"
         aria-label="Key accounts"
         tabIndex={0}
