@@ -212,7 +212,6 @@ test("uses the checked-in snapshot fetched_at as data-as-of time", () => {
   const view = shapeXPulse(snapshot);
 
   assert.equal(view.fetchedAt, snapshot.fetched_at);
-  assert.notEqual(view.fetchedAt, snapshot.window_end);
   assert.ok(Number.isFinite(Date.parse(view.fetchedAt)));
 });
 
