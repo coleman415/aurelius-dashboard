@@ -1,10 +1,9 @@
 import { Dashboard } from "@/components/Dashboard";
 import { SUBNET_NAME, SUBNET_ID } from "@/lib/config";
-import snapshot from "@/data/x-pulse.json";
-import { shapeXPulse } from "@/lib/x-pulse";
+import { loadXPulse } from "@/lib/x-pulse-load";
 
 export default function Home() {
-  const xPulse = shapeXPulse(snapshot);
+  const xPulse = loadXPulse();
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
