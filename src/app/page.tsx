@@ -1,7 +1,10 @@
 import { Dashboard } from "@/components/Dashboard";
 import { SUBNET_NAME, SUBNET_ID } from "@/lib/config";
+import { loadXPulse } from "@/lib/x-pulse-load";
 
 export default function Home() {
+  const xPulse = loadXPulse();
+
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
       <header className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
@@ -28,7 +31,7 @@ export default function Home() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Dashboard />
+        <Dashboard xPulse={xPulse} />
       </main>
 
       <footer className="border-t border-zinc-200 dark:border-zinc-800 mt-12">

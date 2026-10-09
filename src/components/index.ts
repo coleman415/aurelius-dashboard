@@ -5,3 +5,4 @@ export { StakingPerformance } from "./StakingPerformance";
 export { BurnRate } from "./BurnRate";
 export { Transactions } from "./Transactions";
 export { LoadingSkeleton, ErrorMessage } from "./LoadingSkeleton";
+export { XPulse } from "./XPulse";
