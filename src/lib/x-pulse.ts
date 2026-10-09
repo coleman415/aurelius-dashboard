@@ -26,8 +26,8 @@ export const BUCKET_LABELS: Record<BucketId, string> = {
   sae_transcoders_crosscoders: "SAEs, transcoders, crosscoders",
   probes_steering: "Probes and steering",
   alignment_safety: "Alignment and safety",
-  competitor_watch: "Competitor watch",
-  bittensor_sn37_aurelius: "Bittensor SN37 / Aurelius",
+  competitor_watch: "Interp competitors (all)",
+  bittensor_sn37_aurelius: "Bittensor (incl. SN37)",
 };
 
 export const BUCKET_SHORT_LABELS: Record<BucketId, string> = {
@@ -35,8 +35,8 @@ export const BUCKET_SHORT_LABELS: Record<BucketId, string> = {
   sae_transcoders_crosscoders: "SAEs",
   probes_steering: "Probes",
   alignment_safety: "Alignment",
-  competitor_watch: "Competitors",
-  bittensor_sn37_aurelius: "SN37",
+  competitor_watch: "All competitors",
+  bittensor_sn37_aurelius: "Bittensor",
 };
 
 export const ACCOUNT_CATEGORY_ORDER = [
@@ -120,7 +120,11 @@ export interface BucketView {
   topPosts: PostView[];
 }
 
-export type DailyVolumeRow = { date: string } & Record<BucketId, number>;
+export type DailyVolumeRow = {
+  date: string;
+  /** True when this UTC day is cut short by window_end. */
+  partial: boolean;
+} & Record<BucketId, number>;
 
 export interface CompetitorWatchView {
   name: typeof GOODFIRE_NAME;
@@ -129,6 +133,10 @@ export interface CompetitorWatchView {
   affiliatedAccounts: AccountView[];
   posts: PostView[];
   postCount: number;
+  /** Posts in the competitor_watch bucket. */
+  competitorBucketCount: number;
+  /** Goodfire-related posts that also sit in competitor_watch. */
+  goodfireInBucketCount: number;
   otherCompetitors: AccountView[];
 }
 
@@ -186,14 +194,22 @@ export function textMentionsGoodfire(text: string): boolean {
 export function isGoodfireAccount(account: {
   username?: string | null;
   description?: string | null;
+  category?: string | null;
 }): boolean {
+  if ((account.category ?? "").trim().toLowerCase() !== "competitor") {
+    return false;
+  }
   const username = (account.username ?? "").trim().toLowerCase();
   if (username === GOODFIRE_USERNAME) return true;
   return /goodfire/i.test(account.description ?? "");
 }
 
 export function excerpt(text: string, max = 180): string {
-  const flat = text.replace(/\s+/g, " ").trim();
+  const flat = text
+    .replace(/https:\/\/t\.co\/\S+/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/^(?:@[A-Za-z0-9_]+\s+)+/, "");
   if (flat.length <= max) return flat;
   const cut = flat.slice(0, max - 1);
   const space = cut.lastIndexOf(" ");
@@ -257,6 +273,12 @@ export function shapeXPulse(
         textMentionsGoodfire(post.text),
     )
     .sort(comparePosts);
+  const goodfireInBucketCount = goodfirePosts.filter((post) =>
+    post.buckets.includes("competitor_watch"),
+  ).length;
+  const competitorBucketCount = posts.filter((post) =>
+    post.buckets.includes("competitor_watch"),
+  ).length;
 
   const affiliatedAccounts = accounts
     .filter((account) => isGoodfireAccount(account))
@@ -282,6 +304,8 @@ export function shapeXPulse(
       affiliatedAccounts,
       posts: goodfirePosts.slice(0, competitorPostLimit),
       postCount: goodfirePosts.length,
+      competitorBucketCount,
+      goodfireInBucketCount,
       otherCompetitors: accounts
         .filter(
           (account) =>
@@ -317,19 +341,18 @@ function parsePosts(value: unknown): PostView[] {
 function parsePost(value: unknown): PostView | null {
   const record = asRecord(value);
   if (!record) return null;
-  const url = asString(record.url)?.trim() ?? "";
-  if (!isStatusUrl(url)) return null;
-  const id = asString(record.id) ?? statusId(url);
-  if (!id) return null;
+  const canonical = canonicalStatusUrl(asString(record.url) ?? "");
+  if (!canonical) return null;
+  const id = asString(record.id);
+  if (!id || id !== canonical.id) return null;
   const author = asRecord(record.author);
-  const username =
-    asString(author?.username) ?? usernameFromStatusUrl(url) ?? "unknown";
+  const username = asString(author?.username) ?? canonical.username;
   const createdAt = asString(record.created_at) ?? "";
   const storedScore = asNumber(record.engagement_score);
   const text = typeof record.text === "string" ? record.text : "";
   return {
     id,
-    url,
+    url: canonical.url,
     text,
     excerpt: excerpt(text) || `Post by @${username}`,
     username,
@@ -411,9 +434,40 @@ function buildDailyVolume(
 
   const rows: DailyVolumeRow[] = [];
   for (const date of eachUtcDay(start, end)) {
-    rows.push({ date, ...(counts.get(date) ?? emptyDayCounts()) });
+    rows.push({
+      date,
+      partial: isPartialWindowDay(windowEnd, date),
+      ...(counts.get(date) ?? emptyDayCounts()),
+    });
   }
   return rows;
+}
+
+function isPartialWindowDay(windowEnd: string, date: string): boolean {
+  const endDay = utcDay(windowEnd);
+  if (!endDay || endDay !== date) return false;
+  return !isUtcMidnight(windowEnd);
+}
+
+function isUtcMidnight(iso: string): boolean {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return false;
+  return (
+    date.getUTCHours() === 0 &&
+    date.getUTCMinutes() === 0 &&
+    date.getUTCSeconds() === 0 &&
+    date.getUTCMilliseconds() === 0
+  );
+}
+
+function canonicalStatusUrl(
+  url: string,
+): { url: string; id: string; username: string } | null {
+  const match = url.trim().match(STATUS_URL);
+  const username = match?.[1];
+  const id = match?.[2];
+  if (!username || !id) return null;
+  return { url: `https://x.com/${username}/status/${id}`, id, username };
 }
 
 function groupAccounts(accounts: AccountView[]): AccountGroupView[] {
@@ -493,16 +547,6 @@ function eachUtcDay(start: string, end: string): string[] {
 function resolveLimit(value: number | undefined, fallback: number): number {
   if (value === undefined || !Number.isFinite(value)) return fallback;
   return Math.max(0, Math.floor(value));
-}
-
-function statusId(url: string): string | null {
-  const match = url.trim().match(STATUS_URL);
-  return match?.[2] ?? null;
-}
-
-function usernameFromStatusUrl(url: string): string | null {
-  const match = url.trim().match(STATUS_URL);
-  return match?.[1] ?? null;
 }
 
 function asMetrics(value: unknown): EngagementMetrics | null {

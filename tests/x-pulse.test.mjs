@@ -84,6 +84,7 @@ test("buckets daily volume across the complete snapshot window", () => {
   assert.deepEqual(view.dailyVolume, [
     {
       date: "2026-01-01",
+      partial: false,
       mech_interp: 2,
       sae_transcoders_crosscoders: 0,
       probes_steering: 0,
@@ -93,6 +94,7 @@ test("buckets daily volume across the complete snapshot window", () => {
     },
     {
       date: "2026-01-02",
+      partial: false,
       mech_interp: 0,
       sae_transcoders_crosscoders: 0,
       probes_steering: 0,
@@ -102,6 +104,7 @@ test("buckets daily volume across the complete snapshot window", () => {
     },
     {
       date: "2026-01-03",
+      partial: true,
       mech_interp: 0,
       sae_transcoders_crosscoders: 0,
       probes_steering: 0,
@@ -147,9 +150,15 @@ test("builds Goodfire competitor watch from affiliation and relevant text", () =
       }),
       account({
         username: "employee",
-        category: "researcher",
+        category: "competitor",
         followers: 50,
         description: "Researcher at Goodfire",
+      }),
+      account({
+        username: "grantee",
+        category: "researcher",
+        followers: 40,
+        description: "Goodfire grantee",
       }),
       account({
         username: "OtherCompetitor",
@@ -163,6 +172,7 @@ test("builds Goodfire competitor watch from affiliation and relevant text", () =
       post({ id: "12", text: "A new Silico release", score: 8 }),
       post({ id: "13", text: "Tested in silico", score: 100 }),
       post({ id: "14", text: "A generic silico mention", score: 100 }),
+      post({ id: "15", username: "grantee", text: "Lab update", score: 7 }),
     ],
   });
 

@@ -10,6 +10,7 @@ import { AlphaTrades } from "./AlphaTrades";
 import { XPulse } from "./XPulse";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import type { DashboardData } from "@/lib/types";
+import type { XPulseView } from "@/lib/x-pulse";
 import { REFRESH_INTERVALS } from "@/lib/config";
 
 // Fallback data when API fails - shows placeholder values
@@ -57,7 +58,7 @@ const FALLBACK_DATA: DashboardData = {
   lastUpdated: Date.now(),
 };
 
-export function Dashboard() {
+export function Dashboard({ xPulse }: { xPulse: XPulseView }) {
   const [data, setData] = useState<DashboardData>(FALLBACK_DATA);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -198,7 +199,7 @@ export function Dashboard() {
       {/* Alpha Trades - Full Width */}
       <AlphaTrades data={safeData.alphaTrades} />
 
-      <XPulse />
+      <XPulse view={xPulse} />
     </div>
   );
 }
