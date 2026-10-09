@@ -20,7 +20,7 @@ export default function XPulsePage() {
             Aurelius
           </p>
           <Link
-            href="/"
+            href="/dashboard"
             className="text-sm text-zinc-300 underline underline-offset-4 decoration-white/20 hover:decoration-[#e4b15a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e4b15a]"
           >
             Financial dashboard
