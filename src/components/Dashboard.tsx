@@ -7,6 +7,7 @@ import { StakingPerformance } from "./StakingPerformance";
 import { BurnRate } from "./BurnRate";
 import { Transactions } from "./Transactions";
 import { AlphaTrades } from "./AlphaTrades";
+import { XPulse } from "./XPulse";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import type { DashboardData } from "@/lib/types";
 import { REFRESH_INTERVALS } from "@/lib/config";
@@ -196,6 +197,8 @@ export function Dashboard() {
 
       {/* Alpha Trades - Full Width */}
       <AlphaTrades data={safeData.alphaTrades} />
+
+      <XPulse />
     </div>
   );
 }
