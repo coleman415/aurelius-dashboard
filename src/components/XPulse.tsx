@@ -145,7 +145,10 @@ function XPulsePanel({
               {formatUtcTimestamp(view.fetchedAt)}
             </time>
           </p>
-          <SnapshotAge fetchedAt={view.fetchedAt} />
+          <SnapshotAge
+            fetchedAt={view.fetchedAt}
+            generatedAt={research?.generatedAt}
+          />
           <p className="mt-1 text-sm text-zinc-400">
             Window{" "}
             <time dateTime={view.windowStart || undefined}>
@@ -170,7 +173,9 @@ function XPulsePanel({
               {research.windowDays !== null ? (
                 <>
                   <span aria-hidden="true"> · </span>
-                  {formatNumber(research.windowDays)}-day window
+                  <span className="whitespace-nowrap">
+                    {`${formatNumber(research.windowDays)}\u2011day window`}
+                  </span>
                 </>
               ) : null}
               <span aria-hidden="true"> · </span>
@@ -440,15 +445,15 @@ function XPulsePanel({
       </div>
 
       {research ? (
-        <div className="mt-10 grid items-start gap-6 lg:grid-cols-2">
-          <div className="min-w-0">
-            <Heading level={nextLevel(base)} className={SECTION_HEADING}>
+        <div className="mt-10 grid items-stretch gap-6 lg:grid-cols-2">
+          <div id="x-pulse-competitor" className="flex min-w-0 scroll-mt-6 flex-col">
+            <Heading level={nextLevel(base)} className={`${SECTION_HEADING} shrink-0`}>
               Competitor watch
             </Heading>
-            <CompetitorWatch view={view} base={base} />
+            <CompetitorWatch view={view} base={base} className="min-h-0 flex-1" />
           </div>
-          <div className="min-w-0">
-            <Heading level={nextLevel(base)} className={SECTION_HEADING}>
+          <div id="research-goodfire" className="flex min-w-0 scroll-mt-6 flex-col">
+            <Heading level={nextLevel(base)} className={`${SECTION_HEADING} shrink-0`}>
               Goodfire research
             </Heading>
             <GoodfireResearch feed={research.goodfire} />
@@ -456,13 +461,16 @@ function XPulsePanel({
         </div>
       ) : (
         <div className="mt-10 grid items-stretch gap-6 lg:grid-cols-5">
-          <div className="lg:col-span-3">
+          <div id="x-pulse-competitor" className="scroll-mt-6 lg:col-span-3">
             <Heading level={nextLevel(base)} className={SECTION_HEADING}>
               Competitor watch
             </Heading>
             <CompetitorWatch view={view} base={base} />
           </div>
-          <div className="flex min-h-0 flex-col lg:col-span-2 lg:h-0 lg:min-h-full">
+          <div
+            id="x-pulse-accounts"
+            className="flex min-h-0 scroll-mt-6 flex-col lg:col-span-2 lg:h-0 lg:min-h-full"
+          >
             <Heading level={nextLevel(base)} className={`${SECTION_HEADING} shrink-0`}>
               Key accounts
             </Heading>
@@ -474,11 +482,11 @@ function XPulsePanel({
       {research ? <ResearchSections research={research} base={base} /> : null}
 
       {research ? (
-        <div className="mt-10">
+        <div id="x-pulse-accounts" className="mt-10 scroll-mt-6">
           <Heading level={nextLevel(base)} className={SECTION_HEADING}>
             Key accounts
           </Heading>
-          <KeyAccounts view={view} base={base} />
+          <KeyAccounts view={view} base={base} capped />
         </div>
       ) : null}
 
@@ -522,9 +530,11 @@ function XPulsePanel({
 function CompetitorWatch({
   view,
   base,
+  className = "",
 }: {
   view: XPulseView;
   base: Level;
+  className?: string;
 }) {
   const watch = view.competitorWatch;
   const org = watch.organization;
@@ -535,8 +545,7 @@ function CompetitorWatch({
 
   return (
     <div
-      id="x-pulse-competitor"
-      className="mt-4 overflow-hidden rounded-3xl border border-[#e4b15a]/40 bg-gradient-to-br from-[#221c14] via-[#16130f] to-[#101114] p-5 sm:p-7"
+      className={`mt-4 overflow-hidden rounded-3xl border border-[#e4b15a]/40 bg-gradient-to-br from-[#221c14] via-[#16130f] to-[#101114] p-5 sm:p-7 ${className}`}
     >
       <Heading
         level={deeper(base, 2)}
@@ -660,17 +669,30 @@ function CompetitorWatch({
   );
 }
 
-function KeyAccounts({ view, base }: { view: XPulseView; base: Level }) {
+function KeyAccounts({
+  view,
+  base,
+  capped = false,
+}: {
+  view: XPulseView;
+  base: Level;
+  capped?: boolean;
+}) {
   return (
     <div
-      id="x-pulse-accounts"
-      className="mt-4 flex flex-col overflow-hidden rounded-3xl border border-white/30 bg-[#14161c] lg:min-h-0 lg:flex-1"
+      className={`mt-4 flex flex-col overflow-hidden rounded-3xl bg-[#14161c] ${
+        capped
+          ? "max-h-[36rem] border border-white/10"
+          : "border border-white/30 lg:min-h-0 lg:flex-1"
+      }`}
     >
       <p className="shrink-0 px-4 pt-4 text-sm text-zinc-400">
         {formatNumber(view.accountCount)} accounts.
       </p>
       <div
-        className={`overflow-y-auto px-4 pb-4 pr-2 lg:min-h-0 lg:flex-1 ${FOCUS_RING}`}
+        className={`overflow-y-auto px-4 pb-4 pr-2 ${FOCUS_RING} ${
+          capped ? "min-h-0 flex-1" : "lg:min-h-0 lg:flex-1"
+        }`}
         role="region"
         aria-label="Key accounts"
         tabIndex={0}
@@ -1061,25 +1083,44 @@ function initials(username: string, name: string | null): string {
   return (compact.slice(0, 2) || "?").toUpperCase();
 }
 
-function snapshotAgeNote(fetchedAt: string): string | null {
-  const fetched = Date.parse(fetchedAt);
+function snapshotAgeNote(iso: string, label: string): string | null {
+  const fetched = Date.parse(iso);
   if (!Number.isFinite(fetched)) return null;
   const gap = Date.now() - fetched;
   if (gap <= STALE_AFTER_MS) return null;
   const days = Math.floor(gap / DAY_MS);
-  return `Snapshot is ${days} ${days === 1 ? "day" : "days"} old`;
+  return `${label} is ${days} ${days === 1 ? "day" : "days"} old`;
 }
 
-function SnapshotAge({ fetchedAt }: { fetchedAt: string }) {
-  const [note, setNote] = useState<string | null>(null);
+function SnapshotAge({
+  fetchedAt,
+  generatedAt,
+}: {
+  fetchedAt: string;
+  generatedAt?: string;
+}) {
+  const [notes, setNotes] = useState<string[]>([]);
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      setNote(snapshotAgeNote(fetchedAt));
+      setNotes(
+        [
+          snapshotAgeNote(fetchedAt, "X snapshot"),
+          generatedAt ? snapshotAgeNote(generatedAt, "Research snapshot") : null,
+        ].filter((note): note is string => Boolean(note)),
+      );
     }, 0);
     return () => window.clearTimeout(timer);
-  }, [fetchedAt]);
-  if (!note) return null;
-  return <p className="mt-2 text-sm text-zinc-400">{note}</p>;
+  }, [fetchedAt, generatedAt]);
+  if (notes.length === 0) return null;
+  return (
+    <>
+      {notes.map((note) => (
+        <p key={note} className="mt-2 text-sm text-zinc-400">
+          {note}
+        </p>
+      ))}
+    </>
+  );
 }
 
 function formatNumber(value: number): string {
