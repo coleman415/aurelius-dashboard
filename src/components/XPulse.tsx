@@ -20,6 +20,12 @@ import {
   type PostView,
   type XPulseView,
 } from "@/lib/x-pulse";
+import type { ResearchView } from "@/lib/research";
+import {
+  GoodfireResearch,
+  ResearchNav,
+  ResearchSections,
+} from "@/components/ResearchFeeds";
 
 const SERIES: { id: BucketId; color: string; dash?: string }[] = [
   { id: "mech_interp", color: "#7eb6ff" },
@@ -56,22 +62,33 @@ type Level = keyof typeof HEADINGS;
 export function XPulse({
   view,
   variant = "embedded",
+  research,
 }: {
   view: XPulseView;
   variant?: "embedded" | "standalone";
+  research?: ResearchView;
 }) {
   const base: Level = variant === "standalone" ? 1 : 2;
-  return <XPulsePanel view={view} base={base} variant={variant} />;
+  return (
+    <XPulsePanel
+      view={view}
+      base={base}
+      variant={variant}
+      research={research}
+    />
+  );
 }
 
 function XPulsePanel({
   view,
   base,
   variant,
+  research,
 }: {
   view: XPulseView;
   base: Level;
   variant: "embedded" | "standalone";
+  research?: ResearchView;
 }) {
   const [compact, setCompact] = useState(false);
   const [showAllSeries, setShowAllSeries] = useState(false);
@@ -144,6 +161,22 @@ function XPulsePanel({
             <span aria-hidden="true"> · </span>
             {formatNumber(view.accountCount)} accounts
           </p>
+          {research ? (
+            <p className="mt-1 text-sm text-zinc-400">
+              Research as of{" "}
+              <time dateTime={research.generatedAt || undefined}>
+                {formatUtcTimestamp(research.generatedAt)}
+              </time>
+              {research.windowDays !== null ? (
+                <>
+                  <span aria-hidden="true"> · </span>
+                  {formatNumber(research.windowDays)}-day window
+                </>
+              ) : null}
+              <span aria-hidden="true"> · </span>
+              {formatNumber(research.count)} items
+            </p>
+          ) : null}
         </div>
         {variant === "embedded" ? (
           <Link
@@ -154,6 +187,8 @@ function XPulsePanel({
           </Link>
         ) : null}
       </div>
+
+      {research ? <ResearchNav /> : null}
 
       {view.scoring && (
         <p className="mt-4 max-w-3xl text-xs leading-relaxed text-zinc-400">
@@ -404,22 +439,50 @@ function XPulsePanel({
         )}
       </div>
 
-      <div className="mt-10 grid items-stretch gap-6 lg:grid-cols-5">
-        <div className="lg:col-span-3">
-          <Heading level={nextLevel(base)} className={SECTION_HEADING}>
-            Competitor watch
-          </Heading>
-          <CompetitorWatch view={view} base={base} />
+      {research ? (
+        <div className="mt-10 grid items-start gap-6 lg:grid-cols-2">
+          <div className="min-w-0">
+            <Heading level={nextLevel(base)} className={SECTION_HEADING}>
+              Competitor watch
+            </Heading>
+            <CompetitorWatch view={view} base={base} />
+          </div>
+          <div className="min-w-0">
+            <Heading level={nextLevel(base)} className={SECTION_HEADING}>
+              Goodfire research
+            </Heading>
+            <GoodfireResearch feed={research.goodfire} />
+          </div>
         </div>
-        <div className="flex min-h-0 flex-col lg:col-span-2 lg:h-0 lg:min-h-full">
-          <Heading level={nextLevel(base)} className={`${SECTION_HEADING} shrink-0`}>
+      ) : (
+        <div className="mt-10 grid items-stretch gap-6 lg:grid-cols-5">
+          <div className="lg:col-span-3">
+            <Heading level={nextLevel(base)} className={SECTION_HEADING}>
+              Competitor watch
+            </Heading>
+            <CompetitorWatch view={view} base={base} />
+          </div>
+          <div className="flex min-h-0 flex-col lg:col-span-2 lg:h-0 lg:min-h-full">
+            <Heading level={nextLevel(base)} className={`${SECTION_HEADING} shrink-0`}>
+              Key accounts
+            </Heading>
+            <KeyAccounts view={view} base={base} />
+          </div>
+        </div>
+      )}
+
+      {research ? <ResearchSections research={research} base={base} /> : null}
+
+      {research ? (
+        <div className="mt-10">
+          <Heading level={nextLevel(base)} className={SECTION_HEADING}>
             Key accounts
           </Heading>
           <KeyAccounts view={view} base={base} />
         </div>
-      </div>
+      ) : null}
 
-      <div className="mt-10">
+      <div id="x-pulse-posts" className="mt-10 scroll-mt-6">
         <Heading level={nextLevel(base)} className={SECTION_HEADING}>
           Top posts
         </Heading>

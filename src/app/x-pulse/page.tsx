@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import { XPulse } from "@/components/XPulse";
+import { loadResearch } from "@/lib/research-load";
 import { loadXPulse } from "@/lib/x-pulse-load";
 
 export const metadata: Metadata = {
   title: "X Pulse | Aurelius",
   description:
-    "Public X pulse for alignment and mechanistic interpretability. A static snapshot, with no live fetch.",
+    "Public X pulse and research feeds for alignment and mechanistic interpretability. Static snapshots, with no live fetch.",
 };
 
 export default function XPulsePage() {
   const view = loadXPulse();
+  const research = loadResearch();
 
   return (
     <div className="min-h-screen bg-[#090a0d] text-[#f4f1ea]">
@@ -21,7 +23,7 @@ export default function XPulsePage() {
         </div>
       </header>
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <XPulse view={view} variant="standalone" />
+        <XPulse view={view} research={research} variant="standalone" />
       </main>
     </div>
   );
