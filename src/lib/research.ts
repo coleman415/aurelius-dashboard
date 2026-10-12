@@ -1,8 +1,9 @@
 /**
  * Pure view-model for the research feeds on the standalone X Pulse page.
  *
- * The page loads one snapshot, `src/data/research.json`, and passes it here.
- * A later daily refresh replaces that file only. This module does not fetch.
+ * The loader passes one snapshot here: the published `x-pulse-data` file,
+ * or the bundled `src/data/research.json` if that fetch fails.
+ * This module does not fetch. The shaped view stays short of the full export.
  *
  * Snapshot shape:
  * - generated_at, window_days, count

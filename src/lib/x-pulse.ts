@@ -1,8 +1,9 @@
 /**
  * Pure view-model for the X Pulse panel.
  *
- * The UI loads one snapshot, `src/data/x-pulse.json`, and passes it here.
- * A later daily refresh replaces that file only. This module does not fetch.
+ * The loader passes one snapshot here: the published `x-pulse-data` file,
+ * or the bundled `src/data/x-pulse.json` if that fetch fails.
+ * This module does not fetch.
  *
  * Snapshot shape:
  * - fetched_at, window_start, window_end, scoring

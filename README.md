@@ -74,6 +74,28 @@ Edit `src/lib/config.ts` to modify:
 | TAO price, balances, staking, transactions | [Taostats API](https://docs.taostats.io) |
 | ETH wallet balances | [Etherscan API](https://etherscan.io/apis) |
 | Expenses | Google Sheets (public CSV export) |
+| X Pulse and research snapshots | `x-pulse-data` branch, read at visit time |
+
+## Refreshing X Pulse data
+
+Daily refreshes commit JSON on the `x-pulse-data` branch only. The site reads the public files and revalidates about every 15 minutes. Do not redeploy, and do not commit the refresh onto the app branch.
+
+- https://raw.githubusercontent.com/coleman415/aurelius-dashboard/x-pulse-data/x-pulse.json
+- https://raw.githubusercontent.com/coleman415/aurelius-dashboard/x-pulse-data/research.json
+
+Write the branch like this:
+
+```bash
+git clone --branch x-pulse-data --single-branch \
+  https://github.com/coleman415/aurelius-dashboard.git x-pulse-data-work
+cd x-pulse-data-work
+# Replace x-pulse.json, research.json, or both. They live at the repo root.
+git add x-pulse.json research.json
+git commit -m "Refresh X Pulse data snapshots"
+git push origin x-pulse-data
+```
+
+`scripts/refresh-research.sh` builds `research.json` from coleman415/aurelius-research and pushes that one file to `x-pulse-data`. The bundled copies in `src/data/` stay as the fallback when a fetch fails.
 
 ## Adding Discord Alerts (Future)
 

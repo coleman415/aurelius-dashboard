@@ -3,15 +3,16 @@ import { XPulse } from "@/components/XPulse";
 import { loadResearch } from "@/lib/research-load";
 import { loadXPulse } from "@/lib/x-pulse-load";
 
+export const revalidate = 900;
+
 export const metadata: Metadata = {
   title: "X Pulse | Aurelius",
   description:
-    "Public X pulse and research feeds for alignment and mechanistic interpretability. Static snapshots, with no live fetch.",
+    "Public X pulse and research feeds for alignment and mechanistic interpretability.",
 };
 
-export default function XPulsePage() {
-  const view = loadXPulse();
-  const research = loadResearch();
+export default async function XPulsePage() {
+  const [view, research] = await Promise.all([loadXPulse(), loadResearch()]);
 
   return (
     <div className="min-h-screen bg-[#090a0d] text-[#f4f1ea]">

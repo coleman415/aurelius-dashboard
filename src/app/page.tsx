@@ -2,8 +2,10 @@ import { Dashboard } from "@/components/Dashboard";
 import { SUBNET_NAME, SUBNET_ID } from "@/lib/config";
 import { loadXPulse } from "@/lib/x-pulse-load";
 
-export default function Home() {
-  const xPulse = loadXPulse();
+export const revalidate = 900;
+
+export default async function Home() {
+  const xPulse = await loadXPulse();
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
