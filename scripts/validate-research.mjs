@@ -56,6 +56,10 @@ export function inspectResearchSnapshot(data) {
   });
 
   for (const source of REQUIRED_RESEARCH_SOURCES) {
+    const status = data.source_status?.[source];
+    if (status !== "ok" && counts[source] > 0) {
+      errors.push(`${source} fetch failure: source_status is ${status ?? "missing"}`);
+    }
     if (counts[source] === 0) {
       errors.push(`${source} has 0 items (${emptySourceReason(data, source)})`);
     }
@@ -92,6 +96,9 @@ const FAILURE_FIELDS = ["errors", "source_errors", "fetch_errors", "failures"];
 // empty. A missing list entry, or an error recorded for that source, is a
 // fetch failure. Neither case is filled with placeholder items.
 function emptySourceReason(data, source) {
+  const status = data.source_status?.[source];
+  if (status === "empty") return "legitimate zero output";
+  if (status && status !== "ok") return `fetch failure: source_status is ${status}`;
   const failure = recordedFailure(data, source);
   if (failure) return `fetch failure: ${failure}`;
   if (Array.isArray(data.sources)) {
