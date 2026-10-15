@@ -19,3 +19,29 @@ test('publisher refuses missing configured interpreter before any network operat
  assert.notEqual(result.status,0);
  assert.match(result.stderr,/RESEARCH_PYTHON/);
 });
+
+import { mkdtempSync, writeFileSync, chmodSync, existsSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+test('macOS Bash 3.2 preflight blocks invalid inputs before interpreter or network',()=>{
+ const dir = mkdtempSync(join(tmpdir(),'pulse-preflight-'));
+ const marker = join(dir,'invoked');
+ const stub = join(dir,'stub');
+ writeFileSync(stub, `#!/bin/sh\n: > '${marker}'\nexit 91\n`); chmodSync(stub,0o755);
+ for (const command of ['git','node','python3']) {
+   writeFileSync(join(dir,command), `#!/bin/sh\n: > '${marker}'\nexit 92\n`);
+   chmodSync(join(dir,command),0o755);
+ }
+ const input = join(dir,'input.json'); writeFileSync(input,'{}');
+ const empty = join(dir,'empty.json'); writeFileSync(empty,'');
+ const base = {...process.env,PATH:`${dir}:/usr/bin:/bin`,RESEARCH_PYTHON:stub,RESEARCH_SHA:'a'.repeat(40),X_INPUT:input,RUN_STARTED_AT:new Date().toISOString(),GITHUB_TOKEN:'test-presence-only'};
+ for (const overrides of [
+   {RESEARCH_PYTHON:''}, {RESEARCH_PYTHON:'./python'},
+   {X_INPUT:''}, {X_INPUT:'./input.json'}, {X_INPUT:empty}, {X_INPUT:join(dir,'missing')},
+   {RESEARCH_SHA:'bad'}, {GITHUB_TOKEN:''}
+ ]) {
+   const result = spawnSync('/bin/bash',['scripts/refresh-research.sh'],{cwd:new URL('..',import.meta.url),env:{...base,...overrides},encoding:'utf8'});
+   assert.notEqual(result.status,0,JSON.stringify(overrides));
+   assert.equal(existsSync(marker),false,'preflight must not invoke interpreter/network tools');
+ }
+});

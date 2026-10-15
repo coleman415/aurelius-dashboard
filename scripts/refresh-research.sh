@@ -7,8 +7,10 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 : "${RESEARCH_SHA:?Set reviewed full research commit SHA}"
 : "${X_INPUT:?Set path to fresh X producer output}"
 : "${RUN_STARTED_AT:?Set ISO UTC start before invoking the actual X producer}"
-[[ "$RESEARCH_PYTHON" = /* && -x "$RESEARCH_PYTHON" && -s "$X_INPUT" ]]
-[[ "$RESEARCH_SHA" =~ ^[0-9a-f]{40}$ ]]
+[[ "$RESEARCH_PYTHON" = /* && -x "$RESEARCH_PYTHON" ]] || { echo "RESEARCH_PYTHON must be an absolute executable path" >&2; exit 1; }
+[[ "$X_INPUT" = /* && -s "$X_INPUT" ]] || { echo "X_INPUT must be an absolute nonempty file" >&2; exit 1; }
+[[ "$RESEARCH_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "RESEARCH_SHA must be a full commit SHA" >&2; exit 1; }
+[[ -n "${GITHUB_TOKEN:-}" ]] || { echo "Set owner-managed GITHUB_TOKEN before export" >&2; exit 1; }
 "$RESEARCH_PYTHON" - <<'PY'
 from importlib.metadata import version
 for package, expected in {'feedparser':'6.0.12','huggingface_hub':'0.30.2','PyYAML':'6.0.3','requests':'2.32.3'}.items():

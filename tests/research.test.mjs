@@ -406,3 +406,9 @@ test("score and topic_sets win over relevance and buckets", () => {
   assert.equal(view.papers.topics[0].id, "alignment");
   assert.equal(view.papers.topics[0].items[0].score, 3);
 });
+
+// Current export_research payload: both score aliases use the 0–10 scale.
+test("current exporter score and relevance 7.4 display as 7.4", () => {
+ const view = shapeResearch({items: [item({score: 7.4, relevance: 7.4})]});
+ assert.equal(view.papers.topics[0].items[0].score, 7.4);
+});

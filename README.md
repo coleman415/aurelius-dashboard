@@ -83,27 +83,13 @@ Daily refreshes commit JSON on the `x-pulse-data` branch only. The site reads th
 - https://raw.githubusercontent.com/coleman415/aurelius-dashboard/x-pulse-data/x-pulse.json
 - https://raw.githubusercontent.com/coleman415/aurelius-dashboard/x-pulse-data/research.json
 
-Write the branch like this:
+Publication requires a fresh pair from the same approved invocation. Use an existing provisioned absolute `RESEARCH_PYTHON`, a reviewed full `RESEARCH_SHA`, an absolute nonempty local `X_INPUT`, and `RUN_STARTED_AT` recorded before the actual X fetch. Transfer the producer artifact unchanged from the Grok Bot host to the Mac; a remote box path is not a local input. The scheduled trigger is unverified. Live exports remain paused until authenticated operator setup and approval of the actual execution.
 
-```bash
-git clone --branch x-pulse-data --single-branch \
-  https://github.com/coleman415/aurelius-dashboard.git x-pulse-data-work
-cd x-pulse-data-work
-# Replace x-pulse.json, research.json, or both. They live at the repo root.
-git add x-pulse.json research.json
-git commit -m "Refresh X Pulse data snapshots"
-git push origin x-pulse-data
-```
+The operator must supply an owner-managed `GITHUB_TOKEN` in the environment of `scripts/refresh-research.sh`. The script checks presence only, never prints the token, and does not provision credentials. Presence does not establish validity or remaining API quota. Unauthenticated GitHub requests can exhaust the shared 60/hour budget.
 
-Before committing `research.json`, check it from this repo:
+After execution approval, invoke `/bin/bash scripts/refresh-research.sh` with those environment variables. It checks paths and dependencies before network access, clones research at the reviewed SHA, and exports six sources. `validate-research.mjs` requires healthy `source_status` and nonempty output for arxiv, huggingface, github, lesswrong, goodfire, and neuronpedia; legitimate zero is reported separately from fetch failure and also blocks publication. `validate-pair.mjs` requires valid current-run research and X timestamps. Only after both pass does the script clone the data branch and commit both JSON files together. Export, validation, or push failure preserves the previous public pair; do not force-push or restamp old data. Roll back by restoring a chosen last-good pair in a new commit on the current data branch, or reverting the bad pair commit.
 
-```bash
-node scripts/validate-research.mjs path/to/research.json
-```
-
-The check prints a count for arxiv, huggingface, github, lesswrong, goodfire, and neuronpedia. It exits without a passing result when any of those sources has 0 items, or when any item is missing `source`, `title`, `url`, `date`, and either `score` or `relevance`. A zero is labeled `fetch failure` when the export omitted that source or recorded an error, and `legitimate zero output` when `sources` lists it and the item list is empty. The check does not add items to make a file pass. Do not push a failing file.
-
-`scripts/refresh-research.sh` builds `research.json` from coleman415/aurelius-research and runs that check on the export before copying it. A failed export or a failed check prints the reason and leaves the last good `x-pulse-data` `research.json` in place. Only a passing file is committed and pushed. The bundled copies in `src/data/` stay as the fallback when a page fetch fails.
+Current research exports carry `score` and its `relevance` alias on 0–10; `score` wins unchanged (7.4 displays as 7.4). Legacy relevance-only snapshots use a 0–100 scale and are divided by ten. Bundled `src/data/` snapshots remain page-fetch fallbacks.
 
 ## Adding Discord Alerts (Future)
 
