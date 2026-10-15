@@ -23,6 +23,7 @@ function completeItem(source, index = 1) {
 
 function passingSnapshot(overrides = {}) {
   return {
+    source_status: Object.fromEntries(REQUIRED_RESEARCH_SOURCES.map(s => [s, "ok"])),
     items: REQUIRED_RESEARCH_SOURCES.map((source, index) => completeItem(source, index + 1)),
     ...overrides,
   };
@@ -71,7 +72,7 @@ test("refuses a snapshot that drops lesswrong and goodfire", () => {
   assert.equal(result.counts.neuronpedia, 1);
   assert.equal(result.counts.lesswrong, 0);
   assert.equal(result.counts.goodfire, 0);
-  assert.deepEqual(result.errors, [
+  assert.deepEqual(result.errors.filter(error => error.includes("has 0 items")), [
     "lesswrong has 0 items (fetch failure: source missing from export)",
     "goodfire has 0 items (fetch failure: source missing from export)",
   ]);
@@ -138,7 +139,7 @@ test("the refresh script validates before it can replace the published file", ()
   const validateAt = script.indexOf('node "$ROOT/scripts/validate-research.mjs"');
   const copyAt = script.indexOf('cp "$EXPORT_JSON" "$WORKDIR/data/research.json"');
   const addAt = script.indexOf("git add research.json");
-  const commitAt = script.indexOf('git commit -m "Refresh research snapshot"');
+  const commitAt = script.indexOf('git commit -m "Refresh paired X and research snapshots"');
   const pushAt = script.indexOf("git push origin x-pulse-data", commitAt);
   assert.ok(validateAt > 0);
   assert.ok(copyAt > validateAt);
@@ -180,3 +181,13 @@ test("the validator command fails closed and does not claim success", () => {
   assert.equal(passed.stderr, "");
   assert.match(passed.stdout, /research\.json ok \(6 items\)/);
 });
+
+ test("nonempty items cannot mask failed or unknown source health", () => {
+   for (const status of ["error", "partial", undefined]) {
+     const data = passingSnapshot(); data.source_status.goodfire = status;
+     assert.equal(inspectResearchSnapshot(data).ok, false);
+   }
+   const data = passingSnapshot(); data.items = data.items.filter(i => i.source !== "goodfire");
+   data.source_status.goodfire = "empty";
+   assert.match(inspectResearchSnapshot(data).errors.join(" "), /legitimate zero/);
+ });

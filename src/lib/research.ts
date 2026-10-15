@@ -9,7 +9,7 @@
  * - generated_at, window_days, count
  * - items[]: source, title, url, date, authors, summary, topic_sets, score
  *
- * The daily x-pulse-data refresh writes `relevance` and `buckets` instead of
+ * Legacy x-pulse-data snapshots write `relevance` and `buckets` instead of
  * `score` and `topic_sets`. Both shapes are accepted at parseItem. `score`
  * and `topic_sets` win when present. Badges show one 0–10 display score.
  *
@@ -245,7 +245,7 @@ function parseItems(value: unknown): ResearchItem[] {
 }
 
 // Boundary ingest only. Canonical fields are `score` and `topic_sets`.
-// `score` is the aurelius-research value on a 1–10 scale. `relevance` from
+// `score` is the aurelius-research value on a 0–10 scale. `relevance` from
 // fetch_research.py has no upper bound (about 2.3–91.1). Both become one
 // 0–10 display score here; `score` wins when both are present. `buckets`
 // is accepted only as a fallback for `topic_sets`. The view and the UI
