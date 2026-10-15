@@ -98,8 +98,8 @@ export function ResearchSections({
         Feeds
       </Heading>
       <p className="mt-3 max-w-2xl text-sm text-zinc-400">
-        Ranked lists, not the full export. Scores run from 0 to 10 in the
-        research export, and higher scores are listed first.
+        Ranked lists, not the full export. Scores run from 0 to 10, and
+        higher scores are listed first.
       </p>
 
       <Papers research={research} level={subheading} />

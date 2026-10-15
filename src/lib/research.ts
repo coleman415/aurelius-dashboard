@@ -10,8 +10,8 @@
  * - items[]: source, title, url, date, authors, summary, topic_sets, score
  *
  * The daily x-pulse-data refresh writes `relevance` and `buckets` instead of
- * `score` and `topic_sets`. Both shapes are accepted; `score` and
- * `topic_sets` win when present. Its relevance is not on a 0-10 scale.
+ * `score` and `topic_sets`. Both shapes are accepted at parseItem. `score`
+ * and `topic_sets` win when present. Badges show one 0–10 display score.
  *
  * The shaped view keeps a short ranked list per section so the browser does
  * not receive the full export.
@@ -91,6 +91,7 @@ export interface ResearchItemView {
   authors: string[];
   authorCount: number;
   summary: string;
+  /** 0–10 display score. */
   score: number;
 }
 
@@ -243,13 +244,21 @@ function parseItems(value: unknown): ResearchItem[] {
   return Array.from(byUrl.values());
 }
 
+// Boundary ingest only. Canonical fields are `score` and `topic_sets`.
+// `score` is the aurelius-research value on a 1–10 scale. `relevance` from
+// fetch_research.py has no upper bound (about 2.3–91.1). Both become one
+// 0–10 display score here; `score` wins when both are present. `buckets`
+// is accepted only as a fallback for `topic_sets`. The view and the UI
+// do not branch on the two schemas.
+const DISPLAY_SCORE_MAX = 10;
+
 function parseItem(value: unknown): ResearchItem | null {
   const record = asRecord(value);
   if (!record) return null;
   const source = asSource(record.source);
   const title = asString(record.title)?.trim() ?? "";
   const url = asString(record.url)?.trim() ?? "";
-  const score = asNumber(record.score) ?? asNumber(record.relevance);
+  const score = displayScore(record);
   if (!source || !title || !url || score === null) return null;
   const topicSets = Array.isArray(record.topic_sets)
     ? asStrings(record.topic_sets)
@@ -264,6 +273,20 @@ function parseItem(value: unknown): ResearchItem | null {
     topicSets,
     score,
   };
+}
+
+function displayScore(record: Record<string, unknown>): number | null {
+  const score = asNumber(record.score);
+  if (score !== null) return clampDisplayScore(score);
+  const relevance = asNumber(record.relevance);
+  if (relevance === null) return null;
+  return clampDisplayScore(relevance / DISPLAY_SCORE_MAX);
+}
+
+function clampDisplayScore(value: number): number {
+  if (value <= 0) return 0;
+  if (value >= DISPLAY_SCORE_MAX) return DISPLAY_SCORE_MAX;
+  return value;
 }
 
 function compareItems(a: ResearchItem, b: ResearchItem): number {

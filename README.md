@@ -95,7 +95,15 @@ git commit -m "Refresh X Pulse data snapshots"
 git push origin x-pulse-data
 ```
 
-`scripts/refresh-research.sh` builds `research.json` from coleman415/aurelius-research and pushes that one file to `x-pulse-data`. The bundled copies in `src/data/` stay as the fallback when a fetch fails.
+Before committing `research.json`, check it from this repo:
+
+```bash
+node scripts/validate-research.mjs path/to/research.json
+```
+
+The check prints a count for arxiv, huggingface, github, lesswrong, goodfire, and neuronpedia. It exits without a passing result when any of those sources has 0 items, or when any item is missing `source`, `title`, `url`, `date`, and either `score` or `relevance`. A zero is labeled `fetch failure` when the export omitted that source or recorded an error, and `legitimate zero output` when `sources` lists it and the item list is empty. The check does not add items to make a file pass. Do not push a failing file.
+
+`scripts/refresh-research.sh` builds `research.json` from coleman415/aurelius-research and runs that check on the export before copying it. A failed export or a failed check prints the reason and leaves the last good `x-pulse-data` `research.json` in place. Only a passing file is committed and pushed. The bundled copies in `src/data/` stay as the fallback when a page fetch fails.
 
 ## Adding Discord Alerts (Future)
 

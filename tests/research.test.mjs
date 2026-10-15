@@ -170,7 +170,6 @@ test("shapes the checked-in export without sending every item", () => {
     view.goodfire.items[0].url,
     "https://www.goodfire.com/research/reward-hacking-activation-monitors",
   );
-
   assert.equal(view.neuronpedia.count, 0);
   assert.equal(view.neuronpedia.items.length, 0);
 
@@ -184,9 +183,13 @@ test("shapes the checked-in export without sending every item", () => {
   assert.ok(sent < snapshot.items.length);
   assert.ok(view.papers.topics.every((topic) => topic.items.length <= topic.count));
   assert.ok(
-    [...view.models.items, ...view.repos.items, ...view.forum.items, ...view.goodfire.items].every(
-      (item) => item.summary.length <= 300 && item.url === item.url.trim(),
-    ),
+    [
+      ...view.models.items,
+      ...view.repos.items,
+      ...view.forum.items,
+      ...view.goodfire.items,
+      ...view.neuronpedia.items,
+    ].every((item) => item.summary.length <= 300 && item.url === item.url.trim()),
   );
 });
 
@@ -240,7 +243,9 @@ test("accepts the refresh shape: relevance as score, buckets as topics", () => {
   const mechInterp = view.papers.topics[0];
   assert.equal(mechInterp.label, "Mech interp");
   assert.deepEqual(mechInterp.items.map((paper) => paper.title), ["High", "Probe paper"]);
-  assert.equal(mechInterp.items[0].score, 80.2);
+  assert.equal(mechInterp.items[0].score, 80.2 / 10);
+  assert.ok(mechInterp.items[0].score <= 10);
+  assert.ok(mechInterp.items[1].score === 30 / 10);
   assert.equal(view.papers.topics[1].label, "Probes and steering");
   assert.equal(view.repos.count, 1);
 });
@@ -272,7 +277,7 @@ test("accepts neuronpedia items and counts every one", () => {
   assert.equal(view.neuronpedia.count, 25);
   assert.equal(view.neuronpedia.items.length, RESEARCH_SMALL_FEED_LIMIT);
   assert.equal(view.neuronpedia.items[0].title, "Feature 0");
-  assert.equal(view.neuronpedia.items[0].score, 30);
+  assert.equal(view.neuronpedia.items[0].score, 3);
   assert.equal(
     view.neuronpedia.items[0].url,
     "https://www.neuronpedia.org/feature-0",
@@ -284,6 +289,110 @@ test("accepts neuronpedia items and counts every one", () => {
   );
   assert.equal(view.papers.topics.length, 0);
   assert.equal(view.repos.count, 0);
+});
+
+test("keeps neuronpedia items in their own capped feed", () => {
+  const view = shapeResearch(
+    {
+      generated_at: "2026-10-15T12:02:12Z",
+      window_days: 30,
+      items: [
+        {
+          source: "neuronpedia",
+          title: "Older lower",
+          url: "https://www.neuronpedia.org/older",
+          date: "2026-10-01T00:00:00Z",
+          authors: ["Ada"],
+          summary: "Older release",
+          buckets: ["mech_interp"],
+          relevance: 10,
+        },
+        {
+          source: "neuronpedia",
+          title: "Newer higher",
+          url: "https://www.neuronpedia.org/newer",
+          date: "2026-10-14T06:29:06Z",
+          relevance: 26.6,
+          buckets: ["mech_interp"],
+        },
+        {
+          source: "neuronpedia",
+          title: "Tied older",
+          url: "https://www.neuronpedia.org/tied-older",
+          date: "2026-10-02T00:00:00Z",
+          relevance: 26.6,
+        },
+        {
+          source: "neuronpedia",
+          title: "Dropped",
+          url: "https://www.neuronpedia.org/dropped",
+          date: "2026-10-03T00:00:00Z",
+        },
+        item({
+          title: "Not neuronpedia",
+          url: "https://arxiv.org/abs/not-np",
+          score: 9,
+          topic_sets: ["mech_interp"],
+        }),
+      ],
+    },
+    { smallFeedLimit: 2 },
+  );
+
+  assert.equal(view.count, 4);
+  assert.equal(view.neuronpedia.count, 3);
+  assert.deepEqual(
+    view.neuronpedia.items.map((entry) => entry.title),
+    ["Newer higher", "Tied older"],
+  );
+  assert.equal(view.neuronpedia.items[0].score, 26.6 / 10);
+  assert.ok(view.neuronpedia.items[0].score <= 10);
+  assert.equal(view.neuronpedia.items[0].url, "https://www.neuronpedia.org/newer");
+  assert.equal(view.papers.topics[0].items[0].title, "Not neuronpedia");
+  assert.equal(view.models.count, 0);
+  assert.equal(view.repos.count, 0);
+  assert.equal(view.forum.count, 0);
+  assert.equal(view.goodfire.count, 0);
+});
+
+test("maps a score-only item and a relevance-only item onto one 0-10 scale", () => {
+  const view = shapeResearch({
+    items: [
+      item({
+        title: "Score only",
+        url: "https://arxiv.org/abs/score-only",
+        score: 8,
+      }),
+      item({
+        title: "Relevance only",
+        url: "https://arxiv.org/abs/relevance-only",
+        score: undefined,
+        relevance: 50,
+      }),
+      item({
+        title: "Score above the scale",
+        url: "https://arxiv.org/abs/score-high",
+        score: 14,
+      }),
+      item({
+        title: "Relevance above the scale",
+        url: "https://arxiv.org/abs/relevance-high",
+        score: undefined,
+        relevance: 91.1,
+      }),
+    ],
+  });
+  const papers = view.papers.topics[0].items;
+  const byTitle = Object.fromEntries(papers.map((paper) => [paper.title, paper.score]));
+  assert.equal(byTitle["Score only"], 8);
+  assert.equal(byTitle["Relevance only"], 5);
+  assert.equal(byTitle["Score above the scale"], 10);
+  assert.equal(byTitle["Relevance above the scale"], 9.11);
+  assert.ok(Object.values(byTitle).every((score) => score >= 0 && score <= 10));
+  assert.deepEqual(
+    papers.map((paper) => paper.title),
+    ["Score above the scale", "Relevance above the scale", "Score only", "Relevance only"],
+  );
 });
 
 test("score and topic_sets win over relevance and buckets", () => {

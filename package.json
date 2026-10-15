@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test --experimental-strip-types --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON tests/x-pulse.test.mjs tests/research.test.mjs tests/snapshot-fetch.test.mjs"
+    "test": "node --test --experimental-strip-types --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON tests/x-pulse.test.mjs tests/research.test.mjs tests/snapshot-fetch.test.mjs tests/refresh-research.test.mjs"
   },
   "dependencies": {
     "@taostats/sdk": "^1.2.0",
