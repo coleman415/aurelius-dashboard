@@ -23,6 +23,7 @@ export const RESEARCH_SOURCES = [
   "github",
   "lesswrong",
   "goodfire",
+  "neuronpedia",
 ] as const;
 
 export type ResearchSource = (typeof RESEARCH_SOURCES)[number];
@@ -39,8 +40,9 @@ export const RESEARCH_PAPER_LIMIT = 12;
 export const RESEARCH_MODEL_LIMIT = 12;
 
 /**
- * GitHub, LessWrong, and Goodfire stay small in the export. The cap is still
- * well below the full snapshot so a larger future file cannot ship everything.
+ * GitHub, LessWrong, Goodfire, and Neuronpedia stay small in the export. The
+ * cap is still well below the full snapshot so a larger future file cannot
+ * ship everything.
  */
 export const RESEARCH_SMALL_FEED_LIMIT = 20;
 
@@ -116,6 +118,7 @@ export interface ResearchView {
   repos: ResearchFeedView;
   forum: ResearchFeedView;
   goodfire: ResearchFeedView;
+  neuronpedia: ResearchFeedView;
 }
 
 export interface ShapeResearchOptions {
@@ -172,6 +175,10 @@ export function shapeResearch(
     ),
     goodfire: feed(
       items.filter((item) => item.source === "goodfire"),
+      smallFeedLimit,
+    ),
+    neuronpedia: feed(
+      items.filter((item) => item.source === "neuronpedia"),
       smallFeedLimit,
     ),
   };

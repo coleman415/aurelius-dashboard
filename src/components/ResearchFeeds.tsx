@@ -33,6 +33,7 @@ const NAV = [
   ["#research-papers", "Papers"],
   ["#research-models", "Models"],
   ["#research-repos", "Repos"],
+  ["#research-neuronpedia", "Neuronpedia"],
   ["#research-forum", "Forum"],
   ["#x-pulse-accounts", "Accounts"],
   ["#x-pulse-posts", "Posts"],
@@ -119,6 +120,15 @@ export function ResearchSections({
         feed={research.repos}
         noun="items"
         dek="Repository activity and releases, ranked by score and then by date."
+      />
+      <FeedSection
+        id="research-neuronpedia"
+        kicker="Neuronpedia"
+        title="Features & Releases"
+        level={subheading}
+        feed={research.neuronpedia}
+        noun="items"
+        dek="Neuronpedia models and feature releases, ranked by score and then by date."
       />
       <FeedSection
         id="research-forum"

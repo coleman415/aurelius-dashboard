@@ -6,6 +6,7 @@ import {
   AUTHOR_PREVIEW_COUNT,
   RESEARCH_MODEL_LIMIT,
   RESEARCH_PAPER_LIMIT,
+  RESEARCH_SMALL_FEED_LIMIT,
   shapeResearch,
 } from "../src/lib/research.ts";
 
@@ -170,12 +171,16 @@ test("shapes the checked-in export without sending every item", () => {
     "https://www.goodfire.com/research/reward-hacking-activation-monitors",
   );
 
+  assert.equal(view.neuronpedia.count, 0);
+  assert.equal(view.neuronpedia.items.length, 0);
+
   const sent =
     view.papers.topics.reduce((sum, topic) => sum + topic.items.length, 0) +
     view.models.items.length +
     view.repos.items.length +
     view.forum.items.length +
-    view.goodfire.items.length;
+    view.goodfire.items.length +
+    view.neuronpedia.items.length;
   assert.ok(sent < snapshot.items.length);
   assert.ok(view.papers.topics.every((topic) => topic.items.length <= topic.count));
   assert.ok(
@@ -238,6 +243,47 @@ test("accepts the refresh shape: relevance as score, buckets as topics", () => {
   assert.equal(mechInterp.items[0].score, 80.2);
   assert.equal(view.papers.topics[1].label, "Probes and steering");
   assert.equal(view.repos.count, 1);
+});
+
+test("accepts neuronpedia items and counts every one", () => {
+  const neuronpedia = Array.from({ length: 25 }, (_, index) =>
+    refreshItem({
+      source: "neuronpedia",
+      kind: index % 2 === 0 ? "release" : "model",
+      title: `Feature ${index}`,
+      url: `https://www.neuronpedia.org/feature-${index}`,
+      relevance: 30 - index,
+      date: "2026-10-01T00:00:00Z",
+      buckets: ["mech_interp"],
+    }),
+  );
+  const dropped = refreshItem({
+    source: "unknown",
+    title: "Not a feed",
+    url: "https://example.com/unknown",
+  });
+  const view = shapeResearch({
+    generated_at: "2026-10-15T12:02:12Z",
+    window_days: 30,
+    items: [...neuronpedia, dropped],
+  });
+
+  assert.equal(view.count, 25);
+  assert.equal(view.neuronpedia.count, 25);
+  assert.equal(view.neuronpedia.items.length, RESEARCH_SMALL_FEED_LIMIT);
+  assert.equal(view.neuronpedia.items[0].title, "Feature 0");
+  assert.equal(view.neuronpedia.items[0].score, 30);
+  assert.equal(
+    view.neuronpedia.items[0].url,
+    "https://www.neuronpedia.org/feature-0",
+  );
+  assert.ok(
+    view.neuronpedia.items.every((entry) =>
+      entry.url.startsWith("https://www.neuronpedia.org/"),
+    ),
+  );
+  assert.equal(view.papers.topics.length, 0);
+  assert.equal(view.repos.count, 0);
 });
 
 test("score and topic_sets win over relevance and buckets", () => {
