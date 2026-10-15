@@ -9,6 +9,10 @@
  * - generated_at, window_days, count
  * - items[]: source, title, url, date, authors, summary, topic_sets, score
  *
+ * The daily x-pulse-data refresh writes `relevance` and `buckets` instead of
+ * `score` and `topic_sets`. Both shapes are accepted; `score` and
+ * `topic_sets` win when present. Its relevance is not on a 0-10 scale.
+ *
  * The shaped view keeps a short ranked list per section so the browser does
  * not receive the full export.
  */
@@ -44,6 +48,14 @@ export const AUTHOR_PREVIEW_COUNT = 3;
 
 const PAPER_TOPIC_ORDER = [
   "mech_interp_proba",
+  // Buckets from the x-pulse-data refresh. mech_interp comes first so it
+  // becomes the default topic when mech_interp_proba is absent.
+  "mech_interp",
+  "sae_transcoders_crosscoders",
+  "probes_steering",
+  "alignment_safety",
+  "competitor_watch",
+  "bittensor_sn37_aurelius",
   "alignment",
   "world_models",
   "moral_reasoning",
@@ -55,6 +67,12 @@ const PAPER_TOPIC_ORDER = [
 
 const TOPIC_LABELS: Record<string, string> = {
   mech_interp_proba: "Mech interp",
+  mech_interp: "Mech interp",
+  sae_transcoders_crosscoders: "SAEs, transcoders, crosscoders",
+  probes_steering: "Probes and steering",
+  alignment_safety: "Alignment and safety",
+  competitor_watch: "Competitor watch",
+  bittensor_sn37_aurelius: "Bittensor (incl. SN37)",
   alignment: "Alignment",
   world_models: "World models",
   moral_reasoning: "Moral reasoning",
@@ -224,8 +242,11 @@ function parseItem(value: unknown): ResearchItem | null {
   const source = asSource(record.source);
   const title = asString(record.title)?.trim() ?? "";
   const url = asString(record.url)?.trim() ?? "";
-  const score = asNumber(record.score);
+  const score = asNumber(record.score) ?? asNumber(record.relevance);
   if (!source || !title || !url || score === null) return null;
+  const topicSets = Array.isArray(record.topic_sets)
+    ? asStrings(record.topic_sets)
+    : asStrings(record.buckets);
   return {
     source,
     title,
@@ -233,7 +254,7 @@ function parseItem(value: unknown): ResearchItem | null {
     date: asString(record.date)?.trim() ?? "",
     authors: asStrings(record.authors),
     summary: asString(record.summary)?.trim() ?? "",
-    topicSets: asStrings(record.topic_sets),
+    topicSets,
     score,
   };
 }

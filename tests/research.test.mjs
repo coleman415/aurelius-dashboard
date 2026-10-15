@@ -184,3 +184,70 @@ test("shapes the checked-in export without sending every item", () => {
     ),
   );
 });
+
+// The daily x-pulse-data refresh writes relevance/buckets, not score/topic_sets.
+// Before this fix the parser dropped every item in that shape (2026-10-15).
+function refreshItem(overrides) {
+  return {
+    id: "arxiv:1",
+    source: "arxiv",
+    kind: "paper",
+    title: "Refresh paper",
+    url: "https://arxiv.org/abs/r1",
+    date: "2026-10-10T00:00:00Z",
+    authors: ["Ada"],
+    summary: "Summary",
+    bucket: "mech_interp",
+    buckets: ["mech_interp"],
+    relevance: 42.5,
+    ...overrides,
+  };
+}
+
+test("accepts the refresh shape: relevance as score, buckets as topics", () => {
+  const view = shapeResearch({
+    generated_at: "2026-10-15T12:02:12Z",
+    window_days: 30,
+    count: 4,
+    items: [
+      refreshItem({ title: "High", url: "https://arxiv.org/abs/high", relevance: 80.2 }),
+      refreshItem({
+        title: "Probe paper",
+        url: "https://arxiv.org/abs/probe",
+        buckets: ["probes_steering", "mech_interp"],
+        relevance: 30,
+      }),
+      refreshItem({
+        source: "github",
+        title: "Repo release",
+        url: "https://github.com/o/r/releases/tag/v1",
+        buckets: ["mech_interp"],
+      }),
+      refreshItem({ title: "No score", url: "https://arxiv.org/abs/none", relevance: undefined }),
+    ],
+  });
+
+  assert.equal(view.count, 3);
+  assert.deepEqual(
+    view.papers.topics.map((topic) => topic.id),
+    ["mech_interp", "probes_steering"],
+  );
+  const mechInterp = view.papers.topics[0];
+  assert.equal(mechInterp.label, "Mech interp");
+  assert.deepEqual(mechInterp.items.map((paper) => paper.title), ["High", "Probe paper"]);
+  assert.equal(mechInterp.items[0].score, 80.2);
+  assert.equal(view.papers.topics[1].label, "Probes and steering");
+  assert.equal(view.repos.count, 1);
+});
+
+test("score and topic_sets win over relevance and buckets", () => {
+  const view = shapeResearch({
+    items: [
+      item({ score: 3, relevance: 90, topic_sets: ["alignment"], buckets: ["mech_interp"] }),
+    ],
+  });
+
+  assert.equal(view.papers.topics.length, 1);
+  assert.equal(view.papers.topics[0].id, "alignment");
+  assert.equal(view.papers.topics[0].items[0].score, 3);
+});
