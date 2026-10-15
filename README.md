@@ -74,6 +74,36 @@ Edit `src/lib/config.ts` to modify:
 | TAO price, balances, staking, transactions | [Taostats API](https://docs.taostats.io) |
 | ETH wallet balances | [Etherscan API](https://etherscan.io/apis) |
 | Expenses | Google Sheets (public CSV export) |
+| X Pulse and research snapshots | `x-pulse-data` branch, read at visit time |
+
+## Refreshing X Pulse data
+
+Daily refreshes commit JSON on the `x-pulse-data` branch only. The site reads the public files and revalidates about every 15 minutes. Do not redeploy, and do not commit the refresh onto the app branch.
+
+- https://raw.githubusercontent.com/coleman415/aurelius-dashboard/x-pulse-data/x-pulse.json
+- https://raw.githubusercontent.com/coleman415/aurelius-dashboard/x-pulse-data/research.json
+
+Write the branch like this:
+
+```bash
+git clone --branch x-pulse-data --single-branch \
+  https://github.com/coleman415/aurelius-dashboard.git x-pulse-data-work
+cd x-pulse-data-work
+# Replace x-pulse.json, research.json, or both. They live at the repo root.
+git add x-pulse.json research.json
+git commit -m "Refresh X Pulse data snapshots"
+git push origin x-pulse-data
+```
+
+Before committing `research.json`, check it from this repo:
+
+```bash
+node scripts/validate-research.mjs path/to/research.json
+```
+
+The check prints a count for arxiv, huggingface, github, lesswrong, goodfire, and neuronpedia. It exits without a passing result when any of those sources has 0 items, or when any item is missing `source`, `title`, `url`, `date`, and either `score` or `relevance`. A zero is labeled `fetch failure` when the export omitted that source or recorded an error, and `legitimate zero output` when `sources` lists it and the item list is empty. The check does not add items to make a file pass. Do not push a failing file.
+
+`scripts/refresh-research.sh` builds `research.json` from coleman415/aurelius-research and runs that check on the export before copying it. A failed export or a failed check prints the reason and leaves the last good `x-pulse-data` `research.json` in place. Only a passing file is committed and pushed. The bundled copies in `src/data/` stay as the fallback when a page fetch fails.
 
 ## Adding Discord Alerts (Future)
 

@@ -4,14 +4,21 @@ interface CardProps {
   title: string;
   children: React.ReactNode;
   className?: string;
+  headingLevel?: 2 | 3;
 }
 
-export function Card({ title, children, className = "" }: CardProps) {
+export function Card({
+  title,
+  children,
+  className = "",
+  headingLevel = 2,
+}: CardProps) {
+  const Heading = headingLevel === 3 ? "h3" : "h2";
   return (
     <div className={`bg-white dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800 p-6 ${className}`}>
-      <h2 className="text-sm font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-4">
+      <Heading className="text-sm font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-4">
         {title}
-      </h2>
+      </Heading>
       {children}
     </div>
   );

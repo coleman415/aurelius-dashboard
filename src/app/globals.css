@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-source-serif), "Source Serif 4", Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +24,39 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.x-pulse {
+  background-color: #0c0e12;
+  background-image:
+    radial-gradient(1100px 480px at 8% -10%, rgba(228, 177, 90, 0.16), transparent 55%),
+    radial-gradient(720px 360px at 100% 0%, rgba(96, 165, 250, 0.08), transparent 50%);
+  color: #f4f1ea;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .x-pulse-rise {
+    animation: x-pulse-rise 0.7s ease both;
+  }
+
+  .x-pulse-card {
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
+
+  .x-pulse-card:hover,
+  .x-pulse-card:focus-within {
+    border-color: rgba(228, 177, 90, 0.35);
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes x-pulse-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
