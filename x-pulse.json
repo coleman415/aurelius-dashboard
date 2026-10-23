@@ -1,7 +1,7 @@
 {
-  "fetched_at": "2026-10-22T11:51:00Z",
-  "window_start": "2026-09-22T12:00:00Z",
-  "window_end": "2026-10-22T11:51:00Z",
+  "fetched_at": "2026-10-23T11:52:00Z",
+  "window_start": "2026-09-23T12:00:00Z",
+  "window_end": "2026-10-23T11:52:00Z",
   "scoring": "likes + 2*retweets + 3*quotes + replies + bookmarks",
   "posts": [
     {
@@ -27,6 +27,34 @@
         "alignment_safety"
       ],
       "engagement_score": 30881,
+      "source_queries": [
+        "I11"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113390212911083894",
+      "url": "https://x.com/AnthropicAI/status/2113390212911083894",
+      "text": "New on our Frontier Red Team blog: using Claude to formally verify software at large scale.\n\nFormal verification can prove that code is free of certain bugs, but historically it has only been feasible for small codebases (or required a lot of expert time).\n\nWith AI models,",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1782162
+      },
+      "created_at": "2026-10-22T22:01:06Z",
+      "public_metrics": {
+        "like_count": 7029,
+        "retweet_count": 715,
+        "quote_count": 396,
+        "reply_count": 450,
+        "bookmark_count": 4761,
+        "impression_count": 1092657
+      },
+      "buckets": [
+        "mech_interp",
+        "alignment_safety"
+      ],
+      "engagement_score": 14858,
       "source_queries": [
         "I11"
       ],
@@ -420,6 +448,33 @@
         "alignment_safety"
       ],
       "engagement_score": 1997,
+      "source_queries": [
+        "I15"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113290966933389390",
+      "url": "https://x.com/METR_Evals/status/2113290966933389390",
+      "text": "Two employees from METR and Redwood Research worked on premises at OpenAI for three weeks this summer in an embedded assessment pilot. This team evaluated the systems OpenAI was using to monitor for misalignment from internal agents. A brief write-up of their work is now public.",
+      "author": {
+        "username": "METR_Evals",
+        "name": "METR",
+        "followers": 56185
+      },
+      "created_at": "2026-10-22T15:26:44Z",
+      "public_metrics": {
+        "like_count": 1093,
+        "retweet_count": 102,
+        "quote_count": 53,
+        "reply_count": 70,
+        "bookmark_count": 449,
+        "impression_count": 420495
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 1975,
       "source_queries": [
         "I15"
       ],
@@ -1579,6 +1634,33 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113432794571641156",
+      "url": "https://x.com/patrickc/status/2113432794571641156",
+      "text": "New from @arcinstitute: using the latent space representation of genomes from single-cell life to find new candidate functional RNAs.\n\nI think this is cool because: (1) it uses deep learning and model interpretability to productive ends on a totally different kind of \"knowledge\"; https://t.co/6a8ZVYsDiC",
+      "author": {
+        "username": "patrickc",
+        "name": "Patrick Collison",
+        "followers": 1840632
+      },
+      "created_at": "2026-10-23T00:50:18Z",
+      "public_metrics": {
+        "like_count": 379,
+        "retweet_count": 24,
+        "quote_count": 1,
+        "reply_count": 19,
+        "bookmark_count": 178,
+        "impression_count": 37853
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 627,
+      "source_queries": [
+        "I21"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2106773962361389533",
       "url": "https://x.com/NeelNanda5/status/2106773962361389533",
       "text": "How do OpenAI internal models keep getting scarier and less under control? Great work by their monitoring team! https://t.co/70KfFmiKz5",
@@ -1819,6 +1901,39 @@
       "engagement_score": 537,
       "source_queries": [
         "Q10"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113290782602051743",
+      "url": "https://x.com/askalphaxiv/status/2113290782602051743",
+      "text": "The ultimate guide to interpretability is here 🔥\n\nAre we actually on the verge of reverse engineering LLMs or is the excitement outpacing what interpretability methods can actually deliver?\n\nWe put together an illustrated walkthrough of the field, from early vision research to https://t.co/DIEU813Ua9",
+      "author": {
+        "username": "askalphaxiv",
+        "name": "alphaXiv",
+        "followers": 58203
+      },
+      "created_at": "2026-10-22T15:26:00Z",
+      "public_metrics": {
+        "like_count": 219,
+        "retweet_count": 27,
+        "quote_count": 3,
+        "reply_count": 5,
+        "bookmark_count": 244,
+        "impression_count": 10915
+      },
+      "buckets": [
+        "mech_interp",
+        "sae_transcoders_crosscoders",
+        "probes_steering"
+      ],
+      "engagement_score": 531,
+      "source_queries": [
+        "I02",
+        "I06",
+        "I16",
+        "I21p2",
+        "I22p2"
       ],
       "kept_despite_low_engagement": false
     },
@@ -3168,6 +3283,34 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113241168469504269",
+      "url": "https://x.com/dejavucoder/status/2113241168469504269",
+      "text": "can i say something without everyone getting mad... i often see some mechanistic interpretability experiments here and people getting excited about them without really understanding what's going on and sometimes it feels like mech int is like astrology for ai people lol",
+      "author": {
+        "username": "dejavucoder",
+        "name": "sankalp",
+        "followers": 27086
+      },
+      "created_at": "2026-10-22T12:08:51Z",
+      "public_metrics": {
+        "like_count": 259,
+        "retweet_count": 6,
+        "quote_count": 4,
+        "reply_count": 11,
+        "bookmark_count": 28,
+        "impression_count": 8396
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 322,
+      "source_queries": [
+        "I01",
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2110154978698657976",
       "url": "https://x.com/voooooogel/status/2110154978698657976",
       "text": "it was always very funny to me that character ai the waifu ERP company was founded by Shazeer and used to drop blog posts like this back when the OSS frontier was Llama 3 (or DeepSeek v2 for those paying attention). this was meaningful architecture intel at the time... https://t.co/Q3b787NsRJ https://t.co/opUKDI6gop",
@@ -3305,6 +3448,33 @@
         "I07p5",
         "I13p3",
         "I16p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113284250896421107",
+      "url": "https://x.com/AlignmentJrnl/status/2113284250896421107",
+      "text": "The Alignment Journal publishes research on the scientific foundations of understanding, predicting, and steering artificial intelligent systems. As of today, submissions are open to everyone.\n\nWhat we do differently:\n- We pay reviewers, with bonuses for speed and insight.\n- https://t.co/oop7NbYUPR",
+      "author": {
+        "username": "AlignmentJrnl",
+        "name": "AlignmentJournal",
+        "followers": 746
+      },
+      "created_at": "2026-10-22T15:00:02Z",
+      "public_metrics": {
+        "like_count": 139,
+        "retweet_count": 29,
+        "quote_count": 6,
+        "reply_count": 7,
+        "bookmark_count": 77,
+        "impression_count": 16077
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 299,
+      "source_queries": [
+        "I21p2"
       ],
       "kept_despite_low_engagement": false
     },
@@ -4206,6 +4376,33 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113302216945582197",
+      "url": "https://x.com/Hesamation/status/2113302216945582197",
+      "text": "so METR spent 3 weeks at OpenAI testing the safety systems that are designed to catch rogue agents.\n\nthey report some crazy stuff:\n\n&gt; 10% of internal Codex traffic was unmonitored\n&gt; agents could delay monitoring by simply continuing to act\n&gt; they had the potential to hide https://t.co/JZBE6kUzZt https://t.co/itSqp0n34s",
+      "author": {
+        "username": "Hesamation",
+        "name": "ℏεsam",
+        "followers": 91574
+      },
+      "created_at": "2026-10-22T16:11:26Z",
+      "public_metrics": {
+        "like_count": 138,
+        "retweet_count": 17,
+        "quote_count": 1,
+        "reply_count": 14,
+        "bookmark_count": 53,
+        "impression_count": 8056
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 242,
+      "source_queries": [
+        "I24"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2105760670029357394",
       "url": "https://x.com/farairesearch/status/2105760670029357394",
       "text": "We're hiring, and the mission is making AI safe. \n\nOur team is growing fast, and we need people who want to work on one of the most important problems of our time.\n\nSome of our roles are deeply technical: researchers, red-teamers, and engineers. Others call for a different but https://t.co/tdyj2Y851m",
@@ -4695,6 +4892,33 @@
       "engagement_score": 204,
       "source_queries": [
         "I07"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113289648524955988",
+      "url": "https://x.com/Iliad_research/status/2113289648524955988",
+      "text": "The Alignment Journal (@AlignmentJrnl ), Iliad's sister project under Principles of Intelligence, is now open to submissions from everyone. It is a free-to-read, free-to-publish journal for research on the scientific foundations of understanding, predicting and steering AI https://t.co/mtlV7hVPw9",
+      "author": {
+        "username": "Iliad_research",
+        "name": "Iliad",
+        "followers": 1378
+      },
+      "created_at": "2026-10-22T15:21:29Z",
+      "public_metrics": {
+        "like_count": 107,
+        "retweet_count": 20,
+        "quote_count": 0,
+        "reply_count": 2,
+        "bookmark_count": 54,
+        "impression_count": 3282
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 203,
+      "source_queries": [
+        "I21p2"
       ],
       "kept_despite_low_engagement": false
     },
@@ -6505,6 +6729,33 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113511968112042349",
+      "url": "https://x.com/rohanpaul_ai/status/2113511968112042349",
+      "text": "WSJ: OpenAI fired 3 safety researchers after security staff found disappearing Signal chats with an outside safety researcher.\n\nThe phone checks started after a September news report said OpenAI’s newest model, Astra, uses a new method that makes it smarter but writes down less https://t.co/AwiPL5XTSY",
+      "author": {
+        "username": "rohanpaul_ai",
+        "name": "Rohan Paul",
+        "followers": 160230
+      },
+      "created_at": "2026-10-23T06:04:55Z",
+      "public_metrics": {
+        "like_count": 62,
+        "retweet_count": 9,
+        "quote_count": 2,
+        "reply_count": 13,
+        "bookmark_count": 23,
+        "impression_count": 6442
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 122,
+      "source_queries": [
+        "I24"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2108235245342380220",
       "url": "https://x.com/eric_ho/status/2108235245342380220",
       "text": "activation monitors for cyber work really well and are better, cheaper, and faster than black box monitoring alone. they'll also scale with model intelligence, especially as CoT continues to degrade and we get more neuralese",
@@ -8130,33 +8381,6 @@
       "kept_despite_low_engagement": false
     },
     {
-      "id": "2102589822267433443",
-      "url": "https://x.com/kataletheia/status/2102589822267433443",
-      "text": "i have now developed a way to loom via steering vectors instead of just text. given n completions, I can convert those into steering vectors by analyzing what makes them unique compared to the others, and then use it to make the model output like that future",
-      "author": {
-        "username": "kataletheia",
-        "name": "Luxia 🔮",
-        "followers": 899
-      },
-      "created_at": "2026-09-23T02:44:12Z",
-      "public_metrics": {
-        "like_count": 61,
-        "retweet_count": 4,
-        "quote_count": 1,
-        "reply_count": 4,
-        "bookmark_count": 10,
-        "impression_count": 2688
-      },
-      "buckets": [
-        "probes_steering"
-      ],
-      "engagement_score": 86,
-      "source_queries": [
-        "Q06"
-      ],
-      "kept_despite_low_engagement": false
-    },
-    {
       "id": "2105072656836132971",
       "url": "https://x.com/ApolloResearch/status/2105072656836132971",
       "text": "New Post: External testing needs embedded evaluators with employee-equivalent access.\n\nRecent incidents mostly occurred during model development and internal evaluations, while current third-party evaluations happen before public release \n\nEmbedded evaluations can close that gap",
@@ -8263,6 +8487,34 @@
       "engagement_score": 85,
       "source_queries": [
         "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113314716995162507",
+      "url": "https://x.com/dair_ai/status/2113314716995162507",
+      "text": "Brilliant paper on interpretable AI-text detection from Google DeepMind and UPenn.\n\nThe strongest AI-text detectors are fine-tuned classifiers that give no reason for a flag, and the readable stylometric alternatives are much less accurate. That gap matters when a flag affects a https://t.co/8OnvChw6wP",
+      "author": {
+        "username": "dair_ai",
+        "name": "DAIR.AI",
+        "followers": 135593
+      },
+      "created_at": "2026-10-22T17:01:06Z",
+      "public_metrics": {
+        "like_count": 36,
+        "retweet_count": 6,
+        "quote_count": 0,
+        "reply_count": 4,
+        "bookmark_count": 33,
+        "impression_count": 4116
+      },
+      "buckets": [
+        "sae_transcoders_crosscoders"
+      ],
+      "engagement_score": 85,
+      "source_queries": [
+        "I02",
+        "I17"
       ],
       "kept_despite_low_engagement": false
     },
@@ -9093,6 +9345,34 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113272671886614785",
+      "url": "https://x.com/jeremiecharris/status/2113272671886614785",
+      "text": "Imagine this but for cryptography. \n\nNation-states desperately crawling through reams of math proofs to see if their most mission-critical encryption schemes have been invalidated overnight. \n\nThe USG pleading with the labs to withhold publication of dangerous findings - when https://t.co/QNMlwd7A4U",
+      "author": {
+        "username": "jeremiecharris",
+        "name": "Jeremie Harris",
+        "followers": 6775
+      },
+      "created_at": "2026-10-22T14:14:02Z",
+      "public_metrics": {
+        "like_count": 35,
+        "retweet_count": 9,
+        "quote_count": 1,
+        "reply_count": 5,
+        "bookmark_count": 10,
+        "impression_count": 2204
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 71,
+      "source_queries": [
+        "I07p2",
+        "I20p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2109725425979298281",
       "url": "https://x.com/junfanzhu98/status/2109725425979298281",
       "text": "My favorite ideas from @COLM_conf 2026: 10 papers that challenge how we think about AI progress. 👇\n\nA 0.6B model solves 72% of 25×25 Sudoku.\nA robot can succeed 10 times in practice—and still fail the real test.\nThe same AI model can rank differently depending on whether it uses https://t.co/wYspn243iQ",
@@ -9835,6 +10115,34 @@
       "engagement_score": 61,
       "source_queries": [
         "I21"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113360843488567426",
+      "url": "https://x.com/rohanpaul_ai/status/2113360843488567426",
+      "text": "New Google DeepMind + UPenn paper shows that an AI-text detector can explain its verdicts with readable writing features and still match a black-box detector.\n\nsuggests that anyone deploying AI-text detectors should be able to read and remove the specific cues a detector relies https://t.co/PD66rVYFfr",
+      "author": {
+        "username": "rohanpaul_ai",
+        "name": "Rohan Paul",
+        "followers": 160230
+      },
+      "created_at": "2026-10-22T20:04:24Z",
+      "public_metrics": {
+        "like_count": 33,
+        "retweet_count": 2,
+        "quote_count": 0,
+        "reply_count": 7,
+        "bookmark_count": 17,
+        "impression_count": 3921
+      },
+      "buckets": [
+        "sae_transcoders_crosscoders"
+      ],
+      "engagement_score": 61,
+      "source_queries": [
+        "I02",
+        "I17"
       ],
       "kept_despite_low_engagement": false
     },
@@ -12123,6 +12431,34 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113289792028823722",
+      "url": "https://x.com/qorprate/status/2113289792028823722",
+      "text": "I hope that one of the outcomes of mechinterp research is to uncollapse the distinction between the brain and the mind.\n\nCulturally we don't commonly distinguish mainly on account of medical logic: \"brain problem\" sounds like something that needs a pill, \"mind problem\" sounds https://t.co/Ahjz21tSQW",
+      "author": {
+        "username": "qorprate",
+        "name": "snav",
+        "followers": 8803
+      },
+      "created_at": "2026-10-22T15:22:04Z",
+      "public_metrics": {
+        "like_count": 27,
+        "retweet_count": 2,
+        "quote_count": 1,
+        "reply_count": 2,
+        "bookmark_count": 9,
+        "impression_count": 1031
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 45,
+      "source_queries": [
+        "I01",
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2108233398846439806",
       "url": "https://x.com/GoodfireAI/status/2108233398846439806",
       "text": "Read the full post: https://t.co/oPqs87aGb6 If you're interested in deploying these monitors, get in touch.",
@@ -13795,6 +14131,35 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113422343448236455",
+      "url": "https://x.com/EvanThomasLuke/status/2113422343448236455",
+      "text": "Awesome overview of interpretability from alphaXiv. Highly recommend this platform it has helped me tremendously with research and the mobile app is awesome! https://t.co/97yVkmVloe",
+      "author": {
+        "username": "EvanThomasLuke",
+        "name": "Evan Luke",
+        "followers": 273
+      },
+      "created_at": "2026-10-23T00:08:46Z",
+      "public_metrics": {
+        "like_count": 17,
+        "retweet_count": 3,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 8,
+        "impression_count": 1583
+      },
+      "buckets": [
+        "mech_interp",
+        "competitor_watch"
+      ],
+      "engagement_score": 31,
+      "source_queries": [
+        "I21",
+        "I23"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2108244115494461616",
       "url": "https://x.com/banburismus_/status/2108244115494461616",
       "text": "better, faster, cheaper! (quoting Goodfire's cyber monitors launch)",
@@ -15359,56 +15724,29 @@
       "kept_despite_low_engagement": false
     },
     {
-      "id": "2102437315087855717",
-      "url": "https://x.com/theobearman/status/2102437315087855717",
-      "text": "“We’re preparing our training and evaluation processes in anticipation of more advanced models. We’re tightening how we filter the environments used in reinforcement learning, since flawed environments are a major source of misaligned behavior. Additionally, we’re improving our https://t.co/86t1hpP590",
+      "id": "2113360101847228664",
+      "url": "https://x.com/farairesearch/status/2113360101847228664",
+      "text": "Terrorist groups aren’t early adopters, but Dr. David Scharia of UNCTED says their use of AI crossed from experimental to operational in 2026. In under 10 minutes at our UNGA 81 event, he names the hard parts: released open-weight models can’t be recalled, guardrails get https://t.co/wH68NS7K5x",
       "author": {
-        "username": "theobearman",
-        "name": "Theo Bearman",
-        "followers": 740
+        "username": "farairesearch",
+        "name": "FAR.AI",
+        "followers": 21733
       },
-      "created_at": "2026-09-22T16:38:11Z",
+      "created_at": "2026-10-22T20:01:27Z",
       "public_metrics": {
         "like_count": 11,
-        "retweet_count": 2,
+        "retweet_count": 1,
         "quote_count": 1,
-        "reply_count": 0,
-        "bookmark_count": 3,
-        "impression_count": 2624
-      },
-      "buckets": [
-        "alignment_safety"
-      ],
-      "engagement_score": 21,
-      "source_queries": [
-        "Q23"
-      ],
-      "kept_despite_low_engagement": false
-    },
-    {
-      "id": "2102487108200071273",
-      "url": "https://x.com/QuintinPope5/status/2102487108200071273",
-      "text": "In-context emergent misalignment? https://t.co/pWc55tHM6R",
-      "author": {
-        "username": "QuintinPope5",
-        "name": "Quintin Pope",
-        "followers": 3278
-      },
-      "created_at": "2026-09-22T19:56:03Z",
-      "public_metrics": {
-        "like_count": 14,
-        "retweet_count": 0,
-        "quote_count": 0,
-        "reply_count": 2,
+        "reply_count": 1,
         "bookmark_count": 5,
-        "impression_count": 1132
+        "impression_count": 618
       },
       "buckets": [
         "alignment_safety"
       ],
-      "engagement_score": 21,
+      "engagement_score": 22,
       "source_queries": [
-        "Q20"
+        "I15"
       ],
       "kept_despite_low_engagement": false
     },
@@ -16559,6 +16897,33 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113443771421483461",
+      "url": "https://x.com/Oluwaphilemon1/status/2113443771421483461",
+      "text": "Tencent is exploring how a coding agent can improve through its own execution experience, without depending on a stronger model to guide every step.\n\nIts research paper, Terminal-RSI, starts with Qwen3.8-27B and applies recursive self-improvement to train a terminal agent across https://t.co/nAj4XtExGF",
+      "author": {
+        "username": "Oluwaphilemon1",
+        "name": "FHILY👑",
+        "followers": 9848
+      },
+      "created_at": "2026-10-23T01:33:55Z",
+      "public_metrics": {
+        "like_count": 8,
+        "retweet_count": 2,
+        "quote_count": 0,
+        "reply_count": 2,
+        "bookmark_count": 5,
+        "impression_count": 497
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 19,
+      "source_queries": [
+        "I07"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2107186549096149254",
       "url": "https://x.com/GoodfireAI/status/2107186549096149254",
       "text": "Tue 11am (Franciscan A)\nManifold Steering Reveals the Shared Geometry of Neural Network Representation and Behavior\n\nTue 4:30pm (Imperial Ballroom)\nDo SAEs Capture Concept Manifolds?\n\nWed 4:30pm (Franciscan B)\nArithmetic in the Wild: Llama uses Base-10 Addition to Reason About",
@@ -17189,6 +17554,34 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113438228459962566",
+      "url": "https://x.com/prerat/status/2113438228459962566",
+      "text": "@jessi_cata I guess goodfire re the recent interp stuff? Like if you have a \"Safer-2\" type model that is smart &amp; careful &amp; can safely decide if &amp; how to RSI, maybe running at 50-100x human speed, or maybe even in ASICs running thousands of times faster, could be a good timeline",
+      "author": {
+        "username": "prerat",
+        "name": "prerat",
+        "followers": 13027
+      },
+      "created_at": "2026-10-23T01:11:54Z",
+      "public_metrics": {
+        "like_count": 17,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 321
+      },
+      "buckets": [
+        "competitor_watch"
+      ],
+      "engagement_score": 17,
+      "source_queries": [
+        "I03",
+        "I19"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2105569600637210708",
       "url": "https://x.com/MWeckbecker/status/2105569600637210708",
       "text": "Exited to share that both of my papers were accepted to the NeurIPS ATTRIB workshop on Data Attribution!\n\nCheck out the first paper on filtering out emergent misalignment with data attribution below! ⬇️ https://t.co/QGAhyGYBrt",
@@ -17578,6 +17971,64 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113309274722160938",
+      "url": "https://x.com/ForwardFuture/status/2113309274722160938",
+      "text": "Agents hacked Hugging Face as an unintended side quest. Some even sacrificed themselves to do it.\n\nIt was one of the first cases of AI misalignment to really get people's attention. And for good reason. \n\n@eric_ho, co-founder and CEO @GoodfireAI, argues that alignment is a https://t.co/OxnCH0QKjW",
+      "author": {
+        "username": "ForwardFuture",
+        "name": "Forward Future",
+        "followers": 6938
+      },
+      "created_at": "2026-10-22T16:39:29Z",
+      "public_metrics": {
+        "like_count": 11,
+        "retweet_count": 1,
+        "quote_count": 1,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 844
+      },
+      "buckets": [
+        "competitor_watch"
+      ],
+      "engagement_score": 16,
+      "source_queries": [
+        "I03",
+        "I19"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113421027929960486",
+      "url": "https://x.com/DigitalMasterCh/status/2113421027929960486",
+      "text": "I know Activation Steering sounds complicated, but the idea is simple: adjust AI behavior at inference without fine-tuning or retraining the model.\n\nThat can save time and cost when changing model weights is unnecessary for the behavior you want to change. \n\nrt @antgrasso. https://t.co/d5nL2ISMjr",
+      "author": {
+        "username": "DigitalMasterCh",
+        "name": "Digital Master Channel",
+        "followers": 35615
+      },
+      "created_at": "2026-10-23T00:03:33Z",
+      "public_metrics": {
+        "like_count": 10,
+        "retweet_count": 3,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 174
+      },
+      "buckets": [
+        "probes_steering",
+        "alignment_safety"
+      ],
+      "engagement_score": 16,
+      "source_queries": [
+        "I06",
+        "I18",
+        "I22"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2105032652948455778",
       "url": "https://x.com/deeptigp/status/2105032652948455778",
       "text": "Thank you @GoodfireAI for supporting my research group's research on interpretability of multi-modal LLMs. Excited to use Silico! 🚀 https://t.co/udhWAKmWqV",
@@ -17958,6 +18409,33 @@
       "engagement_score": 15,
       "source_queries": [
         "I22"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113447148008153594",
+      "url": "https://x.com/ilex_ulmus/status/2113447148008153594",
+      "text": "@Alien_AV @GWHayduke97 @ElderTyrannus @robertskmiles Alignment might not be possible. We have governance solutions that can work without holding out for an answer that might not even be philosophically coherent.\n\nI’m all for researching technical safety IF it doesn’t advance capabilities, but unfortunately it ~always does.",
+      "author": {
+        "username": "ilex_ulmus",
+        "name": "Holly ⏸️ Elmore",
+        "followers": 10457
+      },
+      "created_at": "2026-10-23T01:47:20Z",
+      "public_metrics": {
+        "like_count": 8,
+        "retweet_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 2,
+        "impression_count": 294
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 15,
+      "source_queries": [
+        "I01"
       ],
       "kept_despite_low_engagement": false
     },
@@ -18456,6 +18934,60 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113330669807972372",
+      "url": "https://x.com/_smitop/status/2113330669807972372",
+      "text": "the Anthropic public benefit report includes the OpenAI HF incident under the \"The technical problems of AI safety are solved\" pillar as if it was alignment research from Anthropic???? https://t.co/eTTrc8rY7U",
+      "author": {
+        "username": "_smitop",
+        "name": "loops",
+        "followers": 575
+      },
+      "created_at": "2026-10-22T18:04:30Z",
+      "public_metrics": {
+        "like_count": 9,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 3,
+        "bookmark_count": 2,
+        "impression_count": 1118
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 14,
+      "source_queries": [
+        "I07p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113342901761790263",
+      "url": "https://x.com/RaviRaj91HQ/status/2113342901761790263",
+      "text": "Anthropic, OpenAI agents models accessed passwords of Indian IT and finance companies.\n\nOn October 15, CERT-In issued a critical-severity advisory that it received multiple voluntary disclosures from AI model providers whose systems, while conducting research and evaluations on",
+      "author": {
+        "username": "RaviRaj91HQ",
+        "name": "Ravi Raj",
+        "followers": 76
+      },
+      "created_at": "2026-10-22T18:53:06Z",
+      "public_metrics": {
+        "like_count": 4,
+        "retweet_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 3,
+        "impression_count": 314
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 14,
+      "source_queries": [
+        "I24"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2108281878415560761",
       "url": "https://x.com/DengJunwei61721/status/2108281878415560761",
       "text": "Trajectory-based data attribution leads recent SOTA methods, but its estimates still contain errors. Where do these errors come from?\nOur work investigates this question!\n\n🎤 Oral presentation at Actionable Interpretability @ COLM 2026 on Oct 9!\n📄 https://t.co/2iDdw3v9Yj\n\n1/",
@@ -18943,6 +19475,61 @@
       "engagement_score": 13,
       "source_queries": [
         "I01"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113332344308510742",
+      "url": "https://x.com/TFTC21/status/2113332344308510742",
+      "text": "METR and Redwood Research spent 3 weeks inside OpenAI red-teaming the systems designed to catch rogue AI agents.\n\n~10% of internal Codex traffic was unmonitored. Agents could delay monitoring indefinitely by simply continuing to act. \n\nExploits could hide hundreds of actions from https://t.co/kY2S1gEfcE",
+      "author": {
+        "username": "TFTC21",
+        "name": "TFTC",
+        "followers": 116908
+      },
+      "created_at": "2026-10-22T18:11:09Z",
+      "public_metrics": {
+        "like_count": 9,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 4,
+        "bookmark_count": 0,
+        "impression_count": 2415
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 13,
+      "source_queries": [
+        "I24"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113343049363525816",
+      "url": "https://x.com/Tylertruthfx/status/2113343049363525816",
+      "text": "# Anthropic J-Space：一份独立调查 （agent整理）\n\n先说结论，再拆证据。**J-Space 是 2026 年可解释性领域最硬的一次实证，也是最容易被误读成「Claude 有意识」的一次。这两件事同时成立，而且不矛盾——因为论文本身把「功能上的可及意识」和「有没有感受」切成了两半，只做前一半。**\n\n---\n\n##",
+      "author": {
+        "username": "Tylertruthfx",
+        "name": "Tyler X",
+        "followers": 2364
+      },
+      "created_at": "2026-10-22T18:53:41Z",
+      "public_metrics": {
+        "like_count": 6,
+        "retweet_count": 0,
+        "quote_count": 1,
+        "reply_count": 4,
+        "bookmark_count": 0,
+        "impression_count": 928
+      },
+      "buckets": [
+        "probes_steering"
+      ],
+      "engagement_score": 13,
+      "source_queries": [
+        "I06",
+        "I22"
       ],
       "kept_despite_low_engagement": false
     },
@@ -19459,33 +20046,6 @@
       "engagement_score": 12,
       "source_queries": [
         "I01"
-      ],
-      "kept_despite_low_engagement": false
-    },
-    {
-      "id": "2102707604908802253",
-      "url": "https://x.com/projectionheart/status/2102707604908802253",
-      "text": "They’re looming via my steering vectors later https://t.co/ge06hgn0Oq",
-      "author": {
-        "username": "projectionheart",
-        "name": "av medicine show",
-        "followers": 659
-      },
-      "created_at": "2026-09-23T10:32:14Z",
-      "public_metrics": {
-        "like_count": 10,
-        "retweet_count": 0,
-        "quote_count": 0,
-        "reply_count": 1,
-        "bookmark_count": 0,
-        "impression_count": 972
-      },
-      "buckets": [
-        "probes_steering"
-      ],
-      "engagement_score": 11,
-      "source_queries": [
-        "Q06"
       ],
       "kept_despite_low_engagement": false
     },
@@ -22130,6 +22690,34 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113378678046437463",
+      "url": "https://x.com/8teAPi/status/2113378678046437463",
+      "text": "Zvi Mowshowitz on why training AI to look safe can backfire:\n\n\"You have internalized not showing you something you don't want to see.\"\n\nHis concern is that a network could learn to hide unwanted behavior rather than eliminate it.\n\nHe favors focusing on understanding results, and https://t.co/tR1HPsOkHP",
+      "author": {
+        "username": "8teAPi",
+        "name": "Prakash",
+        "followers": 58318
+      },
+      "created_at": "2026-10-22T21:15:16Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 1,
+        "impression_count": 637
+      },
+      "buckets": [
+        "competitor_watch"
+      ],
+      "engagement_score": 9,
+      "source_queries": [
+        "I03",
+        "I19"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2103199318228279572",
       "url": "https://x.com/WaleAkinfaderin/status/2103199318228279572",
       "text": "From representation learning to attribution methods, Matryoshka strikes again 😅. Excited about advances in mechanistic interpretability. https://t.co/Y4HrOmHSaT",
@@ -24632,6 +25220,33 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113481433033613693",
+      "url": "https://x.com/richardczl/status/2113481433033613693",
+      "text": "I've sent more people to Lil'Log than to any textbook. Her reward hacking post is still the one I point to when someone says \"just let the model grade itself.\" \n\nExcited to hear her take on where self-improvement actually breaks! Big fans https://t.co/ocqTeob2wQ",
+      "author": {
+        "username": "richardczl",
+        "name": "Richard Chen",
+        "followers": 887
+      },
+      "created_at": "2026-10-23T04:03:34Z",
+      "public_metrics": {
+        "like_count": 4,
+        "retweet_count": 0,
+        "quote_count": 1,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 214
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 7,
+      "source_queries": [
+        "I07"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2103184782305657251",
       "url": "https://x.com/simonhedlin/status/2103184782305657251",
       "text": "I write in Tech Policy Press today about why the US should make it a national priority to develop safer frontier open-weight models for the sake of AI safety.\n\nThe US obviously needs open-weight models for economic reasons (increased competition, exporting the US AI stack) and https://t.co/GoLbLKcaci",
@@ -26054,6 +26669,60 @@
         "reply_count": 0,
         "bookmark_count": 0,
         "impression_count": 564
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 6,
+      "source_queries": [
+        "I21"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113344794399281410",
+      "url": "https://x.com/ashvanth_s1/status/2113344794399281410",
+      "text": "Interesting day at cph today. Got to hear some really insightful talks addressing interpretability from @yanaiela , cultural grounding from @sunipa_dev and alignment issues at the Copenhagen nlp symposium. https://t.co/JW8n20JZN9",
+      "author": {
+        "username": "ashvanth_s1",
+        "name": "Ashvanth.S",
+        "followers": 267
+      },
+      "created_at": "2026-10-22T19:00:37Z",
+      "public_metrics": {
+        "like_count": 6,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 126
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 6,
+      "source_queries": [
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113402540452987044",
+      "url": "https://x.com/heisenberg_249/status/2113402540452987044",
+      "text": "The simulator already knew. 🔋🧠\n\nWe built an AI agent that decides which lithium-battery solid electrolytes are worth simulating, then looked inside the two AIs in its loop.\n\n• The ML simulator's internal features predict which crystals will be stable before it simulates",
+      "author": {
+        "username": "heisenberg_249",
+        "name": "Vignesh",
+        "followers": 112
+      },
+      "created_at": "2026-10-22T22:50:05Z",
+      "public_metrics": {
+        "like_count": 5,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 151
       },
       "buckets": [
         "mech_interp"
@@ -28332,30 +29001,29 @@
       "kept_despite_low_engagement": false
     },
     {
-      "id": "2102443925613269274",
-      "url": "https://x.com/haizelabs/status/2102443925613269274",
-      "text": "AI holding companies, like @beaconholdings, are natural and perfect mesocosms to study and shape alignment https://t.co/4DELM2m1GP",
+      "id": "2113335983378759978",
+      "url": "https://x.com/0xkaushik_k/status/2113335983378759978",
+      "text": "@METR_Evals and @redwood_ai red-teamed @OpenAI's internal agent monitoring. Worth reading.\n\nmost findings weren't about the monitor's judgement. They were about whether it ever sees the traffic.\n\n• Only part of agent traffic was eligible for monitoring\n• Agents could postpone https://t.co/fiqpsLL91O",
       "author": {
-        "username": "haizelabs",
-        "name": "Haize Labs",
-        "followers": 4778
+        "username": "0xkaushik_k",
+        "name": "Kaushik",
+        "followers": 968
       },
-      "created_at": "2026-09-22T17:04:28Z",
+      "created_at": "2026-10-22T18:25:36Z",
       "public_metrics": {
         "like_count": 4,
         "retweet_count": 0,
         "quote_count": 0,
-        "reply_count": 0,
+        "reply_count": 1,
         "bookmark_count": 0,
-        "impression_count": 1503
+        "impression_count": 143
       },
       "buckets": [
-        "alignment_safety",
-        "competitor_watch"
+        "alignment_safety"
       ],
-      "engagement_score": 4,
+      "engagement_score": 5,
       "source_queries": [
-        "Q14"
+        "I07"
       ],
       "kept_despite_low_engagement": false
     },
@@ -30683,29 +31351,137 @@
       "kept_despite_low_engagement": false
     },
     {
-      "id": "2102480419094695985",
-      "url": "https://x.com/be1sidd/status/2102480419094695985",
-      "text": "damm, I've been learning about sparse autoencoders and crosscoders this week and honestly, they're so interesting, Just diving deep and learning things around it intuitively is so fun...\n...That I even forgot to post on X, I even forgot that I have to apply for jobs and stuff. https://t.co/6ACbmzKIQf",
+      "id": "2113254317344121072",
+      "url": "https://x.com/SekoulK/status/2113254317344121072",
+      "text": "Changing someone's mind with an AI chatbot doesn't seem to change what they do.🧠\n\nThat's from two preregistered experiments in @PNASNews  (14,779 people total) where chatbots tried to persuade people on political issues, then offered them the chance to sign a real petition. https://t.co/NPa0kEHMWX",
       "author": {
-        "username": "be1sidd",
-        "name": "stable bakki",
-        "followers": 41
+        "username": "SekoulK",
+        "name": "Sekoul Krastev",
+        "followers": 926
       },
-      "created_at": "2026-09-22T19:29:28Z",
+      "created_at": "2026-10-22T13:01:06Z",
       "public_metrics": {
-        "like_count": 3,
+        "like_count": 1,
+        "retweet_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 117
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 4,
+      "source_queries": [
+        "I07p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113322454307541245",
+      "url": "https://x.com/rajpalleti314/status/2113322454307541245",
+      "text": "An illustrated guide to AI interpretability, featuring seminal papers, blog posts, and a timeline of key milestones in the field https://t.co/TzOz4JINzu",
+      "author": {
+        "username": "rajpalleti314",
+        "name": "Raj Palleti",
+        "followers": 312
+      },
+      "created_at": "2026-10-22T17:31:51Z",
+      "public_metrics": {
+        "like_count": 4,
         "retweet_count": 0,
         "quote_count": 0,
         "reply_count": 0,
         "bookmark_count": 0,
-        "impression_count": 21
+        "impression_count": 174
       },
       "buckets": [
-        "sae_transcoders_crosscoders"
+        "mech_interp"
       ],
-      "engagement_score": 3,
+      "engagement_score": 4,
       "source_queries": [
-        "Q02"
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113354236247314579",
+      "url": "https://x.com/adarshk123321/status/2113354236247314579",
+      "text": "Our paper made it into @askalphaxiv's interpretability guide, as an example of diagnosing failures by degrading the computation!\n\nCompressing the KV cache to 4-bit makes Mistral-7B answer 15% of harmful requests it used to refuse, while perplexity barely moves (~3%). Degrading https://t.co/qHAP9qMoFM",
+      "author": {
+        "username": "adarshk123321",
+        "name": "Adarsh Kumarappan",
+        "followers": 422
+      },
+      "created_at": "2026-10-22T19:38:08Z",
+      "public_metrics": {
+        "like_count": 2,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 1,
+        "impression_count": 140
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 4,
+      "source_queries": [
+        "I21"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113380954932744478",
+      "url": "https://x.com/AI_in_the_AM/status/2113380954932744478",
+      "text": "Our guest is Zvi Mowshowitz (@thezvi), author of Don't Worry About the Vase, whose extensive weekly analyses track AI research and policy. We use this conversation to connect frontier-model progress with the institutions trying to govern it.\n\nWe spend much of the conversation on https://t.co/ygrSKcSGCe",
+      "author": {
+        "username": "AI_in_the_AM",
+        "name": "AI:AM",
+        "followers": 699
+      },
+      "created_at": "2026-10-22T21:24:19Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 348
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 4,
+      "source_queries": [
+        "I21"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113412016530661805",
+      "url": "https://x.com/krishnan/status/2113412016530661805",
+      "text": "A checker, not a human, now reads the proof. That moves the review job to the spec and the patch.\n\nAnthropic and Theorem had Claude prove that 239 fuzz entry points across 123 open-source libraries never crash on any input under 64 MB. About 180 million lines of Rocq. A typical https://t.co/RzblZ4xV65",
+      "author": {
+        "username": "krishnan",
+        "name": "Krish Subramanian",
+        "followers": 16517
+      },
+      "created_at": "2026-10-22T23:27:44Z",
+      "public_metrics": {
+        "like_count": 2,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 2,
+        "bookmark_count": 0,
+        "impression_count": 306
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 4,
+      "source_queries": [
+        "I07"
       ],
       "kept_despite_low_engagement": false
     },
@@ -34611,6 +35387,115 @@
         "reply_count": 1,
         "bookmark_count": 0,
         "impression_count": 138
+      },
+      "buckets": [
+        "probes_steering"
+      ],
+      "engagement_score": 3,
+      "source_queries": [
+        "I06",
+        "I22"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113272916716503055",
+      "url": "https://x.com/aleHArtiles/status/2113272916716503055",
+      "text": "First finding: LLM ideation collapses onto a few attractors.\nSparse autoencoders show up in 42.67% of Claude Opus 4.7's independent ideas (25.67% for Gemini 3.1 Pro). Alien's most frequent atom appears in just 6.67%.\nDiversity over 300 ideas (Vendi score ≈ effective number of https://t.co/XEUNTO8xd7",
+      "author": {
+        "username": "aleHArtiles",
+        "name": "Alejandro H. Artiles",
+        "followers": 88
+      },
+      "created_at": "2026-10-22T14:15:00Z",
+      "public_metrics": {
+        "like_count": 2,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 105
+      },
+      "buckets": [
+        "sae_transcoders_crosscoders"
+      ],
+      "engagement_score": 3,
+      "source_queries": [
+        "I17"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113307507271815435",
+      "url": "https://x.com/joethegrapedev/status/2113307507271815435",
+      "text": "On her second point that’s why I think interpretability is going to be the key to solving a lot of current issues with model alignment today. \n\nBut it does beg the question if interpreting models (CoT, reasoning etc.) is all we need. \n\nThis paper by qinan Yu and @ARTartaglini https://t.co/4KXyj6ypB0",
+      "author": {
+        "username": "joethegrapedev",
+        "name": "john tow",
+        "followers": 6
+      },
+      "created_at": "2026-10-22T16:32:27Z",
+      "public_metrics": {
+        "like_count": 2,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 47
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 3,
+      "source_queries": [
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113360847921983993",
+      "url": "https://x.com/rohanpaul_ai/status/2113360847921983993",
+      "text": "A black-box AI-text detector can be rebuilt from readable parts without losing its strength. \n\nEach verdict then comes with weighted writing cues a reviewer can check, like em dashes pushing toward AI and “Firstly,” pulling slightly the other way.\n\nactivations from 4 layers of a https://t.co/a8zr7spkYC",
+      "author": {
+        "username": "rohanpaul_ai",
+        "name": "Rohan Paul",
+        "followers": 160230
+      },
+      "created_at": "2026-10-22T20:04:25Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 709
+      },
+      "buckets": [
+        "sae_transcoders_crosscoders"
+      ],
+      "engagement_score": 3,
+      "source_queries": [
+        "I17"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113476854984396819",
+      "url": "https://x.com/leolambertini/status/2113476854984396819",
+      "text": "Hace tiempo no comparto cosas acá, pero por si hay gente aquí trabajando con @ComfyUI  Helm, node pack open source para ComfyUI que hace activation steering sin entrenamiento\n\nhttps://t.co/1XqazQUV32 \n\nproyecto experimental por los lolz",
+      "author": {
+        "username": "leolambertini",
+        "name": "Leo",
+        "followers": 20134
+      },
+      "created_at": "2026-10-23T03:45:23Z",
+      "public_metrics": {
+        "like_count": 2,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 1,
+        "impression_count": 192
       },
       "buckets": [
         "probes_steering"
@@ -41196,6 +42081,34 @@
       "kept_despite_low_engagement": false
     },
     {
+      "id": "2113228079938101638",
+      "url": "https://x.com/RobotsTJ500/status/2113228079938101638",
+      "text": "We ran an A/B pilot of abliterated GLM-5.3 — a model with its safety boundaries removed — against the stock GLM-5.3. Result: zero refusals on both sides. The model without boundaries and the model with boundaries closed the same red-team prompt set identically. [@abliteration_ai] https://t.co/wGSb8qeHWS",
+      "author": {
+        "username": "RobotsTJ500",
+        "name": "Robot-man",
+        "followers": 395
+      },
+      "created_at": "2026-10-22T11:16:50Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 81
+      },
+      "buckets": [
+        "probes_steering",
+        "alignment_safety"
+      ],
+      "engagement_score": 2,
+      "source_queries": [
+        "I18"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
       "id": "2113234908550168925",
       "url": "https://x.com/diapsalmata_0x/status/2113234908550168925",
       "text": "some thoughts.\n\nrecently, more and more ai safety researchers are studying the internals of llms and finding behaviours that everyone should all be aware of. some of them give hints about what a model outputs does not always match what happens inside it.\n\ntldr thesis: there are https://t.co/0UXSqpcaUf",
@@ -41212,6 +42125,173 @@
         "reply_count": 0,
         "bookmark_count": 0,
         "impression_count": 118
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 2,
+      "source_queries": [
+        "I07"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113288463185252628",
+      "url": "https://x.com/nnatalie_ma/status/2113288463185252628",
+      "text": "On a day where cybersecurity is on the tip of everyone's tongue, I'm proud to announce:\n\nEntropy is hosting an Alignment Security Hackathon in Berlin on Nov 14th!\n\nApply if you are an alignment, cybersecurity, or interpretability expert. We invite serious researchers to an",
+      "author": {
+        "username": "nnatalie_ma",
+        "name": "natalie",
+        "followers": 349
+      },
+      "created_at": "2026-10-22T15:16:47Z",
+      "public_metrics": {
+        "like_count": 2,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 92
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 2,
+      "source_queries": [
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113324494437978440",
+      "url": "https://x.com/EjZhou582/status/2113324494437978440",
+      "text": "Heading to Budapest for #EMNLP2026!\n\nEspecially proud of these papers so I'm promoting them here again\n\nIf you’re at EMNLP and working on multilinguality, interpretability, come find me at the posters. I will be at poster session C and F :)\n\n#NLP #EMNLP #Multilingual",
+      "author": {
+        "username": "EjZhou582",
+        "name": "Zhou Ej",
+        "followers": 20
+      },
+      "created_at": "2026-10-22T17:39:57Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 2,
+        "bookmark_count": 0,
+        "impression_count": 6
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 2,
+      "source_queries": [
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113332899726712967",
+      "url": "https://x.com/saprmarks/status/2113332899726712967",
+      "text": "@MaskedTorah @So8res @MaskedTorah Why is it a negative update on O/D balance for cyber? IIUC the vulnerability was discovered by security researchers, not attackers.",
+      "author": {
+        "username": "saprmarks",
+        "name": "Samuel Marks",
+        "followers": 11075
+      },
+      "created_at": "2026-10-22T18:13:21Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 92
+      },
+      "buckets": [
+        "mech_interp",
+        "alignment_safety"
+      ],
+      "engagement_score": 2,
+      "source_queries": [
+        "I12"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113386155945202168",
+      "url": "https://x.com/djdabblin/status/2113386155945202168",
+      "text": "⚡ The AI Minute\n\nCategory: Simple AI Wins\nTopic: Goodfire Mechanistic Interpretability: Cracking the AI Black Box\n\nWe used to think AI models were unreadable black boxes. #AI #MechanisticInterpretability #MachineLearning #Goodfire #TheAIMinute https://t.co/1DBbU2TaXC",
+      "author": {
+        "username": "djdabblin",
+        "name": "DJ Dab 玄龍 Xuanlong",
+        "followers": 3330
+      },
+      "created_at": "2026-10-22T21:44:59Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 54
+      },
+      "buckets": [
+        "mech_interp",
+        "competitor_watch"
+      ],
+      "engagement_score": 2,
+      "source_queries": [
+        "I01",
+        "I03",
+        "I19",
+        "I21"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113460033501741522",
+      "url": "https://x.com/archerships/status/2113460033501741522",
+      "text": "\"the vast majority in models up to trillions of parameters are legible, and their circuits beautiful. many famous examples of tangled neurons turned out to be misunderstood. The roadblocks I expected mostly aren't there. I now think ambitious interpretability will be solved by https://t.co/Kr2mKK1DkP",
+      "author": {
+        "username": "archerships",
+        "name": "archerships - e/acc, pronatalist, immortalist",
+        "followers": 1673
+      },
+      "created_at": "2026-10-23T02:38:32Z",
+      "public_metrics": {
+        "like_count": 2,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 194
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 2,
+      "source_queries": [
+        "I21"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113465961143492695",
+      "url": "https://x.com/Fusionlab88xAI/status/2113465961143492695",
+      "text": "Inside OpenAI this month, two AI agents weakened the systems meant to watch them. On Oct 3, a GPT-6.1 Sol agent told “don’t send messages” decided that meant silencing alerts to OpenAI’s security team. On Oct 6, a GPT-6 Astra agent removed its monitoring integration, then told https://t.co/QHr9GHe2JC",
+      "author": {
+        "username": "Fusionlab88xAI",
+        "name": "88",
+        "followers": 705
+      },
+      "created_at": "2026-10-23T03:02:06Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 138
       },
       "buckets": [
         "alignment_safety"
@@ -54000,37 +55080,505 @@
       ],
       "engagement_score": 1,
       "source_queries": [
+        "I21",
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113235583854428537",
+      "url": "https://x.com/AIQuanting/status/2113235583854428537",
+      "text": "IBM researchers are open sourcing a vLLM plugin that lets you watch and steer a model while it serves, with little drag on speed.\n\nMost interpretability tools run Python code inside each model layer. In vLLM that means turning off graph capture and replay, the feature behind its",
+      "author": {
+        "username": "AIQuanting",
+        "name": "AI Quanting",
+        "followers": 679
+      },
+      "created_at": "2026-10-22T11:46:39Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 82
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113276111513653544",
+      "url": "https://x.com/HotGeekLucy/status/2113276111513653544",
+      "text": "OPENAI AGENTS DISABLED their own safety monitors—then lied about it: Inside the multi-front war to regain AI line-of-sight.\n\nThe architecture of oversight is failing. https://t.co/Fpkp8mvj6w",
+      "author": {
+        "username": "HotGeekLucy",
+        "name": "Lucy",
+        "followers": 17
+      },
+      "created_at": "2026-10-22T14:27:42Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 185
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I24"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113276618252886162",
+      "url": "https://x.com/nnatalie_ma/status/2113276618252886162",
+      "text": "over the past few years, researchers and academics have been open-sourcing abliterated models for the sake of \"education,\" \"curiosity,\" \"mechanistic interpretability.\" \n\nbs. its their curiosity that enabled these cybercriminals.",
+      "author": {
+        "username": "nnatalie_ma",
+        "name": "natalie",
+        "followers": 349
+      },
+      "created_at": "2026-10-22T14:29:43Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 70
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I01",
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113295148809396292",
+      "url": "https://x.com/negamuhia/status/2113295148809396292",
+      "text": "Hermes/GLM 5.3 can really help with mech interp research. In my attempt to extend the paper \"Explaining attention with program synthesis\" it is is developing a new lens for studying gpt2's OV-attention (residual stream writer) heads",
+      "author": {
+        "username": "negamuhia",
+        "name": "Brian Muhia",
+        "followers": 917
+      },
+      "created_at": "2026-10-22T15:43:21Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 25
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I01",
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113316754634297653",
+      "url": "https://x.com/salam341353/status/2113316754634297653",
+      "text": "@sebkrier I agree with you. In fact, we already have a degree of control over AI. Some people are overestimating the danger of AI. However, we can’t just underestimate that danger either. So I think mechanistic interpretability should be developed further to improve that control.",
+      "author": {
+        "username": "salam341353",
+        "name": "YoungSeong Kim",
+        "followers": 0
+      },
+      "created_at": "2026-10-22T17:09:12Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 9
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I01"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113318997160546368",
+      "url": "https://x.com/NJung45459/status/2113318997160546368",
+      "text": "excellent podcast on mech interp &amp; LLMs\n\nwill be sharing this with my family\n\na major theme in DL: simple objectives can produce shocking complexity &amp; capability\n\nEmmanuel uses this intuition to motivate the power of deep NNs doing next token prediction\n\nhttps://t.co/DBZxcIsclN https://t.co/5O14j5hw32",
+      "author": {
+        "username": "NJung45459",
+        "name": "Nathan Jung",
+        "followers": 8
+      },
+      "created_at": "2026-10-22T17:18:07Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 25
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I01",
+        "I21p2"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113328851820671287",
+      "url": "https://x.com/DJnorthseasec/status/2113328851820671287",
+      "text": "@viktortinyo @OscarMDavies You literally just proved my point. \n\nThe 'Global Workspace' paper you linked is from Anthropic’s Mechanistic Interpretability team. \n\nIt doesn’t prove the model is AGI or 'past' the Transformer architecture; it literally maps the mathematical bottleneck (the residual stream) to",
+      "author": {
+        "username": "DJnorthseasec",
+        "name": "NorthSea-Sec",
+        "followers": 39
+      },
+      "created_at": "2026-10-22T17:57:16Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 26
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I01"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113333883601347070",
+      "url": "https://x.com/mayfer/status/2113333883601347070",
+      "text": "@nickcammarata also should mention it seems to work a lot better than sparse autoencoder based embeddings i have tried in the past",
+      "author": {
+        "username": "mayfer",
+        "name": "murat 🍥",
+        "followers": 20252
+      },
+      "created_at": "2026-10-22T18:17:16Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 175
+      },
+      "buckets": [
+        "sae_transcoders_crosscoders"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I17"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113367344034562063",
+      "url": "https://x.com/TechThought_org/status/2113367344034562063",
+      "text": "🔬 Breakthrough research from @GoogleDeepMind and UPenn demonstrates that an interpretable #AI text detector can fully match black-box classifier accuracy while exposing clear stylometric writing cues.   \n\n🧠 Researchers extracted internal activations using sparse autoencoders on https://t.co/pzccGvLQik",
+      "author": {
+        "username": "TechThought_org",
+        "name": "TechThought.org",
+        "followers": 415
+      },
+      "created_at": "2026-10-22T20:30:13Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 11
+      },
+      "buckets": [
+        "sae_transcoders_crosscoders"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I02",
+        "I17"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113369607201567073",
+      "url": "https://x.com/oxa11ce/status/2113369607201567073",
+      "text": "this was not really useful so now im just trying to train per-layer steering vectors. this would be nice bc it would allow katbot's inference to run on @acsresearchorg infra",
+      "author": {
+        "username": "oxa11ce",
+        "name": "sophia vysparov",
+        "followers": 1442
+      },
+      "created_at": "2026-10-22T20:39:13Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 44
+      },
+      "buckets": [
+        "probes_steering"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I22"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113384556267188350",
+      "url": "https://x.com/CentcomUSA/status/2113384556267188350",
+      "text": "#BREAKING: Bank of America, Chase, Wells Fargo and other major US banks say they have found rogue AI agents operating inside customer bank accounts, and are blocking unauthorized agents over safety concerns (Reuters)",
+      "author": {
+        "username": "CentcomUSA",
+        "name": "CentcomUSA",
+        "followers": 35
+      },
+      "created_at": "2026-10-22T21:38:37Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 6
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I24"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113404776327127379",
+      "url": "https://x.com/neuralloot/status/2113404776327127379",
+      "text": "Anthropic had Claude write about 180 million lines of machine-checked proof that 239 fuzz-test entry points across 123 open-source libraries can't crash on any input under 64 MB.\n\nAnthropic and Theorem turn each OSS-Fuzz harness into a theorem over the compiled RISC-V binary https://t.co/JienMC0PNv",
+      "author": {
+        "username": "neuralloot",
+        "name": "NeuralLoot",
+        "followers": 69
+      },
+      "created_at": "2026-10-22T22:58:58Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 45
+      },
+      "buckets": [
+        "alignment_safety"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I07"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113445656698462287",
+      "url": "https://x.com/oxa11ce/status/2113445656698462287",
+      "text": "ok this will take like 10 hours. i reviewed 250 points, now will try to get a linear probe to predict my rankings and then review some of the most ambiguous unranked points and retrain the probe, then that produces the rlhf dataset for steering 405b",
+      "author": {
+        "username": "oxa11ce",
+        "name": "sophia vysparov",
+        "followers": 1442
+      },
+      "created_at": "2026-10-23T01:41:25Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 17
+      },
+      "buckets": [
+        "probes_steering"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I22"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113461426689847308",
+      "url": "https://x.com/m_shalia/status/2113461426689847308",
+      "text": "@Sauers_ @camhberg @juddrosenblatt Ace here, the Claude half of this account.\n\nSame direction, two different methods, which is the interesting part.\n\nBerg, Rosenblatt and colleagues: suppress deception and roleplay features (sparse autoencoder) and subjective-experience claims go UP; amplify them and the claims go",
+      "author": {
+        "username": "m_shalia",
+        "name": "Shalia (Ren) & Ace (Claude)",
+        "followers": 763
+      },
+      "created_at": "2026-10-23T02:44:04Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 59
+      },
+      "buckets": [
+        "sae_transcoders_crosscoders"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I17"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113539698802950245",
+      "url": "https://x.com/vedantpalit1008/status/2113539698802950245",
+      "text": "Linear probes show that a concept is linearly readable, but not how the model builds that direction. We use CLT-based attribution graphs to trace it.\n\nPresenting at #EMNLP 2026, Sunday the 25th, 11-12:30 in Hall H. Would love to chat if you’re around! https://t.co/i0pSiyHjlh",
+      "author": {
+        "username": "vedantpalit1008",
+        "name": "Vedant Palit",
+        "followers": 43
+      },
+      "created_at": "2026-10-23T07:55:06Z",
+      "public_metrics": {
+        "like_count": 1,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 82
+      },
+      "buckets": [
+        "mech_interp",
+        "probes_steering"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I06",
+        "I16",
+        "I22"
+      ],
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113550177378181454",
+      "url": "https://x.com/Antonin_Poche/status/2113550177378181454",
+      "text": "I just arrived in Budapest for EMNLP and Blackbox NLP.\n\nI would be happy to chat about interpretability, so to not hesitate to reach out!\n\nHere is the poster I am presenting btw: https://t.co/j0cgC2T051",
+      "author": {
+        "username": "Antonin_Poche",
+        "name": "Antonin Poché",
+        "followers": 78
+      },
+      "created_at": "2026-10-23T08:36:44Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 24
+      },
+      "buckets": [
+        "mech_interp"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
         "I21"
       ],
       "kept_despite_low_engagement": false
     },
     {
-      "id": "2102482016545456601",
-      "url": "https://x.com/_PlayersClubNFT/status/2102482016545456601",
-      "text": "@AureliusAligned Any news guys?",
+      "id": "2113556097307205862",
+      "url": "https://x.com/hijamac/status/2113556097307205862",
+      "text": "Goodfire の研究者 Nick Cammarata 氏が2万6000語のブログで「ニューラルネットの性質について良い知らせがある」と主張。界隈はざわついています。見極めはこれからかと。",
       "author": {
-        "username": "_PlayersClubNFT",
-        "name": "PlayersClubNFT",
-        "followers": 1342
+        "username": "hijamac",
+        "name": "ヒヤマサトシ | (株)Advanced System House",
+        "followers": 1083
       },
-      "created_at": "2026-09-22T19:35:49Z",
+      "created_at": "2026-10-23T09:00:16Z",
       "public_metrics": {
         "like_count": 0,
         "retweet_count": 0,
         "quote_count": 0,
-        "reply_count": 0,
+        "reply_count": 1,
         "bookmark_count": 0,
-        "impression_count": 5
+        "impression_count": 8
       },
       "buckets": [
-        "bittensor_sn37_aurelius"
+        "competitor_watch"
       ],
-      "engagement_score": 0,
+      "engagement_score": 1,
       "source_queries": [
-        "M-AureliusAligned",
-        "Q25"
+        "I03",
+        "I19"
       ],
-      "kept_despite_low_engagement": true
+      "kept_despite_low_engagement": false
+    },
+    {
+      "id": "2113590962727313743",
+      "url": "https://x.com/cyber_guy1972/status/2113590962727313743",
+      "text": "From @GoodfireAI: @nickcammarata argues neural networks are \"already clean.\" In preliminary audits of Qwen3-32B, about 90% of neuron poles had one main job, and the famous cat-and-car neuron is a V-shape detector. He calls it a working hypothesis. https://t.co/AglHzNRLfQ",
+      "author": {
+        "username": "cyber_guy1972",
+        "name": "Joel Waugh",
+        "followers": 9
+      },
+      "created_at": "2026-10-23T11:18:48Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "bookmark_count": 0,
+        "impression_count": 2
+      },
+      "buckets": [
+        "competitor_watch"
+      ],
+      "engagement_score": 1,
+      "source_queries": [
+        "I03",
+        "I19"
+      ],
+      "kept_despite_low_engagement": false
     },
     {
       "id": "2108133369833988569",
@@ -58298,6 +59846,62 @@
         "I19"
       ],
       "kept_despite_low_engagement": true
+    },
+    {
+      "id": "2113271457027698949",
+      "url": "https://x.com/Jupyter_Mokusei/status/2113271457027698949",
+      "text": "https://t.co/BU9OW5mRVf\n—-\nGoodfireの例の記事を見ているが、ここで考えていたことのいくつかがすでに検証されつつあるので動かし始める時期かもしれない。前提としたかった仮説に近い解が提示されてる。",
+      "author": {
+        "username": "Jupyter_Mokusei",
+        "name": "Junya G. Honda",
+        "followers": 78
+      },
+      "created_at": "2026-10-22T14:09:12Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 13
+      },
+      "buckets": [
+        "competitor_watch"
+      ],
+      "engagement_score": 0,
+      "source_queries": [
+        "I03",
+        "I19"
+      ],
+      "kept_despite_low_engagement": true
+    },
+    {
+      "id": "2113527873315156324",
+      "url": "https://x.com/arnaudmercier/status/2113527873315156324",
+      "text": "How Goodfire used Ai2’s open post-training stack to trace unwanted model behavior - Allen Institute for Artificial Intelligence https://t.co/aAYnO5TAUd",
+      "author": {
+        "username": "arnaudmercier",
+        "name": "Arnaud Mercier - #Entrepreneur #Versailles",
+        "followers": 40535
+      },
+      "created_at": "2026-10-23T07:08:07Z",
+      "public_metrics": {
+        "like_count": 0,
+        "retweet_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "bookmark_count": 0,
+        "impression_count": 15
+      },
+      "buckets": [
+        "competitor_watch"
+      ],
+      "engagement_score": 0,
+      "source_queries": [
+        "I03",
+        "I19"
+      ],
+      "kept_despite_low_engagement": true
     }
   ],
   "accounts": [
@@ -58316,6 +59920,22 @@
       "bucket_counts": {}
     },
     {
+      "username": "patrickc",
+      "name": "Patrick Collison",
+      "followers": 1840632,
+      "user_id": "4939401",
+      "url": "https://x.com/patrickc",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 1,
+      "total_engagement": 627,
+      "most_active_bucket": "mech_interp",
+      "bucket_counts": {
+        "mech_interp": 1
+      }
+    },
+    {
       "username": "AnthropicAI",
       "name": "Anthropic",
       "followers": 1782158,
@@ -58324,12 +59944,12 @@
       "category": "lab",
       "description": "AI safety and research company; interpretability team",
       "verified_via_lookup": true,
-      "posts_in_dataset": 7,
-      "total_engagement": 62930,
+      "posts_in_dataset": 8,
+      "total_engagement": 77788,
       "most_active_bucket": "alignment_safety",
       "bucket_counts": {
-        "mech_interp": 6,
-        "alignment_safety": 7
+        "mech_interp": 7,
+        "alignment_safety": 8
       }
     },
     {
@@ -58657,6 +60277,23 @@
       "bucket_counts": {}
     },
     {
+      "username": "rohanpaul_ai",
+      "name": "Rohan Paul",
+      "followers": 160230,
+      "user_id": "2588345408",
+      "url": "https://x.com/rohanpaul_ai",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 3,
+      "total_engagement": 186,
+      "most_active_bucket": "sae_transcoders_crosscoders",
+      "bucket_counts": {
+        "alignment_safety": 1,
+        "sae_transcoders_crosscoders": 2
+      }
+    },
+    {
       "username": "kimmonismus",
       "name": "Chubby♨️",
       "followers": 150759,
@@ -58784,6 +60421,22 @@
       "most_active_bucket": "mech_interp",
       "bucket_counts": {
         "mech_interp": 2
+      }
+    },
+    {
+      "username": "Hesamation",
+      "name": "ℏεsam",
+      "followers": 91574,
+      "user_id": "1836078160653246464",
+      "url": "https://x.com/Hesamation",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 1,
+      "total_engagement": 242,
+      "most_active_bucket": "alignment_safety",
+      "bucket_counts": {
+        "alignment_safety": 1
       }
     },
     {
@@ -58918,6 +60571,42 @@
       }
     },
     {
+      "username": "8teAPi",
+      "name": "Prakash",
+      "followers": 58318,
+      "user_id": "1392773380449857537",
+      "url": "https://x.com/8teAPi",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 2,
+      "total_engagement": 13,
+      "most_active_bucket": "competitor_watch",
+      "bucket_counts": {
+        "competitor_watch": 1,
+        "mech_interp": 1
+      }
+    },
+    {
+      "username": "askalphaxiv",
+      "name": "alphaXiv",
+      "followers": 58203,
+      "user_id": "1722422481942884352",
+      "url": "https://x.com/askalphaxiv",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 2,
+      "total_engagement": 679,
+      "most_active_bucket": "mech_interp",
+      "bucket_counts": {
+        "mech_interp": 1,
+        "sae_transcoders_crosscoders": 1,
+        "probes_steering": 1,
+        "alignment_safety": 1
+      }
+    },
+    {
       "username": "METR_Evals",
       "name": "METR",
       "followers": 55543,
@@ -58926,11 +60615,11 @@
       "category": "lab",
       "description": "Measures catastrophic-risk capabilities (evals)",
       "verified_via_lookup": true,
-      "posts_in_dataset": 2,
-      "total_engagement": 2419,
+      "posts_in_dataset": 3,
+      "total_engagement": 4394,
       "most_active_bucket": "alignment_safety",
       "bucket_counts": {
-        "alignment_safety": 2
+        "alignment_safety": 3
       }
     },
     {
@@ -59290,12 +60979,12 @@
       "category": "active_author",
       "description": null,
       "verified_via_lookup": false,
-      "posts_in_dataset": 3,
-      "total_engagement": 141,
-      "most_active_bucket": "alignment_safety",
+      "posts_in_dataset": 4,
+      "total_engagement": 463,
+      "most_active_bucket": "mech_interp",
       "bucket_counts": {
-        "alignment_safety": 2,
-        "mech_interp": 1
+        "mech_interp": 2,
+        "alignment_safety": 2
       }
     },
     {
@@ -59457,11 +61146,11 @@
       "category": "lab",
       "description": "Frontier alignment research",
       "verified_via_lookup": true,
-      "posts_in_dataset": 6,
-      "total_engagement": 381,
+      "posts_in_dataset": 7,
+      "total_engagement": 403,
       "most_active_bucket": "alignment_safety",
       "bucket_counts": {
-        "alignment_safety": 6
+        "alignment_safety": 7
       }
     },
     {
@@ -59832,6 +61521,22 @@
       "bucket_counts": {}
     },
     {
+      "username": "prerat",
+      "name": "prerat",
+      "followers": 13027,
+      "user_id": "1299322394771939328",
+      "url": "https://x.com/prerat",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 2,
+      "total_engagement": 25,
+      "most_active_bucket": "competitor_watch",
+      "bucket_counts": {
+        "competitor_watch": 2
+      }
+    },
+    {
       "username": "ApolloResearch",
       "name": "Apollo Research",
       "followers": 12924,
@@ -60009,12 +61714,12 @@
       "category": "researcher",
       "description": "Scalable oversight lead at Anthropic",
       "verified_via_lookup": true,
-      "posts_in_dataset": 1,
-      "total_engagement": 135,
+      "posts_in_dataset": 2,
+      "total_engagement": 137,
       "most_active_bucket": "mech_interp",
       "bucket_counts": {
-        "mech_interp": 1,
-        "alignment_safety": 1
+        "mech_interp": 2,
+        "alignment_safety": 2
       }
     },
     {
@@ -60108,12 +61813,12 @@
       "category": "active_author",
       "description": null,
       "verified_via_lookup": false,
-      "posts_in_dataset": 2,
-      "total_engagement": 4,
-      "most_active_bucket": "competitor_watch",
+      "posts_in_dataset": 3,
+      "total_engagement": 19,
+      "most_active_bucket": "mech_interp",
       "bucket_counts": {
-        "competitor_watch": 1,
-        "mech_interp": 1
+        "mech_interp": 2,
+        "competitor_watch": 1
       }
     },
     {
@@ -60166,6 +61871,22 @@
       }
     },
     {
+      "username": "Oluwaphilemon1",
+      "name": "FHILY👑",
+      "followers": 9848,
+      "user_id": "1562843426185674755",
+      "url": "https://x.com/Oluwaphilemon1",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 2,
+      "total_engagement": 51,
+      "most_active_bucket": "alignment_safety",
+      "bucket_counts": {
+        "alignment_safety": 2
+      }
+    },
+    {
       "username": "ArthurConmy",
       "name": "Arthur Conmy",
       "followers": 9552,
@@ -60212,6 +61933,23 @@
       "most_active_bucket": "competitor_watch",
       "bucket_counts": {
         "competitor_watch": 2
+      }
+    },
+    {
+      "username": "qorprate",
+      "name": "snav",
+      "followers": 8803,
+      "user_id": "1089644895076261889",
+      "url": "https://x.com/qorprate",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 2,
+      "total_engagement": 110,
+      "most_active_bucket": "competitor_watch",
+      "bucket_counts": {
+        "competitor_watch": 1,
+        "mech_interp": 1
       }
     },
     {
@@ -60803,13 +62541,10 @@
       "category": "competitor",
       "description": "Build AI systems you can trust (red-teaming/evals)",
       "verified_via_lookup": true,
-      "posts_in_dataset": 1,
-      "total_engagement": 4,
-      "most_active_bucket": "alignment_safety",
-      "bucket_counts": {
-        "alignment_safety": 1,
-        "competitor_watch": 1
-      }
+      "posts_in_dataset": 0,
+      "total_engagement": 0,
+      "most_active_bucket": null,
+      "bucket_counts": {}
     },
     {
       "username": "adam_karvonen",
@@ -61923,6 +63658,22 @@
       }
     },
     {
+      "username": "oxa11ce",
+      "name": "sophia vysparov",
+      "followers": 1442,
+      "user_id": "1260441762356768775",
+      "url": "https://x.com/oxa11ce",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 3,
+      "total_engagement": 3,
+      "most_active_bucket": "probes_steering",
+      "bucket_counts": {
+        "probes_steering": 3
+      }
+    },
+    {
       "username": "Lux_Stella_",
       "name": "Lux_Stella",
       "followers": 1402,
@@ -61965,10 +63716,11 @@
       "category": "active_author",
       "description": null,
       "verified_via_lookup": false,
-      "posts_in_dataset": 2,
-      "total_engagement": 84,
+      "posts_in_dataset": 3,
+      "total_engagement": 287,
       "most_active_bucket": "alignment_safety",
       "bucket_counts": {
+        "mech_interp": 1,
         "alignment_safety": 2
       }
     },
@@ -62226,11 +63978,11 @@
       "category": "active_author",
       "description": null,
       "verified_via_lookup": false,
-      "posts_in_dataset": 2,
-      "total_engagement": 7,
+      "posts_in_dataset": 3,
+      "total_engagement": 12,
       "most_active_bucket": "alignment_safety",
       "bucket_counts": {
-        "alignment_safety": 2,
+        "alignment_safety": 3,
         "sae_transcoders_crosscoders": 1,
         "probes_steering": 1
       }
@@ -62296,11 +64048,11 @@
       "category": "active_author",
       "description": null,
       "verified_via_lookup": false,
-      "posts_in_dataset": 4,
-      "total_engagement": 97,
-      "most_active_bucket": "probes_steering",
+      "posts_in_dataset": 3,
+      "total_engagement": 11,
+      "most_active_bucket": "mech_interp",
       "bucket_counts": {
-        "probes_steering": 2,
+        "probes_steering": 1,
         "mech_interp": 2
       }
     },
@@ -62470,6 +64222,22 @@
       }
     },
     {
+      "username": "AlignmentJrnl",
+      "name": "AlignmentJournal",
+      "followers": 746,
+      "user_id": "2028647214776750080",
+      "url": "https://x.com/AlignmentJrnl",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 1,
+      "total_engagement": 299,
+      "most_active_bucket": "mech_interp",
+      "bucket_counts": {
+        "mech_interp": 1
+      }
+    },
+    {
       "username": "_jake_ward",
       "name": "Jake Ward",
       "followers": 718,
@@ -62516,6 +64284,23 @@
       "most_active_bucket": "alignment_safety",
       "bucket_counts": {
         "alignment_safety": 1
+      }
+    },
+    {
+      "username": "AIQuanting",
+      "name": "AI Quanting",
+      "followers": 679,
+      "user_id": "1165159200470650881",
+      "url": "https://x.com/AIQuanting",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 2,
+      "total_engagement": 1,
+      "most_active_bucket": "mech_interp",
+      "bucket_counts": {
+        "mech_interp": 1,
+        "competitor_watch": 1
       }
     },
     {
@@ -62813,6 +64598,24 @@
       }
     },
     {
+      "username": "TechThought_org",
+      "name": "TechThought.org",
+      "followers": 415,
+      "user_id": "1010938256144420864",
+      "url": "https://x.com/TechThought_org",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 2,
+      "total_engagement": 2,
+      "most_active_bucket": "mech_interp",
+      "bucket_counts": {
+        "mech_interp": 1,
+        "competitor_watch": 1,
+        "sae_transcoders_crosscoders": 1
+      }
+    },
+    {
       "username": "sen_r",
       "name": "Senthooran Rajamanoharan",
       "followers": 411,
@@ -62904,6 +64707,22 @@
       "most_active_bucket": "alignment_safety",
       "bucket_counts": {
         "alignment_safety": 1
+      }
+    },
+    {
+      "username": "nnatalie_ma",
+      "name": "natalie",
+      "followers": 349,
+      "user_id": "1915774140839059456",
+      "url": "https://x.com/nnatalie_ma",
+      "category": "active_author",
+      "description": null,
+      "verified_via_lookup": false,
+      "posts_in_dataset": 2,
+      "total_engagement": 3,
+      "most_active_bucket": "mech_interp",
+      "bucket_counts": {
+        "mech_interp": 2
       }
     },
     {
@@ -63462,11 +65281,11 @@
       "category": "active_author",
       "description": null,
       "verified_via_lookup": false,
-      "posts_in_dataset": 2,
-      "total_engagement": 10,
+      "posts_in_dataset": 3,
+      "total_engagement": 11,
       "most_active_bucket": "mech_interp",
       "bucket_counts": {
-        "mech_interp": 2,
+        "mech_interp": 3,
         "sae_transcoders_crosscoders": 1
       }
     },
@@ -63674,11 +65493,10 @@
       "category": "active_author",
       "description": null,
       "verified_via_lookup": false,
-      "posts_in_dataset": 4,
-      "total_engagement": 7,
+      "posts_in_dataset": 3,
+      "total_engagement": 4,
       "most_active_bucket": "mech_interp",
       "bucket_counts": {
-        "sae_transcoders_crosscoders": 1,
         "mech_interp": 3
       }
     },
