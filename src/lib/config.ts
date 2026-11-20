@@ -42,7 +42,7 @@ export const SHEETS = {
 
 // API endpoints
 export const API_ENDPOINTS = {
-  taostats: "https://api.taostats.io/api",
+  taostats: "https://api.taostats.io",
   etherscan: "https://api.etherscan.io/api",
 } as const;
 
